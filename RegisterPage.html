@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register</title>
+  <title>Café Code</title>
+  <link rel="icon" type="image/png" href="https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="RegisterPage.js" defer></script>
@@ -55,7 +56,8 @@
         <input type="password" id="password" name="password" autocomplete="new-password"
           class="mt-1 w-full px-4 py-2 pl-10 pr-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Enter your password" required />
-        <i id="togglePassword" class="fa-solid fa-eye absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 mt-3 cursor-pointer"></i>
+        <i id="togglePassword" class="fa-solid fa-eye absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 mt-3 cursor-pointer"
+          role="button" aria-label="Toggle password visibility"></i>
       </div>
       <div class="relative">
         <label for="phone" class="block text-sm font-medium text-gray-700">Phone (Optional)</label>
@@ -64,6 +66,7 @@
           class="mt-1 w-full px-4 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Enter your phone number" />
       </div>
+      <div id="error-message" class="text-red-600 text-sm text-center hidden" role="alert"></div>
       <button id="registerBtn"
         class="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition duration-200"
         type="submit">
@@ -74,7 +77,6 @@
         <p class="text-gray-600 mt-2">Registering...</p>
       </div>
     </form>
-    <iframe id="registerFrame" name="registerFrame" style="display: none;"></iframe>
     <p class="mt-4 text-center text-gray-600">
       Already have an account? <a href="LoginPage.html" class="text-blue-600 hover:underline">Login here</a>
     </p>

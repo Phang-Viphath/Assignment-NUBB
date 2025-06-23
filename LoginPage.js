@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const loadingOverlay = document.getElementById('loading-overlay');
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
-  const apiUrl = 'https://script.google.com/macros/s/AKfycbyGMGfyqzTlxB7LQ-aL2jl52y45QmJYwJo93eO-o2va6sx9Sl7gf1epjfctiiOpF71y/exec';
+  const apiUrl = 'https://script.google.com/macros/s/AKfycbyNjbbkogc09ApMMIAq7QIPIyKiI2lpGg0qtrGYWZKjuaL7hrIZ3yxnjPMtGPyuJHDN/exec';
 
   loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
