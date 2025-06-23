@@ -19,6 +19,7 @@ const CATEGORIES = {
 
 let products = [];
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
+const productCache = new Map();
 
 function toggleLoading(show) {
   document.getElementById('product-loading').classList.toggle('hidden', !show);
@@ -175,10 +176,8 @@ function sanitizeInput(input) {
 
 function sanitizeUrl(url) {
   if (typeof url !== 'string') return url;
-
   const trimmedUrl = url.trim();
   if (!trimmedUrl) return '';
-
   try {
     new URL(trimmedUrl);
     return trimmedUrl;
@@ -411,6 +410,9 @@ function renderProducts(productList) {
     if (!item['Image'] || !isValidUrl(item['Image'])) {
       hasMissingImages = true;
     }
+
+    const img = new Image();
+    img.src = imageUrl;
     console.log(`Rendering product '${item.Name}' with Image URL: ${imageUrl}`);
     return `
       <div class="bg-white rounded-xl shadow-lg p-4 hover:shadow-xl transition-all duration-300 flex flex-col gap-4 border border-gray-100 hover:border-gray-200">
@@ -448,48 +450,91 @@ function renderProducts(productList) {
 }
 
 function searchProduct(id, category, callback) {
+  const cacheKey = `${category}:${id}`;
+  if (productCache.has(cacheKey)) {
+    console.log(`Using cached product data for id: ${id} in category: ${category}`);
+    callback(productCache.get(cacheKey));
+    return;
+  }
+
   const apiUrl = CATEGORIES[category].api;
   console.log(`Searching for id: ${id} in category: ${category}`);
-  fetch(`${apiUrl}?action=search&id=${encodeURIComponent(id)}`, { cache: 'no-cache' })
+  toggleLoading(true);
+  fetch(`${apiUrl}?action=search&id=${encodeURIComponent(id)}`, { cache: 'default' })
     .then(response => {
       if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
       return response.json();
     })
     .then(result => {
+      toggleLoading(false);
       console.log('Search response:', result);
       if (result.status === 'success') {
+        productCache.set(cacheKey, result.data);
         callback(result.data);
       } else {
         throw new Error(result.message || 'Product not found');
       }
     })
     .catch(error => {
+      toggleLoading(false);
       console.error(`Search error for id ${id}: ${error.message}`);
       showNotification('Error', `Failed to fetch product: ${error.message}`);
     });
 }
 
+function renderViewModal(product) {
+  const modal = document.getElementById('view-product-modal');
+  if (!modal) {
+    console.error('View product modal not found');
+    showNotification('Error', 'View product modal is missing in the DOM');
+    return;
+  }
+  const imageUrl = product['Image'] && isValidUrl(product['Image']) ? sanitizeInput(product['Image']) : 'https://placehold.co/240x192?text=No+Image';
+
+  modal.innerHTML = `
+    <div class="relative bg-white rounded-2xl p-6 shadow-2xl w-full max-w-md mx-auto">
+      <button id="close-view-product-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition duration-200">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <h3 class="text-2xl font-bold mb-5 text-gray-900 text-center">Product Details</h3>
+      <div class="flex justify-center mb-5">
+        <img 
+          id="view-product-image" 
+          src="${imageUrl}" 
+          alt="${sanitizeInput(product.Name) || 'Product Image'}" 
+          class="w-64 h-64 object-cover rounded-xl border border-gray-200 shadow-sm"
+        >
+      </div>
+      <div class="space-y-3 text-gray-700 text-sm">
+        <p><span class="font-semibold text-gray-800">Name:</span> <span id="view-product-name">${sanitizeInput(product.Name) || 'N/A'}</span></p>
+        <p><span class="font-semibold text-gray-800">ID:</span> <span id="view-product-id">${product.Id || 'N/A'}</span></p>
+        <p><span class="font-semibold text-gray-800">Category:</span> <span id="view-product-category">${sanitizeInput(product.Category) || 'N/A'}</span></p>
+        <p><span class="font-semibold text-gray-800">Sizes:</span> <span id="view-product-sizes">${sanitizeInput(product.Sizes) || 'N/A'}</span></p>
+        <p><span class="font-semibold text-gray-800">Price:</span> <span id="view-product-price" class="text-green-600 font-semibold">$${parseFloat(product.Price).toFixed(2)}</span></p>
+        <p><span class="font-semibold text-gray-800">Brand:</span> <span id="view-product-brand">${sanitizeInput(product.Brand) || 'N/A'}</span></p>
+        <p><span class="font-semibold text-gray-800">Description:</span> <span id="view-product-description">${sanitizeInput(product.Description) || 'N/A'}</span></p>
+      </div>
+    </div>
+  `;
+  modal.classList.remove('hidden');
+  document.getElementById('close-view-product-modal').addEventListener('click', closeViewProductModal);
+}
+
 function viewProduct(id) {
-  const selectedCategory = document.getElementById('category-select')?.value || 'espresso';
-  searchProduct(id, selectedCategory, function(product) {
-    const modal = document.getElementById('view-product-modal');
-    if (!modal) {
-      console.error('View product modal not found');
-      showNotification('Error', 'View product modal is missing in the DOM');
-      return;
-    }
-    const imageUrl = product['Image'] && isValidUrl(product['Image']) ? sanitizeInput(product['Image']) : 'https://placehold.co/240x192?text=No+Image';
-    document.getElementById('view-product-image').src = imageUrl;
-    document.getElementById('view-product-image').alt = sanitizeInput(product.Name) || 'Product Image';
-    document.getElementById('view-product-name').textContent = sanitizeInput(product.Name) || 'N/A';
-    document.getElementById('view-product-id').textContent = product.Id || 'N/A';
-    document.getElementById('view-product-category').textContent = sanitizeInput(product.Category) || 'N/A';
-    document.getElementById('view-product-sizes').textContent = sanitizeInput(product.Sizes) || 'N/A';
-    document.getElementById('view-product-price').textContent = `$${parseFloat(product.Price).toFixed(2)}`;
-    document.getElementById('view-product-brand').textContent = sanitizeInput(product.Brand) || 'N/A';
-    document.getElementById('view-product-description').textContent = sanitizeInput(product.Description) || 'N/A';
-    modal.classList.remove('hidden');
-  });
+  toggleLoading(true);
+  const product = products.find(p => p.Id == id);
+  if (product) {
+    console.log(`Using local product data for id: ${id}`);
+    renderViewModal(product);
+    toggleLoading(false);
+  } else {
+    const selectedCategory = document.getElementById('category-select')?.value || 'espresso';
+    searchProduct(id, selectedCategory, function(product) {
+      renderViewModal(product);
+    });
+  }
 }
 
 function closeViewProductModal() {
@@ -717,16 +762,25 @@ function handleProductSubmit(e) {
 }
 
 function editProduct(id) {
-  const selectedCategory = document.getElementById('category-select')?.value || 'espresso';
-  console.log(`Fetching product with id: ${id} for category: ${selectedCategory}`);
-  searchProduct(id, selectedCategory, function(product) {
-    if (!product) {
-      showNotification('Error', `Product with ID ${id} not found`);
-      return;
-    }
-    console.log('Product fetched for editing:', product);
+  toggleLoading(true);
+  const product = products.find(p => p.Id == id);
+  if (product) {
+    console.log(`Using local product data for id: ${id}`);
     openProductModal(product);
-  });
+    toggleLoading(false);
+  } else {
+    const selectedCategory = document.getElementById('category-select')?.value || 'espresso';
+    console.log(`Fetching product with id: ${id} for category: ${selectedCategory}`);
+    searchProduct(id, selectedCategory, function(product) {
+      if (!product) {
+        showNotification('Error', `Product with ID ${id} not found`);
+        toggleLoading(false);
+        return;
+      }
+      console.log('Product fetched for editing:', product);
+      openProductModal(product);
+    });
+  }
 }
 
 function deleteProduct(id) {
@@ -781,7 +835,7 @@ function toggleDropdown() {
 function handleLogout() {
   localStorage.removeItem('name');
   localStorage.removeItem('cart');
-  window.location.href = 'LoginPage.html';
+  window.location.href = 'Page/LoginPage.html';
 }
 
 function openCartModal() {
@@ -871,6 +925,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeViewProductModalBtn = document.getElementById('close-view-product-modal');
   if (closeViewProductModalBtn) closeViewProductModalBtn.addEventListener('click', closeViewProductModal);
 
+  const debouncedViewProduct = debounce(viewProduct, 300);
+  const debouncedEditProduct = debounce(editProduct, 300);
   const productList = document.getElementById('product-list');
   if (productList) {
     productList.addEventListener('click', e => {
@@ -879,9 +935,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const addToCartBtn = e.target.closest('.add-to-cart-btn');
       const deleteBtn = e.target.closest('.delete-btn');
       if (editBtn) {
-        editProduct(editBtn.dataset.id);
+        debouncedEditProduct(editBtn.dataset.id);
       } else if (viewBtn) {
-        viewProduct(viewBtn.dataset.id);
+        debouncedViewProduct(viewBtn.dataset.id);
       } else if (addToCartBtn) {
         addToCart(addToCartBtn.dataset.id);
       } else if (deleteBtn) {
