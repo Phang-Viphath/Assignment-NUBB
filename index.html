@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="MainLayout.js" defer></script></head>
+<style>
+    #sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 16rem;
+      z-index: 20;
+    }
+    header {
+      position: fixed;
+      top: 0;
+      left: 16rem;
+      right: 0;
+      z-index: 10;
+    }
+    main {
+      margin-left: 16rem;
+      margin-top: 4rem;
+      height: calc(100vh - 4rem);
+      overflow-y: auto;
+    }
+</style>
+<body class="min-h-screen flex">
+  <script>
+    try {
+      const user = localStorage.getItem('name');
+      if (!user) {
+        window.location.href = "LoginPage.html";
+      }
+    } catch (error) {
+      console.error('Error checking user:', error);
+      window.location.href = "LoginPage.html";
+    }
+  </script>
+  <aside id="sidebar" class="bg-gray-800 text-white w-64 min-h-screen transition-all duration-300 flex flex-col">
+      <div class="h-[130px] flex items-center justify-center">
+        <div id="logo" class="demo-logo-vertical cursor-pointer text-center px-2 pt-5">
+          <img src="https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true" alt="Logo" class="w-[80px] h-[80px] rounded-full mx-auto shadow-md border-2 border-gray-600">
+          <span class="block text-lg font-bold text-white mt-1">Café Code</span>
+          <span class="block text-xs font-light text-gray-300 flex items-center justify-center gap-1">
+            <i class="fa-solid fa-map-marker-alt text-gray-300"></i> Battambang. Phnom Penh
+          </span>
+        </div>
+      </div>
+      <nav id="menu" class="mt-4 flex-1">
+        <ul>
+          <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="index.html">
+            <i class="fa-solid fa-desktop"></i><span>Dashboard</span>
+          </li>
+          <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="about.html">
+            <i class="fa-solid fa-user"></i><span>About</span>
+          </li>
+          <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="brands.html">
+            <i class="fa-solid fa-chart-pie"></i><span>Brand</span>
+          </li>
+          <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="categories.html">
+            <i class="fa-solid fa-chart-pie"></i><span>Category</span>
+          </li>
+          <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="products.html">
+            <i class="fa-solid fa-chart-pie"></i><span>Product</span>
+          </li>
+          <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="customer.html">
+            <i class="fa-solid fa-user"></i><span>Customer</span>
+          </li>
+          <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="employees.html">
+            <i class="fa-solid fa-user"></i><span>Employees</span>
+          </li>
+          <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer">
+            <div class="flex items-center justify-between" onclick="toggleSubmenu(this)">
+              <div class="flex items-center gap-2">
+                <i class="fa-solid fa-user"></i><span>User</span>
+              </div>
+              <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <ul class="submenu hidden pl-6">
+              <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="roles.html">
+                <i class="fa-solid fa-user"></i><span>Role</span>
+              </li>
+              <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="users.html">
+                <i class="fa-solid fa-users"></i><span>User</span>
+              </li>
+            </ul>
+          </li>
+          <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer">
+            <div class="flex items-center justify-between" onclick="toggleSubmenu(this)">
+              <div class="flex items-center gap-2">
+                <i class="fa-solid fa-gear"></i><span>Setting</span>
+              </div>
+              <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <ul class="submenu hidden pl-6">
+              <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="team1.html">
+                <i class="fa-solid fa-users"></i><span>Team 1</span>
+              </li>
+              <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="team2.html">
+                <i class="fa-solid fa-users"></i><span>Team 2</span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <div class="px-4 py-2 mt-auto mb-4">
+        <div class="flex items-center gap-3 cursor-pointer text-white bg-gray-600 hover:bg-gray-700 px-4 py-3 rounded-lg transition-colors duration-200 font-semibold text-base" onclick="handleLogout()">
+          <i class="fa-solid fa-sign-out-alt text-lg"></i><span>Logout</span>
+        </div>
+      </div>
+  </aside>
+
+  <div class="flex-1 flex flex-col">
+    <header class="bg-white shadow flex items-center justify-between px-5 h-16">
+      <div class="flex items-center gap-4">
+        <h3 class="text-xl font-bold">Café Code</h3>
+        <div class="relative w-48">
+          <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+          <input
+            type="text"
+            placeholder="Search"
+            class="border rounded-lg pr-10 pl-3 py-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onkeyup="handleSearch(this.value)"
+          />
+        </div>
+      </div>
+      <div class="relative">
+        <div class="flex items-center gap-2 cursor-pointer" onclick="toggleDropdown()">
+          <div class="text-right">
+            <div class="font-bold text-base" id="user-name">Guest</div>
+          </div>
+          <img
+            id="profile-image"
+            src="https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true"
+            alt="Profile"
+            class="w-10 h-10 rounded-full"
+          />
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
+        <ul id="dropdown" class="hidden absolute right-0 mt-4 w-48 bg-white shadow-lg rounded-xl">
+          <li id="profile-item" class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2">
+            <i class="fa-solid fa-user"></i><span>Profile</span>
+          </li>
+          <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2">
+            <i class="fa-solid fa-lock"></i><span>Change password</span>
+          </li>
+          <li class="px-4 py-2 hover:bg-red-100 text-red-600 cursor-pointer flex items-center gap-2" onclick="handleLogout()">
+            <i class="fa-solid fa-sign-out-alt"></i><span>Logout</span>
+          </li>
+          <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2">
+            <i class="fa-solid fa-gear"></i><span>Settings</span>
+          </li>
+        </ul>
+      </div>
+    </header>
+
+    <div id="profile-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-bold">User Profile</h2>
+          <button id="close-modal" class="text-gray-600 hover:text-gray-800">
+            <i class="fa-solid fa-times"></i>
+          </button>
+        </div>
+        <div class="flex flex-col items-center">
+          <img id="modal-profile-image" src="https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true" alt="Profile" class="w-20 h-20 rounded-full mb-4">
+          <p><span class="font-bold">ID:</span> <span id="modal-user-id">No ID</span></p>
+          <p><span class="font-bold">Name:</span> <span id="modal-user-name">Guest</span></p>
+          <p><span class="font-bold">Email:</span> <span id="modal-user-email">No email</span></p>
+          <p><span class="font-bold">Phone:</span> <span id="modal-user-phone">No phone number</span></p>
+        </div>
+      </div>
+    </div>
+
+    <main class="flex-1 p-4">
+      <div class="bg-white rounded-lg p-4 sm:p-6 min-h-[360px]">
+        <div id="content">
+          <h2 class="text-2xl font-bold mb-4">Dashboard</h2>
+
+          <div class="mb-6 flex flex-col sm:flex-row gap-4">
+            <select id="timeRange" class="border rounded-lg p-2 w-full sm:w-auto" onchange="updateDashboard()">
+              <option value="daily">Daily</option>
+              <option value="monthly">Monthly</option>
+              <option value="yearly">Yearly</option>
+            </select>
+            <input type="date" id="datePicker" class="border rounded-lg p-2 w-full sm:w-auto" onchange="updateDashboard()">
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <h3 class="text-lg font-semibold mb-2">Sales by Category</h3>
+              <div class="w-full h-64 min-w-0">
+                <canvas id="categoryChart" class="w-full h-full"></canvas>
+              </div>
+            </div>
+
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <h3 class="text-lg font-semibold mb-2">Sales Trend</h3>
+              <div class="w-full h-64 min-w-0">
+                <canvas id="trendChart" class="w-full h-full"></canvas>
+              </div>
+            </div>
+
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <h3 class="text-lg font-semibold mb-2">Profit by Category</h3>
+              <div class="w-full h-64 min-w-0">
+                <canvas id="profitChart" class="w-full h-full"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-blue-100 p-4 rounded-lg text-center">
+              <h3 class="text-lg font-semibold">Total Sales</h3>
+              <p id="totalSales" class="text-2xl font-bold">$0.00</p>
+            </div>
+            <div class="bg-green-100 p-4 rounded-lg text-center">
+              <h3 class="text-lg font-semibold">Top Category</h3>
+              <p id="topCategory" class="text-2xl font-bold">None</p>
+            </div>
+            <div class="bg-yellow-100 p-4 rounded-lg text-center">
+              <h3 class="text-lg font-semibold">Growth</h3>
+              <p id="growthRate" class="text-2xl font-bold">0.0%</p>
+            </div>
+            <div class="bg-purple-100 p-4 rounded-lg text-center">
+              <h3 class="text-lg font-semibold">Total Profit</h3>
+              <p id="totalProfit" class="text-2xl font-bold">$0.00</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

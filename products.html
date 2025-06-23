@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products - Café Code Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="MainLayout.js" defer></script>
+  <script src="products.js" defer></script>
+  <style>
+    @keyframes fade-in-up {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fade-out-down {
+      0% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(20px); }
+    }
+    .animate-fade-in-up { animation: fade-in-up 0.3s ease-out forwards; }
+    .animate-fade-out-down { animation: fade-out-down 0.3s ease-in forwards; }
+    .loading-spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #3b82f6;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+      margin: auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    :root { --sidebar-width: 16rem; }
+    #sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: var(--sidebar-width);
+      z-index: 20;
+    }
+    header {
+      position: fixed;
+      top: 0;
+      left: var(--sidebar-width);
+      right: 0;
+      z-index: 10;
+    }
+    main {
+      margin-left: var(--sidebar-width);
+      margin-top: 4rem;
+      height: calc(100vh - 4rem);
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex">
+  <script>
+    try {
+      const user = localStorage.getItem('name');
+      if (!user) {
+        window.location.href = "LoginPage.html";
+      }
+    } catch (error) {
+      console.error('Error checking user:', error);
+      window.location.href = "LoginPage.html";
+    }
+  </script>
+
+  <aside id="sidebar" class="bg-gray-800 text-white w-64 min-h-screen transition-all duration-300 flex flex-col">
+    <div class="h-[130px] flex items-center justify-center">
+      <div id="logo" class="demo-logo-vertical cursor-pointer text-center px-2 pt-5">
+        <img src="https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true" alt="Logo"
+          class="w-[80px] h-[80px] rounded-full mx-auto shadow-md border-2 border-gray-600">
+        <span class="block text-lg font-bold text-white mt-1">Café Code</span>
+        <span class="block text-xs font-light text-gray-300 flex items-center justify-center gap-1">
+          <i class="fa-solid fa-map-marker-alt text-gray-300"></i> Battambang, Phnom Penh
+        </span>
+      </div>
+    </div>
+    <nav id="menu" class="mt-4 flex-1">
+      <ul>
+        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="index.html">
+          <i class="fa-solid fa-desktop"></i><span>Dashboard</span>
+        </li>
+        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="about.html">
+          <i class="fa-solid fa-user"></i><span>About</span>
+        </li>
+        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="brands.html">
+          <i class="fa-solid fa-chart-pie"></i><span>Brand</span>
+        </li>
+        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="categories.html">
+          <i class="fa-solid fa-chart-pie"></i><span>Category</span>
+        </li>
+        <li class="px-4 py-2 bg-gray-700 cursor-pointer flex items-center gap-2" data-key="products.html">
+          <i class="fa-solid fa-chart-pie"></i><span>Product</span>
+        </li>
+        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="customer.html">
+          <i class="fa-solid fa-user"></i><span>Customer</span>
+        </li>
+        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="employees.html">
+          <i class="fa-solid fa-user"></i><span>Employees</span>
+        </li>
+        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer">
+          <div class="flex items-center justify-between" onclick="toggleSubmenu(this)">
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-user"></i><span>User</span>
+            </div>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <ul class="submenu hidden pl-6">
+            <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="roles.html">
+              <i class="fa-solid fa-user"></i><span>Role</span>
+            </li>
+            <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="users.html">
+              <i class="fa-solid fa-users"></i><span>User</span>
+            </li>
+          </ul>
+        </li>
+        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer">
+          <div class="flex items-center justify-between" onclick="toggleSubmenu(this)">
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-gear"></i><span>Setting</span>
+            </div>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <ul class="submenu hidden pl-6">
+            <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="team1.html">
+              <i class="fa-solid fa-users"></i><span>Team 1</span>
+            </li>
+            <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="team2.html">
+              <i class="fa-solid fa-users"></i><span>Team 2</span>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <div class="px-4 py-2 mt-auto mb-4">
+      <button class="flex items-center gap-3 cursor-pointer text-white bg-gray-600 hover:bg-gray-700 px-4 py-3 rounded-lg transition-colors duration-200 font-semibold text-base w-full" onclick="handleLogout()" aria-label="Logout">
+        <i class="fa-solid fa-sign-out-alt text-lg"></i><span>Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <div class="flex-1 flex flex-col">
+    <header class="bg-white shadow flex items-center justify-between px-5 h-16">
+      <div class="flex items-center gap-4">
+        <h3 class="text-xl font-bold">Café Code</h3>
+        <div class="relative w-48">
+          <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+          <input type="text" placeholder="Search Products" class="border rounded-lg pr-10 pl-3 py-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" aria-label="Search products" />
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <button id="cartBtn" class="relative text-gray-700 hover:text-blue-600 transition duration-200" aria-label="View cart">
+          <i class="fas fa-shopping-cart text-xl"></i>
+          <span class="absolute -top-2 -right-3 bg-red-600 text-white text-[10px] w-[20px] h-[20px] rounded-full flex items-center justify-center text-xs font-semibold shadow">0</span>
+        </button>
+        <div class="relative">
+          <div class="flex items-center gap-2 cursor-pointer" onclick="toggleDropdown()">
+            <div class="text-right">
+              <div class="font-bold text-base" id="user-name">Guest</div>
+            </div>
+            <img id="profile-image" src="https://placehold.co/40x40/CCCCCC/333333?text=Profile" alt="Profile"
+              class="w-10 h-10 rounded-full">
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <ul id="dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg z-10">
+            <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2" data-action="profile" aria-label="View profile">
+              <i class="fa-solid fa-user"></i><span>Profile</span>
+            </li>
+            <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2" aria-label="Change password">
+              <i class="fa-solid fa-lock"></i><span>Change password</span>
+            </li>
+            <li class="px-4 py-2 hover:bg-red-100 text-red-600 cursor-pointer flex items-center gap-2" onclick="handleLogout()" aria-label="Logout">
+              <i class="fa-solid fa-sign-out-alt"></i><span>Logout</span>
+            </li>
+            <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2" aria-label="Settings">
+              <i class="fa-solid fa-gear"></i><span>Settings</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <div id="cartModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-end opacity-0 invisible transition-opacity duration-300">
+      <div class="bg-white dark:bg-gray-800 w-full max-w-md h-full overflow-y-auto transform translate-x-full transition-transform duration-300">
+        <div class="p-6">
+          <div class="flex justify-between items-center mb-6">
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white">Shopping Cart</h3>
+            <button id="closeCartBtn" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white" aria-label="Close cart">
+              <i class="fas fa-times text-xl"></i>
+            </button>
+          </div>
+          <div id="cartItems" class="mb-6">
+            <p class="text-gray-500 dark:text-gray-400 text-center py-8">Your cart is empty</p>
+          </div>
+          <div class="border-t border-gray-200 dark:border-gray-700 pt-4 mb-6">
+            <div class="flex justify-between mb-2">
+              <span class="text-gray-600 dark:text-gray-300">Subtotal:</span>
+              <span id="cartSubtotal" class="font-semibold text-gray-800 dark:text-white">$0.00</span>
+            </div>
+            <div class="flex justify-between mb-2">
+              <span class="text-gray-600 dark:text-gray-300">Delivery Fee:</span>
+              <span class="font-semibold text-gray-800 dark:text-white">Free</span>
+            </div>
+            <div class="flex justify-between text-lg font-bold">
+              <span class="text-gray-800 dark:text-white">Total:</span>
+              <span id="cartTotal" class="text-gray-800 dark:text-white">$0.00</span>
+            </div>
+          </div>
+          <div class="flex gap-4">
+            <button id="checkoutCartBtn" class="bg-yellow-600 text-white w-full py-3 rounded-lg font-semibold hover:bg-yellow-700 transition flex items-center justify-center gap-2" aria-label="Checkout cart">
+              <i class="fas fa-shopping-bag"></i>Checkout Cart
+            </button>
+            <button id="printCartBtn" class="bg-green-600 text-white w-full py-3 rounded-lg font-semibold hover:bg-green-700 transition flex items-center justify-center gap-2" aria-label="Print cart">
+              <i class="fas fa-print"></i>Print Cart
+            </button>
+          </div>
+          <button id="checkoutBtn" class="bg-blue-600 text-white w-full py-3 rounded-lg font-semibold hover:bg-blue-700 transition mt-4 flex items-center justify-center gap-2" aria-label="Checkout now">
+            <i class="fas fa-credit-card"></i>Checkout Now
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="profile-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-bold">User Profile</h2>
+          <button id="close-profile-modal" class="text-gray-600 hover:text-gray-800" aria-label="Close profile modal">
+            <i class="fa-solid fa-times"></i>
+          </button>
+        </div>
+        <div class="flex flex-col items-center">
+          <img id="modal-profile-image" src="https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true" alt="Profile"
+            class="w-20 h-20 rounded-full mb-4">
+          <p><span class="font-bold">ID:</span> <span id="modal-user-id">No ID</span></p>
+          <p><span class="font-bold">Name:</span> <span id="modal-user-name">Guest</span></p>
+          <p><span class="font-bold">Email:</span> <span id="modal-user-email">No email</span></p>
+          <p><span class="font-bold">Phone:</span> <span id="modal-user-phone">No phone number</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div id="product-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div class="bg-white rounded-lg p-6 w-full max-w-2xl shadow-lg overflow-y-auto max-h-[90vh]">
+        <div class="flex justify-between items-center mb-4">
+          <h2 id="product-modal-title" class="text-xl font-bold text-gray-900">Add Product</h2>
+          <button id="close-product-modal" class="text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500" aria-label="Close product modal">
+            <i class="fa-solid fa-times text-lg"></i>
+          </button>
+        </div>
+        <form id="product-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="flex flex-col gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1" for="product-id">ID</label>
+              <input id="product-id" type="text" name="id" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" required aria-required="true" placeholder="Enter unique product ID">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1" for="product-name">Name</label>
+              <input id="product-name" type="text" name="Name" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" required aria-required="true" placeholder="Enter product name">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1" for="product-logo">Image URL</label>
+              <input id="product-logo" type="url" name="Image" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="https://example.com/image.jpg">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1" for="product-description">Description</label>
+              <textarea id="product-description" name="Description" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" rows="1" placeholder="Enter product description"></textarea>
+            </div>
+          </div>
+          <div class="flex flex-col gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1" for="product-category">Category</label>
+              <select id="product-category" name="Category" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" required aria-required="true">
+                <option value="Espresso-Based Drinks">Espresso-Based Drinks</option>
+                <option value="Iced Coffee & Cold Brews">Iced Coffee & Cold Brews</option>
+                <option value="Non-Coffee Drinks">Non-Coffee Drinks</option>
+                <option value="Pastries & Snacks">Pastries & Snacks</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1" for="product-sizes">Sizes</label>
+              <input id="product-sizes" type="text" name="Sizes" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" required aria-required="true" placeholder="e.g., S,M,L">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1" for="product-price">Price</label>
+              <input id="product-price" type="number" name="Price" step="0.01" min="0" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" required aria-required="true" placeholder="Enter price">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1" for="product-brand">Brand</label>
+              <input id="product-brand" type="text" name="Brand" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" required aria-required="true" placeholder="Enter brand name">
+            </div>
+          </div>
+          <div class="col-span-1 md:col-span-2 flex justify-end gap-3 mt-4">
+            <button id="cancel-product" type="button" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-colors">Cancel</button>
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="view-product-modal" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
+      <div class="bg-white rounded-xl p-6 w-full max-w-xl shadow-2xl relative">
+        <div class="flex justify-between items-center border-b pb-3 mb-4">
+          <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+            <i class="fa-solid fa-box-open text-blue-600"></i> Product Details
+          </h2>
+          <button id="close-view-product-modal" class="text-gray-400 hover:text-red-500 transition duration-150 ease-in-out" aria-label="Close product details">
+            <i class="fa-solid fa-xmark fa-lg"></i>
+          </button>
+        </div>
+        <div class="flex flex-col gap-4">
+          <div class="flex justify-center items-center">
+            <img id="view-product-image" src="https://placehold.co/240x192/CCCCCC/333333?text=No+Image" alt="Product Image"
+              class="w-64 h-64 object-cover rounded-lg border border-gray-300 shadow-sm" />
+          </div>
+          <h3 id="view-product-name" class="text-2xl font-semibold text-center text-gray-900">Product Name</h3>
+          <div>
+            <p><i class="fa-solid fa-barcode text-blue-500 mr-2"></i> <span class="font-medium">ID:</span> <span id="view-product-id"></span></p>
+            <p><i class="fa-solid fa-copyright text-indigo-500 mr-2"></i> <span class="font-medium">Brand:</span> <span id="view-product-brand"></span></p>
+            <p><i class="fa-solid fa-maximize text-purple-500 mr-2"></i> <span class="font-medium">Sizes:</span> <span id="view-product-sizes"></span></p>
+            <p><i class="fa-solid fa-dollar-sign text-green-500 mr-2"></i> <span class="font-medium">Price:</span> <span id="view-product-price"></span></p>
+            <p><i class="fa-solid fa-layer-group text-yellow-500 mr-2"></i> <span class="font-medium">Category:</span> <span id="view-product-category"></span></p>
+          </div>
+          <div class="mt-2">
+            <p class="font-medium text-gray-800 mb-1 flex items-center gap-2">
+              <i class="fa-solid fa-pen-nib text-pink-500"></i> Description:
+            </p>
+            <p id="view-product-description" class="text-sm text-gray-600 leading-relaxed bg-gray-50 p-4 rounded-md border border-gray-200 shadow-sm"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <main class="flex-1 p-6 bg-gray-100">
+      <div class="bg-white rounded-xl shadow-md p-8 max-w-7xl mx-auto">
+        <div class="flex justify-between items-center mb-6">
+          <div class="flex items-center gap-4 p-3">
+            <h1 id="" class="text-3xl font-bold text-gray-800">Products</h1>
+            <select id="category-select" class="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" aria-label="Select product category">
+              <option value="espresso">Espresso-Based Drinks</option>
+              <option value="iced">Iced Coffee & Cold Brews</option>
+              <option value="non_coffee">Non-Coffee Drinks</option>
+              <option value="pastries">Pastries & Snacks</option>
+            </select>
+          </div>
+          <button id="add-product-btn" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 flex items-center gap-2" aria-label="Add new product">
+            <i class="fa-solid fa-plus"></i> Add Product
+          </button>
+        </div>
+        <div id="product-loading" class="text-center my-4 hidden">
+          <div class="loading-spinner"></div>
+          <p class="text-gray-600 mt-2">Loading products...</p>
+        </div>
+        <div id="product-error" class="text-center my-4 hidden text-red-600">
+          <p>Failed to load products. Check console for details or try again.</p>
+          <button onclick="fetchProducts()" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Retry</button>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="product-list"></div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
