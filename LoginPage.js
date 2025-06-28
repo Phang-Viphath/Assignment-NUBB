@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('name', user.name);
       localStorage.setItem('email', user.email);
       localStorage.setItem('phone', user.phone || '');
-      window.location.href = '../index.html';
+      window.location.href = 'index.html';
     } catch (error) {
       console.error('Login error:', error);
       errorDiv.classList.remove('hidden');
