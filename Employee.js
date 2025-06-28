@@ -41,7 +41,7 @@ function showNotification(title, message) {
   setTimeout(() => {
     notification.classList.add('animate-fade-out-down');
     setTimeout(() => notification.remove(), 300);
-  }, 5000); // Increased timeout for visibility
+  }, 3000);
 }
 
 function showConfirmBox(message, onConfirm) {
@@ -102,10 +102,7 @@ function showConfirmBox(message, onConfirm) {
 }
 
 function toggleLoading(show) {
-  const overlay = document.getElementById('loading-overlay');
-  if (overlay) {
-    overlay.classList.toggle('hidden', !show);
-  }
+  document.getElementById('loading-overlay').classList.toggle('hidden', !show);
 }
 
 function showError(message) {
@@ -149,9 +146,8 @@ function validatePosition(position) {
 async function loadEmployees() {
   toggleLoading(true);
   try {
-    const response = await fetch(`${API_URL}?action=read`, { cache: 'no-store' });
+    const response = await fetch(`${API_URL}?action=read`);
     const data = await response.json();
-    console.log('Load employees response:', data);
     toggleLoading(false);
     if (data.status === 'success' && Array.isArray(data.data)) {
       allEmployees = data.data;
@@ -168,7 +164,6 @@ async function loadEmployees() {
 
 function renderTable(employees) {
   const tableBody = document.getElementById('employee-table-body');
-  if (!tableBody) return;
   tableBody.innerHTML = '';
   if (employees.length === 0) {
     tableBody.innerHTML = '<tr><td colspan="6" class="px-4 py-2 text-center text-gray-600">No employees found</td></tr>';
@@ -184,7 +179,7 @@ function renderTable(employees) {
       <td class="border px-4 py-2">${sanitizeInput(employee.phone) || 'N/A'}</td>
       <td class="border px-4 py-2">${sanitizeInput(employee.position) || 'N/A'}</td>
       <td class="border px-4 py-2 text-center">
-        <button onclick="openEmployeeModal('edit', '${sanitizeInput(employee.id)}', '${sanitizeInput(employee.name)}', '${sanitizeInput(employee.email)}', '${sanitizeInput(employee.phone)}', '${sanitizeInput(employee.position)}')" class="bg-blue-500 text-white px-2 py-1 rounded mr-2 hover:bg-blue-600">
+        <button onclick="openEditModal('${sanitizeInput(employee.id)}', '${sanitizeInput(employee.name)}', '${sanitizeInput(employee.email)}', '${sanitizeInput(employee.phone)}', '${sanitizeInput(employee.position)}')" class="bg-blue-500 text-white px-2 py-1 rounded mr-2 hover:bg-blue-600">
           <i class="fa-solid fa-edit"></i>
         </button>
         <button onclick="deleteEmployee('${sanitizeInput(employee.id)}')" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">
@@ -214,111 +209,179 @@ document.getElementById('employee-search')?.addEventListener('input', debounce((
   renderTable(filteredEmployees);
 }, 300));
 
-function openEmployeeModal(mode, id = '', name = '', email = '', phone = '', position = '') {
-  const modal = document.getElementById('employee-modal');
-  const title = document.getElementById('employee-modal-title');
-  const form = document.getElementById('employee-form');
-  const idInput = document.getElementById('employee-id-input');
+document.getElementById('add-employee-btn')?.addEventListener('click', () => {
+  document.getElementById('add-employee-form').reset();
+  document.getElementById('add-employee-modal').classList.remove('hidden');
+});
 
-  if (!modal || !title || !form || !idInput) {
-    showError('Modal elements not found');
+document.getElementById('close-add-employee-modal')?.addEventListener('click', () => {
+  document.getElementById('add-employee-form').reset();
+  document.getElementById('add-employee-modal').classList.add('hidden');
+});
+
+document.getElementById('cancel-add-employee')?.addEventListener('click', () => {
+  document.getElementById('add-employee-form').reset();
+  document.getElementById('add-employee-modal').classList.add('hidden');
+});
+
+document.getElementById('add-employee-form')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  toggleLoading(true);
+  const id = document.getElementById('add-employee-id').value.trim();
+  const name = document.getElementById('add-employee-name').value.trim();
+  const email = document.getElementById('add-employee-email').value.trim();
+  const phone = document.getElementById('add-employee-phone').value.trim();
+  const position = document.getElementById('add-employee-position').value.trim();
+
+  // Validation
+  let error = validateId(id);
+  if (error) {
+    toggleLoading(false);
+    showError(error);
+    return;
+  }
+  error = validateName(name);
+  if (error) {
+    toggleLoading(false);
+    showError(error);
+    return;
+  }
+  error = validateEmail(email);
+  if (error) {
+    toggleLoading(false);
+    showError(error);
+    return;
+  }
+  error = validatePhone(phone);
+  if (error) {
+    toggleLoading(false);
+    showError(error);
+    return;
+  }
+  error = validatePosition(position);
+  if (error) {
+    toggleLoading(false);
+    showError(error);
     return;
   }
 
-  title.textContent = mode === 'edit' ? 'Edit Employee' : 'Add Employee';
-  idInput.value = id || '';
-  idInput.disabled = mode === 'edit';
-  document.getElementById('employee-name').value = name === 'N/A' ? '' : name;
-  document.getElementById('employee-email').value = email === 'N/A' ? '' : email;
-  document.getElementById('employee-phone').value = phone === 'N/A' ? '' : phone;
-  document.getElementById('employee-position').value = position === 'N/A' ? '' : position;
-  modal.classList.remove('hidden');
-
-  form.onsubmit = async (e) => {
-    e.preventDefault();
-    toggleLoading(true);
-    const id = idInput.value.trim();
-    const name = document.getElementById('employee-name').value.trim();
-    const email = document.getElementById('employee-email').value.trim();
-    const phone = document.getElementById('employee-phone').value.trim();
-    const position = document.getElementById('employee-position').value.trim();
-
-    let error = mode === 'add' ? validateId(id) : null;
-    if (error) {
-      toggleLoading(false);
-      showError(error);
-      return;
-    }
-    error = validateName(name);
-    if (error) {
-      toggleLoading(false);
-      showError(error);
-      return;
-    }
-    error = validateEmail(email);
-    if (error) {
-      toggleLoading(false);
-      showError(error);
-      return;
-    }
-    error = validatePhone(phone);
-    if (error) {
-      toggleLoading(false);
-      showError(error);
-      return;
-    }
-    error = validatePosition(position);
-    if (error) {
-      toggleLoading(false);
-      showError(error);
-      return;
-    }
-
+  try {
     const formData = new URLSearchParams({
-      action: mode === 'edit' ? 'update' : 'insert',
+      action: 'insert',
       id,
       name,
       email,
       phone,
       position
     });
-    console.log(`${mode} employee form data:`, formData.toString());
-
-    try {
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: formData.toString()
-      });
-      const data = await response.json();
-      console.log(`${mode} employee response:`, data);
-      toggleLoading(false);
-      if (data.status === 'success') {
-        form.reset();
-        modal.classList.add('hidden');
-        document.getElementById('employee-search').value = ''; // Clear search filter
-        await loadEmployees();
-        showNotification('Success', `Employee ${mode === 'edit' ? 'updated' : 'added'} successfully!`);
-      } else {
-        showError(data.data || data.message || `Failed to ${mode === 'edit' ? 'update' : 'add'} employee`);
-      }
-    } catch (error) {
-      toggleLoading(false);
-      showError(`Failed to ${mode === 'edit' ? 'update' : 'add'} employee. Please check your connection.`);
-      console.error(`Error ${mode === 'edit' ? 'updating' : 'adding'} employee:`, error);
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: formData.toString()
+    });
+    const data = await response.json();
+    toggleLoading(false);
+    if (data.status === 'success') {
+      document.getElementById('add-employee-form').reset();
+      document.getElementById('add-employee-modal').classList.add('hidden');
+      await loadEmployees();
+      showNotification('Success', 'Employee added successfully!');
+    } else {
+      showError(data.data || data.message || 'Failed to add employee');
     }
-  };
+  } catch (error) {
+    toggleLoading(false);
+    showError('Failed to add employee. Please check your connection.');
+    console.error('Error adding employee:', error);
+  }
+});
+
+function openEditModal(id, name, email, phone, position) {
+  document.getElementById('edit-employee-id').value = id || '';
+  document.getElementById('edit-employee-name').value = name === 'N/A' ? '' : name;
+  document.getElementById('edit-employee-email').value = email === 'N/A' ? '' : email;
+  document.getElementById('edit-employee-phone').value = phone === 'N/A' ? '' : phone;
+  document.getElementById('edit-employee-position').value = position === 'N/A' ? '' : position;
+  document.getElementById('edit-employee-modal').classList.remove('hidden');
 }
 
-function closeEmployeeModal() {
-  const form = document.getElementById('employee-form');
-  const modal = document.getElementById('employee-modal');
-  if (form) form.reset();
-  if (modal) modal.classList.add('hidden');
-}
+document.getElementById('close-edit-employee-modal')?.addEventListener('click', () => {
+  document.getElementById('edit-employee-form').reset();
+  document.getElementById('edit-employee-modal').classList.add('hidden');
+});
 
-document.getElementById('employee-modal')?.querySelector('button[onclick="closeEmployeeModal()"]')?.addEventListener('click', closeEmployeeModal);
-document.getElementById('employee-form')?.querySelector('button[type="button"]')?.addEventListener('click', closeEmployeeModal);
+document.getElementById('cancel-edit-employee')?.addEventListener('click', () => {
+  document.getElementById('edit-employee-form').reset();
+  document.getElementById('edit-employee-modal').classList.add('hidden');
+});
+
+document.getElementById('edit-employee-form')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  toggleLoading(true);
+  const id = document.getElementById('edit-employee-id').value;
+  const name = document.getElementById('edit-employee-name').value.trim();
+  const email = document.getElementById('edit-employee-email').value.trim();
+  const phone = document.getElementById('edit-employee-phone').value.trim();
+  const position = document.getElementById('edit-employee-position').value.trim();
+
+  let error = validateName(name);
+  if (error) {
+    toggleLoading(false);
+    showError(error);
+    return;
+  }
+  error = validateEmail(email);
+  if (error) {
+    toggleLoading(false);
+    showError(error);
+    return;
+  }
+  error = validatePhone(phone);
+  if (error) {
+    toggleLoading(false);
+    showError(error);
+    return;
+  }
+  error = validatePosition(position);
+  if (error) {
+    toggleLoading(false);
+    showError(error);
+    return;
+  }
+
+  const formData = new URLSearchParams({
+    action: 'update',
+    id,
+    name,
+    email,
+    phone,
+    position
+  });
+  console.log('Edit employee form data:', formData.toString());
+
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: formData.toString()
+    });
+    const data = await response.json();
+    console.log('Edit employee response:', data);
+    toggleLoading(false);
+    if (data.status === 'success') {
+      document.getElementById('edit-employee-form').reset();
+      document.getElementById('edit-employee-modal').classList.add('hidden');
+      await loadEmployees();
+      showNotification('Success', 'Employee updated successfully!');
+    } else {
+      showError(data.data || data.message || 'Failed to update employee');
+    }
+  } catch (error) {
+    toggleLoading(false);
+    showError('Failed to update employee. Please check your connection.');
+    console.error('Error updating employee:', error);
+  }
+});
 
 async function deleteEmployee(id) {
   showConfirmBox('Are you sure you want to delete this employee?', async () => {
@@ -334,10 +397,8 @@ async function deleteEmployee(id) {
         body: formData.toString()
       });
       const data = await response.json();
-      console.log('Delete employee response:', data);
       toggleLoading(false);
       if (data.status === 'success') {
-        document.getElementById('employee-search').value = ''; // Clear search filter
         await loadEmployees();
         showNotification('Success', 'Employee deleted successfully!');
       } else {

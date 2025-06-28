@@ -15,7 +15,6 @@ const CATEGORY_NAMES = {
 let allCategories = [];
 let currentCategoryType = 'espresso';
 
-// Notification Function
 function showNotification(title, message) {
   let notificationBox = document.getElementById('custom-notification-box');
   if (!notificationBox) {
@@ -59,7 +58,6 @@ function showNotification(title, message) {
   }, 3000);
 }
 
-// Confirm Box Function
 function showConfirmBox(message, onConfirm) {
   let confirmBox = document.getElementById('custom-confirm-box');
   if (!confirmBox) {
@@ -237,7 +235,6 @@ function renderTable(categories) {
   });
 }
 
-// Debounced search
 function debounce(func, delay) {
   let timeoutId;
   return function (...args) {
@@ -291,7 +288,6 @@ document.getElementById('add-category-form').addEventListener('submit', async (e
   const brand = document.getElementById('category-brand').value.trim();
   const image = document.getElementById('category-image').value.trim();
 
-  // Validation
   let error = validateId(id);
   if (error) {
     toggleLoading(false);
@@ -407,7 +403,6 @@ document.getElementById('edit-category-form').addEventListener('submit', async (
   const brand = document.getElementById('edit-category-brand').value.trim();
   const image = document.getElementById('edit-category-image').value.trim();
 
-  // Validation
   let error = validateCategoryName(name);
   if (error) {
     toggleLoading(false);

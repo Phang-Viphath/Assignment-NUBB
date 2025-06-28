@@ -3,35 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Café Code</title>
+  <title>Café Code - Employee Management</title>
   <link rel="icon" type="Phath" href="https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="Employee.js"></script>
-  <script src="MainLayout.js" defer></script>  <style>
-    .toast {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      padding: 12px 20px;
-      border-radius: 8px;
-      color: white;
-      z-index: 1000;
-      opacity: 0;
-      transition: opacity 0.3s ease-in-out;
-    }
-    .toast.success { background-color: #10b981; }
-    .toast.error { background-color: #ef4444; }
-    .toast.show { opacity: 1; }
-    .loading-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 999;
-    }
+  <script src="Employee.js" defer></script>
+  <script src="MainLayout.js" defer></script>
+  <style>
     .loading-spinner {
       border: 4px solid #f3f3f3;
       border-top: 4px solid #3b82f6;
@@ -66,19 +44,25 @@
       height: calc(100vh - 4rem);
       overflow-y: auto;
     }
-    .animate-fade-in-up {
-      animation: fadeInUp 0.3s ease-in-out;
-    }
-    .animate-fade-out-down {
-      animation: fadeOutDown 0.3s ease-in-out;
-    }
-    @keyframes fadeInUp {
+    @keyframes fade-in-up {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    @keyframes fadeOutDown {
+    @keyframes fade-out-down {
       from { opacity: 1; transform: translateY(0); }
       to { opacity: 0; transform: translateY(20px); }
+    }
+    .animate-fade-in-up {
+      animation: fade-in-up 0.3s ease-out forwards;
+    }
+    .animate-fade-out-down {
+      animation: fade-out-down 0.3s ease-out forwards;
+    }
+    .table-row {
+      transition: background-color 0.2s ease;
+    }
+    .table-row:hover {
+      background-color: #f9fafb;
     }
   </style>
 </head>
@@ -97,11 +81,11 @@
 
   <aside id="sidebar" class="bg-gray-800 text-white w-64 min-h-screen transition-all duration-300 flex flex-col">
     <div class="h-[130px] flex items-center justify-center">
-      <div id="logo" class="demo-logo-vertical cursor-pointer text-center px-2 pt-5">
+      <div id="logo" class="cursor-pointer text-center px-2 pt-5">
         <img src="https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true" alt="Logo" class="w-[80px] h-[80px] rounded-full mx-auto shadow-md border-2 border-gray-600">
         <span class="block text-lg font-bold text-white mt-1">Café Code</span>
         <span class="block text-xs font-light text-gray-300 flex items-center justify-center gap-1">
-          <i class="fa-solid fa-map-marker-alt text-gray-300"></i> Battambang, Phnom Penh
+          <i class="fa-solid fa-map-marker-alt text-gray-300"></i> Battambang. Phnom Penh
         </span>
       </div>
     </div>
@@ -128,7 +112,7 @@
         <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="employees.html">
           <i class="fa-solid fa-user"></i><span>Employees</span>
         </li>
-        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer">
+        <li class="px-4 py-2 cursor-pointer">
           <div class="flex items-center justify-between" onclick="toggleSubmenu(this)">
             <div class="flex items-center gap-2">
               <i class="fa-solid fa-user"></i><span>User</span>
@@ -144,21 +128,8 @@
             </li>
           </ul>
         </li>
-        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-          <div class="flex items-center justify-between" onclick="toggleSubmenu(this)">
-            <div class="flex items-center gap-2">
-              <i class="fa-solid fa-gear"></i><span>Setting</span>
-            </div>
-            <i class="fa-solid fa-chevron-down"></i>
-          </div>
-          <ul class="submenu hidden pl-6">
-            <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="team1.html">
-              <i class="fa-solid fa-users"></i><span>Team 1</span>
-            </li>
-            <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="team2.html">
-              <i class="fa-solid fa-users"></i><span>Team 2</span>
-            </li>
-          </ul>
+        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="Setting.html">
+          <i class="fa-solid fa-gear"></i><span>Setting</span>
         </li>
       </ul>
     </nav>
@@ -202,13 +173,13 @@
             <i class="fa-solid fa-user"></i><span>Profile</span>
           </li>
           <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2">
-            <i class="fa-solid fa-lock"></i><span>Change password</span>
+            <i class="fa-solid fa-lock"></i><span><a href="ChangepassPage.html">Change password</a></span>
           </li>
           <li class="px-4 py-2 hover:bg-red-100 text-red-600 cursor-pointer flex items-center gap-2" onclick="handleLogout()">
             <i class="fa-solid fa-sign-out-alt"></i><span>Logout</span>
           </li>
           <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2">
-            <i class="fa-solid fa-gear"></i><span>Settings</span>
+            <i class="fa-solid fa-gear"></i><span><a href="Setting.html">Settings</a></span>
           </li>
         </ul>
       </div>
@@ -232,18 +203,17 @@
       </div>
     </div>
 
-    <div id="toast" class="toast"></div>
-
     <main class="flex-1 p-6 bg-gray-100">
       <div class="bg-white rounded-xl shadow-md p-8 max-w-7xl mx-auto">
         <div class="flex justify-between items-center mb-4">
-          <h2 class="text-2xl font-bold">Employee Management</h2>
-          <button onclick="openEmployeeModal('add')" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 flex items-center gap-2">
+          <h2 class="text-2xl font-bold text-gray-800">Employee Management</h2>
+          <button id="add-employee-btn" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 flex items-center gap-2">
             <i class="fa-solid fa-plus"></i> Add Employee
           </button>
         </div>
+
         <div class="overflow-x-auto">
-          <table class="w-full border-collapse">
+          <table class="w-full table-auto border-collapse">
             <thead>
               <tr class="bg-gray-200">
                 <th class="border px-4 py-2 text-left">ID</th>
@@ -261,42 +231,136 @@
             <p class="text-gray-600 mt-2">Loading employees...</p>
           </div>
         </div>
-      </div>
-
-      <div id="employee-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg">
-          <div class="flex justify-between items-center mb-4">
-            <h2 id="employee-modal-title" class="text-xl font-bold">Add Employee</h2>
-            <button onclick="closeEmployeeModal()" class="text-gray-600 hover:text-gray-800">
-              <i class="fa-solid fa-times"></i>
-            </button>
+        <div id="add-employee-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg">
+            <div class="flex justify-between items-center mb-4">
+              <h2 id="add-modal-title" class="text-xl font-bold">Add Employee</h2>
+              <button id="close-add-employee-modal" class="text-gray-600 hover:text-gray-800">
+                <i class="fa-solid fa-times"></i>
+              </button>
+            </div>
+            <form id="add-employee-form">
+              <div class="mb-4">
+                <label for="add-employee-id" class="block text-gray-700 font-bold mb-2">Employee ID</label>
+                <input
+                  type="text"
+                  id="add-employee-id"
+                  class="border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter unique ID"
+                  required
+                />
+              </div>
+              <div class="mb-4">
+                <label for="add-employee-name" class="block text-gray-700 font-bold mb-2">Name</label>
+                <input
+                  type="text"
+                  id="add-employee-name"
+                  class="border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+              <div class="mb-4">
+                <label for="add-employee-email" class="block text-gray-700 font-bold mb-2">Email</label>
+                <input
+                  type="email"
+                  id="add-employee-email"
+                  class="border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+              <div class="mb-4">
+                <label for="add-employee-phone" class="block text-gray-700 font-bold mb-2">Phone</label>
+                <input
+                  type="text"
+                  id="add-employee-phone"
+                  class="border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div class="mb-4">
+                <label for="add-employee-position" class="block text-gray-700 font-bold mb-2">Position</label>
+                <input
+                  type="text"
+                  id="add-employee-position"
+                  class="border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+              <div class="flex justify-end gap-2">
+                <button type="button" id="cancel-add-employee" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">Cancel</button>
+                <button
+                  type="submit"
+                  class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 flex items-center justify-center gap-2"
+                >
+                  <i class="fa-solid fa-save"></i> Save Employee
+                </button>
+              </div>
+            </form>
           </div>
-          <form id="employee-form">
-            <div class="mb-4">
-              <label for="employee-id-input" class="block text-sm font-medium text-gray-700">ID</label>
-              <input type="text" id="employee-id-input" class="mt-1 block w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+        </div>
+        <div id="edit-employee-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg">
+            <div class="flex justify-between items-center mb-4">
+              <h2 id="edit-modal-title" class="text-xl font-bold">Edit Employee</h2>
+              <button id="close-edit-employee-modal" class="text-gray-600 hover:text-gray-800">
+                <i class="fa-solid fa-times"></i>
+              </button>
             </div>
-            <div class="mb-4">
-              <label for="employee-name" class="block text-sm font-medium text-gray-700">Name</label>
-              <input type="text" id="employee-name" class="mt-1 block w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-            </div>
-            <div class="mb-4">
-              <label for="employee-email" class="block text-sm font-medium text-gray-700">Email</label>
-              <input type="email" id="employee-email" class="mt-1 block w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-            </div>
-            <div class="mb-4">
-              <label for="employee-phone" class="block text-sm font-medium text-gray-700">Phone</label>
-              <input type="tel" id="employee-phone" class="mt-1 block w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-            </div>
-            <div class="mb-4">
-              <label for="employee-position" class="block text-sm font-medium text-gray-700">Position</label>
-              <input type="text" id="employee-position" class="mt-1 block w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-            </div>
-            <div class="flex justify-end gap-2">
-              <button type="button" onclick="closeEmployeeModal()" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400">Cancel</button>
-              <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Save</button>
-            </div>
-          </form>
+            <form id="edit-employee-form">
+              <div class="mb-4">
+                <label for="edit-employee-id" class="block text-gray-700 font-bold mb-2">Employee ID</label>
+                <input
+                  type="text"
+                  id="edit-employee-id"
+                  class="border rounded-lg px-3 py-2 w-full bg-gray-100 focus:outline-none"
+                  readonly
+                />
+              </div>
+              <div class="mb-4">
+                <label for="edit-employee-name" class="block text-gray-700 font-bold mb-2">Name</label>
+                <input
+                  type="text"
+                  id="edit-employee-name"
+                  class="border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+              <div class="mb-4">
+                <label for="edit-employee-email" class="block text-gray-700 font-bold mb-2">Email</label>
+                <input
+                  type="email"
+                  id="edit-employee-email"
+                  class="border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+              <div class="mb-4">
+                <label for="edit-employee-phone" class="block text-gray-700 font-bold mb-2">Phone</label>
+                <input
+                  type="text"
+                  id="edit-employee-phone"
+                  class="border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div class="mb-4">
+                <label for="edit-employee-position" class="block text-gray-700 font-bold mb-2">Position</label>
+                <input
+                  type="text"
+                  id="edit-employee-position"
+                  class="border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+              <div class="flex justify-end gap-2">
+                <button type="button" id="cancel-edit-employee" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">Cancel</button>
+                <button
+                  type="submit"
+                  class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 flex items-center justify-center gap-2"
+                >
+                  <i class="fa-solid fa-save"></i> Update Employee
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </main>

@@ -835,7 +835,7 @@ function toggleDropdown() {
 function handleLogout() {
   localStorage.removeItem('name');
   localStorage.removeItem('cart');
-  window.location.href = 'Page/LoginPage.html';
+  window.location.href = 'LoginPage.html';
 }
 
 function openCartModal() {

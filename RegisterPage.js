@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('phone', phone || '');
       loadingOverlay.classList.add('hidden');
       registerBtn.disabled = false;
-      window.location.href = "LoginPage.html";
+      window.location.href = "LoginPage.html"; 
     } catch (error) {
       console.error('Registration error:', error);
       showError(error.name === 'AbortError' ? 'Request timed out. Please try again.' : 'An error occurred during registration.');

@@ -8,7 +8,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="MainLayout.js" defer></script>
-  <script src="Team2.js" defer></script>
+  <script src="Setting.js" defer></script>
 </head>
 <style>
     #sidebar {
@@ -79,7 +79,7 @@
           <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="employees.html">
             <i class="fa-solid fa-user"></i><span>Employees</span>
           </li>
-          <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer">
+          <li class="px-4 py-2 cursor-pointer">
             <div class="flex items-center justify-between" onclick="toggleSubmenu(this)">
               <div class="flex items-center gap-2">
                 <i class="fa-solid fa-user"></i><span>User</span>
@@ -95,22 +95,9 @@
               </li>
             </ul>
           </li>
-          <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-            <div class="flex items-center justify-between" onclick="toggleSubmenu(this)">
-              <div class="flex items-center gap-2">
-                <i class="fa-solid fa-gear"></i><span>Setting</span>
-              </div>
-              <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <ul class="submenu hidden pl-6">
-              <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="team1.html">
-                <i class="fa-solid fa-users"></i><span>Team 1</span>
-              </li>
-              <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="team2.html">
-                <i class="fa-solid fa-users"></i><span>Team 2</span>
-              </li>
-            </ul>
-          </li>
+        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="Setting.html">
+          <i class="fa-solid fa-gear"></i><span>Setting</span>
+        </li>
         </ul>
       </nav>
       <div class="px-4 py-2 mt-auto mb-4">
@@ -127,7 +114,7 @@
           <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
           <input
             type="text"
-            placeholder="Search team members"
+            placeholder="Search"
             class="border rounded-lg pr-10 pl-3 py-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
             onkeyup="handleSearch(this.value)"
           />
@@ -152,13 +139,13 @@
             <i class="fa-solid fa-user"></i><span>Profile</span>
           </li>
           <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2">
-            <i class="fa-solid fa-lock"></i><span>Change password</span>
+            <i class="fa-solid fa-lock"></i><span><a href="ChangepassPage.html">Change password</a></span>
           </li>
           <li class="px-4 py-2 hover:bg-red-100 text-red-600 cursor-pointer flex items-center gap-2" onclick="handleLogout()">
             <i class="fa-solid fa-sign-out-alt"></i><span>Logout</span>
           </li>
           <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2">
-            <i class="fa-solid fa-gear"></i><span>Settings</span>
+            <i class="fa-solid fa-gear"></i><span><a href="Setting.html">Settings</a></span>
           </li>
         </ul>
       </div>
@@ -182,62 +169,77 @@
     </div>
     <main class="flex-1 p-6 bg-gray-100">
       <div class="bg-white rounded-xl shadow-md p-8 max-w-7xl mx-auto">
-        <div id="content">
-          <div class="flex justify-between items-center mb-4">
-            <h2 class="text-2xl font-bold">Manage Team 2</h2>
-            <button id="add-member-btn" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-              <i class="fa-solid fa-plus mr-2"></i>Add Member
-            </button>
-          </div>
-          <div class="overflow-x-auto">
-            <table class="w-full border-collapse">
-              <thead>
-                <tr class="bg-gray-100">
-                  <th class="border p-2 text-left">ID</th>
-                  <th class="border p-2 text-left">Name</th>
-                  <th class="border p-2 text-left">Email</th>
-                  <th class="border p-2 text-left">Role</th>
-                  <th class="border p-2 text-left">Status</th>
-                  <th class="border p-2 text-center">Actions</th>
-                </tr>
-              </thead>
-              <tbody id="team-table-body"></tbody>
-            </table>
-          </div>
-          <div id="member-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg">
-              <div class="flex justify-between items-center mb-4">
-                <h2 id="member-modal-title" class="text-xl font-bold">Add Member</h2>
-                <button id="close-member-modal" class="text-gray-600 hover:text-gray-800">
-                  <i class="fa-solid fa-times"></i>
-                </button>
+        <h2 class="text-2xl font-bold mb-6 text-gray-800">Settings</h2>
+        <div class="space-y-8">
+          <div class="border-b pb-6">
+            <h3 class="text-lg font-semibold text-gray-700 mb-4">General Settings</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label for="site-name" class="block text-sm font-medium text-gray-600">Site Name</label>
+                <input
+                  type="text"
+                  id="site-name"
+                  class="mt-1 w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value="Café Code"
+                />
               </div>
-              <form id="member-form">
-                <input type="hidden" id="member-id">
-                <div class="mb-4">
-                  <label class="block text-sm font-bold mb-2" for="member-user">User</label>
-                  <select id="member-user" class="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                    <option value="">Select User</option>
-
-                  </select>
-                </div>
-                <div class="mb-4">
-                  <label class="block text-sm font-bold mb-2" for="member-role">Team Role</label>
-                  <input type="text" id="member-role" class="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g., Leader, Member" required>
-                </div>
-                <div class="mb-4">
-                  <label class="block text-sm font-bold mb-2" for="member-status">Status</label>
-                  <select id="member-status" class="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                    <option value="active">Active</option>
-                    <option value="inactive">Inactive</option>
-                  </select>
-                </div>
-                <div class="flex justify-end gap-2">
-                  <button type="button" id="cancel-member-btn" class="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-400">Cancel</button>
-                  <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Save</button>
-                </div>
-              </form>
+              <div>
+                <label for="location" class="block text-sm font-medium text-gray-600">Location</label>
+                <input
+                  type="text"
+                  id="location"
+                  class="mt-1 w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value="Battambang, Phnom Penh"
+                />
+              </div>
             </div>
+          </div>
+
+          <!-- Notification Settings -->
+          <div class="border-b pb-6">
+            <h3 class="text-lg font-semibold text-gray-700 mb-4">Notifications</h3>
+            <div class="space-y-4">
+              <label class="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="email-notifications"
+                  class="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                  checked
+                />
+                <span class="text-sm text-gray-600">Enable Email Notifications</span>
+              </label>
+              <label class="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="push-notifications"
+                  class="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                />
+                <span class="text-sm text-gray-600">Enable Push Notifications</span>
+              </label>
+            </div>
+          </div>
+          <div class="border-b pb-6">
+            <h3 class="text-lg font-semibold text-gray-700 mb-4">ភាសា (Language)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label for="language" class="block text-sm font-medium text-gray-600">Select Language</label>
+                <select
+                  id="language"
+                  class="mt-1 w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="en">English</option>
+                  <option value="km">ខ្មែរ (Khmer)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-end">
+            <button
+              id="save-settings"
+              class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200"
+            >
+              Save Changes
+            </button>
           </div>
         </div>
       </div>

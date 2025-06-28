@@ -44,7 +44,6 @@
       height: calc(100vh - 4rem);
       overflow-y: auto;
     }
-    /* Notification Animations */
     @keyframes fade-in-up {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -59,7 +58,6 @@
     .animate-fade-out-down {
       animation: fade-out-down 0.3s ease-out forwards;
     }
-    /* Table Row Hover */
     .table-row {
       transition: background-color 0.2s ease;
     }
@@ -80,6 +78,7 @@
       window.location.href = "LoginPage.html";
     }
   </script>
+
   <aside id="sidebar" class="bg-gray-800 text-white w-64 min-h-screen transition-all duration-300 flex flex-col">
     <div class="h-[130px] flex items-center justify-center">
       <div id="logo" class="cursor-pointer text-center px-2 pt-5">
@@ -113,37 +112,24 @@
         <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="employees.html">
           <i class="fa-solid fa-user"></i><span>Employees</span>
         </li>
-        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-          <div class="flex items-center justify-between" onclick="toggleSubmenu(this)">
-            <div class="flex items-center gap-2">
-              <i class="fa-solid fa-user"></i><span>User</span>
+          <li class="px-4 py-2 cursor-pointer">
+            <div class="flex items-center justify-between" onclick="toggleSubmenu(this)">
+              <div class="flex items-center gap-2">
+                <i class="fa-solid fa-user"></i><span>User</span>
+              </div>
+              <i class="fa-solid fa-chevron-down"></i>
             </div>
-            <i class="fa-solid fa-chevron-down"></i>
-          </div>
-          <ul class="submenu hidden pl-6">
-            <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="roles.html">
-              <i class="fa-solid fa-user"></i><span>Role</span>
-            </li>
-            <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="users.html">
-              <i class="fa-solid fa-users"></i><span>User</span>
-            </li>
-          </ul>
-        </li>
-        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-          <div class="flex items-center justify-between" onclick="toggleSubmenu(this)">
-            <div class="flex items-center gap-2">
-              <i class="fa-solid fa-gear"></i><span>Setting</span>
-            </div>
-            <i class="fa-solid fa-chevron-down"></i>
-          </div>
-          <ul class="submenu hidden pl-6">
-            <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="team1.html">
-              <i class="fa-solid fa-users"></i><span>Team 1</span>
-            </li>
-            <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="team2.html">
-              <i class="fa-solid fa-users"></i><span>Team 2</span>
-            </li>
-          </ul>
+            <ul class="submenu hidden pl-6">
+              <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="roles.html">
+                <i class="fa-solid fa-user"></i><span>Role</span>
+              </li>
+              <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="users.html">
+                <i class="fa-solid fa-users"></i><span>User</span>
+              </li>
+            </ul>
+          </li>
+        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="Setting.html">
+          <i class="fa-solid fa-gear"></i><span>Setting</span>
         </li>
       </ul>
     </nav>
@@ -163,7 +149,7 @@
           <input
             type="text"
             id="customer-search"
-            placeholder="Search customers..."
+            placeholder="Search"
             class="border rounded-lg pr-10 pl-3 py-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -187,13 +173,13 @@
             <i class="fa-solid fa-user"></i><span>Profile</span>
           </li>
           <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2">
-            <i class="fa-solid fa-lock"></i><span>Change password</span>
+            <i class="fa-solid fa-lock"></i><span><a href="ChangepassPage.html">Change password</a></span>
           </li>
           <li class="px-4 py-2 hover:bg-red-100 text-red-600 cursor-pointer flex items-center gap-2" onclick="handleLogout()">
             <i class="fa-solid fa-sign-out-alt"></i><span>Logout</span>
           </li>
           <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2">
-            <i class="fa-solid fa-gear"></i><span>Settings</span>
+            <i class="fa-solid fa-gear"></i><span><a href="Setting.html">Settings</a></span>
           </li>
         </ul>
       </div>
@@ -245,7 +231,6 @@
           </div>
         </div>
 
-        <!-- Add Customer Modal -->
         <div id="add-customer-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg">
             <div class="flex justify-between items-center mb-4">
@@ -303,8 +288,6 @@
             </form>
           </div>
         </div>
-
-        <!-- Edit Customer Modal -->
         <div id="edit-customer-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg">
             <div class="flex justify-between items-center mb-4">

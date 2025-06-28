@@ -3,36 +3,69 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Café Code</title>
-  <link rel="icon" type="Phath" href="https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true">
+  <title>Café Code - Manage Users</title>
+  <link rel="icon" type="image/png" href="https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="MainLayout.js" defer></script>
   <script src="User.js" defer></script>
-</head>
-<style>
+  <script src="MainLayout.js" defer></script>
+  <style>
+    .loading-spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #3b82f6;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+      margin: auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
     #sidebar {
       position: fixed;
       top: 0;
       left: 0;
       height: 100vh;
-      width: 16rem; 
+      width: 16rem;
       z-index: 20;
     }
     header {
       position: fixed;
       top: 0;
-      left: 16rem; 
+      left: 16rem;
       right: 0;
       z-index: 10;
     }
     main {
-      margin-left: 16rem; 
+      margin-left: 16rem;
       margin-top: 4rem;
       height: calc(100vh - 4rem);
-      overflow-y: auto; 
+      overflow-y: auto;
     }
-</style>
+    @keyframes fade-in-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fade-out-down {
+      from { opacity: 1; transform: translateY(0); }
+      to { opacity: 0; transform: translateY(20px); }
+    }
+    .animate-fade-in-up {
+      animation: fade-in-up 0.3s ease-out forwards;
+    }
+    .animate-fade-out-down {
+      animation: fade-out-down 0.3s ease-out forwards;
+    }
+    .table-row {
+      transition: background-color 0.2s ease;
+    }
+    .table-row:hover {
+      background-color: #f9fafb;
+    }
+  </style>
+</head>
 <body class="min-h-screen flex">
   <script>
     try {
@@ -47,39 +80,39 @@
   </script>
 
   <aside id="sidebar" class="bg-gray-800 text-white w-64 min-h-screen transition-all duration-300 flex flex-col">
-      <div class="h-[130px] flex items-center justify-center">
-        <div id="logo" class="demo-logo-vertical cursor-pointer text-center px-2 pt-5">
-          <img src="https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true" alt="Logo" class="w-[80px] h-[80px] rounded-full mx-auto shadow-md border-2 border-gray-600">
-          <span class="block text-lg font-bold text-white mt-1">Café Code</span>
-          <span class="block text-xs font-light text-gray-300 flex items-center justify-center gap-1">
-            <i class="fa-solid fa-map-marker-alt text-gray-300"></i> Battambang. Phnom Penh
-          </span>
-        </div>
+    <div class="h-[130px] flex items-center justify-center">
+      <div id="logo" class="cursor-pointer text-center px-2 pt-5">
+        <img src="https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true" alt="Logo" class="w-[80px] h-[80px] rounded-full mx-auto shadow-md border-2 border-gray-600">
+        <span class="block text-lg font-bold text-white mt-1">Café Code</span>
+        <span class="block text-xs font-light text-gray-300 flex items-center justify-center gap-1">
+          <i class="fa-solid fa-map-marker-alt text-gray-300"></i> Battambang. Phnom Penh
+        </span>
       </div>
-      <nav id="menu" class="mt-4 flex-1">
-        <ul>
-          <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="index.html">
-            <i class="fa-solid fa-desktop"></i><span>Dashboard</span>
-          </li>
-          <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="about.html">
-            <i class="fa-solid fa-user"></i><span>About</span>
-          </li>
-          <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="brands.html">
-            <i class="fa-solid fa-chart-pie"></i><span>Brand</span>
-          </li>
-          <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="categories.html">
-            <i class="fa-solid fa-chart-pie"></i><span>Category</span>
-          </li>
-          <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="products.html">
-            <i class="fa-solid fa-chart-pie"></i><span>Product</span>
-          </li>
-          <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="customer.html">
-            <i class="fa-solid fa-user"></i><span>Customer</span>
-          </li>
-          <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="employees.html">
-            <i class="fa-solid fa-user"></i><span>Employees</span>
-          </li>
-          <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer">
+    </div>
+    <nav id="menu" class="mt-4 flex-1">
+      <ul>
+        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="index.html">
+          <i class="fa-solid fa-desktop"></i><span>Dashboard</span>
+        </li>
+        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="about.html">
+          <i class="fa-solid fa-user"></i><span>About</span>
+        </li>
+        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="brands.html">
+          <i class="fa-solid fa-chart-pie"></i><span>Brand</span>
+        </li>
+        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="categories.html">
+          <i class="fa-solid fa-chart-pie"></i><span>Category</span>
+        </li>
+        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="products.html">
+          <i class="fa-solid fa-chart-pie"></i><span>Product</span>
+        </li>
+        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="customer.html">
+          <i class="fa-solid fa-user"></i><span>Customer</span>
+        </li>
+        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="employees.html">
+          <i class="fa-solid fa-user"></i><span>Employees</span>
+        </li>
+          <li class="px-4 py-2 cursor-pointer">
             <div class="flex items-center justify-between" onclick="toggleSubmenu(this)">
               <div class="flex items-center gap-2">
                 <i class="fa-solid fa-user"></i><span>User</span>
@@ -95,30 +128,18 @@
               </li>
             </ul>
           </li>
-          <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-            <div class="flex items-center justify-between" onclick="toggleSubmenu(this)">
-              <div class="flex items-center gap-2">
-                <i class="fa-solid fa-gear"></i><span>Setting</span>
-              </div>
-              <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <ul class="submenu hidden pl-6">
-              <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="team1.html">
-                <i class="fa-solid fa-users"></i><span>Team 1</span>
-              </li>
-              <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="team2.html">
-                <i class="fa-solid fa-users"></i><span>Team 2</span>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </nav>
-      <div class="px-4 py-2 mt-auto mb-4">
-        <div class="flex items-center gap-3 cursor-pointer text-white bg-gray-600 hover:bg-gray-700 px-4 py-3 rounded-lg transition-colors duration-200 font-semibold text-base" onclick="handleLogout()">
-          <i class="fa-solid fa-sign-out-alt text-lg"></i><span>Logout</span>
-        </div>
+        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="Setting.html">
+          <i class="fa-solid fa-gear"></i><span>Setting</span>
+        </li>
+      </ul>
+    </nav>
+    <div class="px-4 py-2 mt-auto mb-4">
+      <div class="flex items-center gap-3 cursor-pointer text-white bg-gray-600 hover:bg-gray-700 px-4 py-3 rounded-lg transition-colors duration-200 font-semibold text-base" onclick="handleLogout()">
+        <i class="fa-solid fa-sign-out-alt text-lg"></i><span>Logout</span>
       </div>
+    </div>
   </aside>
+
   <div class="flex-1 flex flex-col">
     <header class="bg-white shadow flex items-center justify-between px-5 h-16">
       <div class="flex items-center gap-4">
@@ -127,9 +148,9 @@
           <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
           <input
             type="text"
-            placeholder="Search users"
+            id="user-search"
+            placeholder="Search users..."
             class="border rounded-lg pr-10 pl-3 py-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-            onkeyup="handleSearch(this.value)"
           />
         </div>
       </div>
@@ -152,17 +173,18 @@
             <i class="fa-solid fa-user"></i><span>Profile</span>
           </li>
           <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2">
-            <i class="fa-solid fa-lock"></i><span>Change password</span>
+            <i class="fa-solid fa-lock"></i><span><a href="ChangepassPage.html">Change password</a></span>
           </li>
           <li class="px-4 py-2 hover:bg-red-100 text-red-600 cursor-pointer flex items-center gap-2" onclick="handleLogout()">
             <i class="fa-solid fa-sign-out-alt"></i><span>Logout</span>
           </li>
           <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2">
-            <i class="fa-solid fa-gear"></i><span>Settings</span>
+            <i class="fa-solid fa-gear"></i><span><a href="Setting.html">Settings</a></span>
           </li>
         </ul>
       </div>
     </header>
+
     <div id="profile-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg">
         <div class="flex justify-between items-center mb-4">
@@ -180,68 +202,162 @@
         </div>
       </div>
     </div>
+
     <main class="flex-1 p-6 bg-gray-100">
       <div class="bg-white rounded-xl shadow-md p-8 max-w-7xl mx-auto">
-        <div id="content">
-          <div class="flex justify-between items-center mb-4">
-            <h2 class="text-2xl font-bold">Manage Users</h2>
-            <button id="add-user-btn" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-              <i class="fa-solid fa-plus mr-2"></i>Add User
-            </button>
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-2xl font-bold text-gray-800">User Management</h2>
+          <button id="add-user-btn" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 flex items-center gap-2">
+            <i class="fa-solid fa-plus"></i> Add User
+          </button>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full table-auto border-collapse">
+            <thead>
+              <tr class="bg-gray-200">
+                <th class="border px-4 py-2 text-left">ID</th>
+                <th class="border px-4 py-2 text-left">Name</th>
+                <th class="border px-4 py-2 text-left">Email</th>
+                <th class="border px-4 py-2 text-left">Phone</th>
+                <th class="border px-4 py-2 text-left">Location</th>
+                <th class="border px-4 py-2 text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="user-table-body"></tbody>
+          </table>
+          <div id="loading-overlay" class="text-center my-4 hidden">
+            <div class="loading-spinner"></div>
+            <p class="text-gray-600 mt-2">Loading users...</p>
           </div>
-          <div class="overflow-x-auto">
-            <table class="w-full border-collapse">
-              <thead>
-                <tr class="bg-gray-100">
-                  <th class="border p-2 text-left">ID</th>
-                  <th class="border p-2 text-left">Name</th>
-                  <th class="border p-2 text-left">Email</th>
-                  <th class="border p-2 text-left">Role</th>
-                  <th class="border p-2 text-left">Status</th>
-                  <th class="border p-2 text-center">Actions</th>
-                </tr>
-              </thead>
-              <tbody id="users-table-body"></tbody>
-            </table>
-          </div>
-          <div id="user-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg">
-              <div class="flex justify-between items-center mb-4">
-                <h2 id="user-modal-title" class="text-xl font-bold">Add User</h2>
-                <button id="close-user-modal" class="text-gray-600 hover:text-gray-800">
-                  <i class="fa-solid fa-times"></i>
+        </div>
+        <div id="add-user-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg">
+            <div class="flex justify-between items-center truncatem mb-4">
+              <h2 id="add-modal-title" class="text-xl font-bold">Add User</h2>
+              <button id="close-add-user-modal" class="text-gray-600 hover:text-gray-800">
+                <i class="fa-solid fa-times"></i>
+              </button>
+            </div>
+            <form id="add-user-form">
+              <div class="mb-4">
+                <label for="add-user-id" class="block text-gray-700 font-bold mb-2">User ID</label>
+                <input
+                  type="text"
+                  id="add-user-id"
+                  class="border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter unique ID"
+                  required
+                />
+              </div>
+              <div class="mb-4">
+                <label for="add-user-name" class="block text-gray-700 font-bold mb-2">Name</label>
+                <input
+                  type="text"
+                  id="add-user-name"
+                  class="border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+              <div class="mb-4">
+                <label for="add-user-email" class="block text-gray-700 font-bold mb-2">Email</label>
+                <input
+                  type="email"
+                  id="add-user-email"
+                  class="border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+              <div class="mb-4">
+                <label for="add-user-phone" class="block text-gray-700 font-bold mb-2">Phone</label>
+                <input
+                  type="tel"
+                  id="add-user-phone"
+                  class="border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div class="mb-4">
+                <label for="add-user-location" class="block text-gray-700 font-bold mb-2">Location</label>
+                <input
+                  type="text"
+                  id="add-user-location"
+                  class="border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div class="flex justify-end gap-2">
+                <button type="button" id="cancel-add-user" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">Cancel</button>
+                <button
+                  type="submit"
+                  class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 flex items-center justify-center gap-2"
+                >
+                  <i class="fa-solid fa-save"></i> Save User
                 </button>
               </div>
-              <form id="user-form">
-                <input type="hidden" id="user-id">
-                <div class="mb-4">
-                  <label class="block text-sm font-bold mb-2" for="user-name">Name</label>
-                  <input type="text" id="user-name" class="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                </div>
-                <div class="mb-4">
-                  <label class="block text-sm font-bold mb-2" for="user-email">Email</label>
-                  <input type="email" id="user-email" class="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                </div>
-                <div class="mb-4">
-                  <label class="block text-sm font-bold mb-2" for="user-role">Role</label>
-                  <select id="user-role" class="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                    <option value="">Select Role</option>
-
-                  </select>
-                </div>
-                <div class="mb-4">
-                  <label class="block text-sm font-bold mb-2" for="user-status">Status</label>
-                  <select id="user-status" class="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                    <option value="active">Active</option>
-                    <option value="inactive">Inactive</option>
-                  </select>
-                </div>
-                <div class="flex justify-end gap-2">
-                  <button type="button" id="cancel-user-btn" class="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-400">Cancel</button>
-                  <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Save</button>
-                </div>
-              </form>
+            </form>
+          </div>
+        </div>
+        <div id="edit-user-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg">
+            <div class="flex justify-between items-center mb-4">
+              <h2 id="edit-modal-title" class="text-xl font-bold">Edit User</h2>
+              <button id="close-edit-user-modal" class="text-gray-600 hover:text-gray-800">
+                <i class="fa-solid fa-times"></i>
+              </button>
             </div>
+            <form id="edit-user-form">
+              <div class="mb-4">
+                <label for="edit-user-id" class="block text-gray-700 font-bold mb-2">User ID</label>
+                <input
+                  type="text"
+                  id="edit-user-id"
+                  class="border rounded-lg px-3 py-2 w-full bg-gray-100 focus:outline-none"
+                  readonly
+                />
+              </div>
+              <div class="mb-4">
+                <label for="edit-user-name" class="block text-gray-700 font-bold mb-2">Name</label>
+                <input
+                  type="text"
+                  id="edit-user-name"
+                  class="border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+              <div class="mb-4">
+                <label for="edit-user-email" class="block text-gray-700 font-bold mb-2">Email</label>
+                <input
+                  type="email"
+                  id="edit-user-email"
+                  class="border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+              <div class="mb-4">
+                <label for="edit-user-phone" class="block text-gray-700 font-bold mb-2">Phone</label>
+                <input
+                  type="tel"
+                  id="edit-user-phone"
+                  class="border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div class="mb-4">
+                <label for="edit-user-location" class="block text-gray-700 font-bold mb-2">Location</label>
+                <input
+                  type="text"
+                  id="edit-user-location"
+                  class="border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div class="flex justify-end gap-2">
+                <button type="button" id="cancel-edit-user" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">Cancel</button>
+                <button
+                  type="submit"
+                  class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 flex items-center justify-center gap-2"
+                >
+                  <i class="fa-solid fa-save"></i> Update User
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

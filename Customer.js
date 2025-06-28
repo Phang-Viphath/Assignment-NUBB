@@ -44,7 +44,6 @@ function showNotification(title, message) {
   }, 3000);
 }
 
-// Confirm Box Function
 function showConfirmBox(message, onConfirm) {
   let confirmBox = document.getElementById('custom-confirm-box');
   if (!confirmBox) {
@@ -184,8 +183,6 @@ function renderTable(customers) {
     tableBody.appendChild(row);
   });
 }
-
-// Debounced Search
 function debounce(func, delay) {
   let timeoutId;
   return function (...args) {
@@ -203,7 +200,6 @@ document.getElementById('customer-search')?.addEventListener('input', debounce((
   renderTable(filteredCustomers);
 }, 300));
 
-// Add Customer Modal
 document.getElementById('add-customer-btn')?.addEventListener('click', () => {
   document.getElementById('add-customer-form').reset();
   document.getElementById('add-customer-modal').classList.remove('hidden');
@@ -227,7 +223,6 @@ document.getElementById('add-customer-form')?.addEventListener('submit', async (
   const email = document.getElementById('add-customer-email').value.trim();
   const phone = document.getElementById('add-customer-phone').value.trim();
 
-  // Validation
   let error = validateId(id);
   if (error) {
     toggleLoading(false);
@@ -283,7 +278,6 @@ document.getElementById('add-customer-form')?.addEventListener('submit', async (
   }
 });
 
-// Edit Customer Modal
 function openEditModal(id, name, email, phone) {
   document.getElementById('edit-customer-id').value = id || '';
   document.getElementById('edit-customer-name').value = name === 'N/A' ? '' : name;
@@ -310,7 +304,6 @@ document.getElementById('edit-customer-form')?.addEventListener('submit', async 
   const email = document.getElementById('edit-customer-email').value.trim();
   const phone = document.getElementById('edit-customer-phone').value.trim();
 
-  // Validation
   let error = validateName(name);
   if (error) {
     toggleLoading(false);

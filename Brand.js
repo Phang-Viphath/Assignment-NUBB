@@ -1,7 +1,6 @@
 const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzV7fgCx6mi8rO5V4g_gie4gJtuDAWQ-d0R-vUlBssZMFwtPrEVrOsvGjY60eVSH-3o/exec';
 let allBrands = [];
 
-// Notification Function
 function showNotification(title, message) {
   let notificationBox = document.getElementById('custom-notification-box');
   if (!notificationBox) {
@@ -44,8 +43,6 @@ function showNotification(title, message) {
     setTimeout(() => notification.remove(), 300);
   }, 3000);
 }
-
-// Confirm Box Function
 function showConfirmBox(message, onConfirm) {
   let confirmBox = document.getElementById('custom-confirm-box');
   if (!confirmBox) {
@@ -179,8 +176,6 @@ function renderTable(brands) {
     tableBody.appendChild(rowElement);
   });
 }
-
-// Debounced Search
 function debounce(func, delay) {
   let timeoutId;
   return function (...args) {
@@ -197,8 +192,6 @@ document.getElementById('search-input').addEventListener('input', debounce((e) =
   );
   renderTable(filteredBrands);
 }, 300));
-
-// Add Brand Modal
 document.getElementById('open-brand-modal').addEventListener('click', () => {
   document.getElementById('add-brand-form').reset();
   document.getElementById('add-brand-modal').classList.remove('hidden');
@@ -222,7 +215,6 @@ document.getElementById('add-brand-form').addEventListener('submit', async (e) =
   const image = document.getElementById('brand-logo').value.trim();
   const description = document.getElementById('brand-description').value.trim();
 
-  // Validation
   let error = validateId(id);
   if (error) {
     toggleLoading(false);
@@ -271,7 +263,6 @@ document.getElementById('add-brand-form').addEventListener('submit', async (e) =
   }
 });
 
-// Edit Brand Modal
 function openEditModal(id, image, brand, description) {
   document.getElementById('edit-brand-id').value = id || 'N/A';
   document.getElementById('edit-brand-name').value = brand === 'N/A' ? '' : brand;
@@ -298,7 +289,6 @@ document.getElementById('edit-brand-form').addEventListener('submit', async (e) 
   const image = document.getElementById('edit-brand-logo').value.trim();
   const description = document.getElementById('edit-brand-description').value.trim();
 
-  // Validation
   let error = validateBrandName(brand);
   if (error) {
     toggleLoading(false);
@@ -381,7 +371,7 @@ function toggleDropdown() {
 
 function handleLogout() {
   localStorage.removeItem('name');
-  window.location.href = 'LoginPage.html';
+  window.location.href = './LoginPage.html';
 }
 
 document.getElementById('profile-item').addEventListener('click', () => {

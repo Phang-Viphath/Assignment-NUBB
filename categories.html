@@ -57,7 +57,6 @@
       height: calc(100vh - 4rem);
       overflow-y: auto;
     }
-    /* Notification Animations */
     @keyframes fade-in-up {
       from {
         opacity: 0;
@@ -132,37 +131,24 @@
         <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="employees.html">
           <i class="fa-solid fa-user"></i><span>Employees</span>
         </li>
-        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-          <div class="flex items-center justify-between" onclick="toggleSubmenu(this)">
-            <div class="flex items-center gap-2">
-              <i class="fa-solid fa-user"></i><span>User</span>
+          <li class="px-4 py-2 cursor-pointer">
+            <div class="flex items-center justify-between" onclick="toggleSubmenu(this)">
+              <div class="flex items-center gap-2">
+                <i class="fa-solid fa-user"></i><span>User</span>
+              </div>
+              <i class="fa-solid fa-chevron-down"></i>
             </div>
-            <i class="fa-solid fa-chevron-down"></i>
-          </div>
-          <ul class="submenu hidden pl-6">
-            <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="roles.html">
-              <i class="fa-solid fa-user"></i><span>Role</span>
-            </li>
-            <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="users.html">
-              <i class="fa-solid fa-users"></i><span>User</span>
-            </li>
-          </ul>
-        </li>
-        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-          <div class="flex items-center justify-between" onclick="toggleSubmenu(this)">
-            <div class="flex items-center gap-2">
-              <i class="fa-solid fa-gear"></i><span>Setting</span>
-            </div>
-            <i class="fa-solid fa-chevron-down"></i>
-          </div>
-          <ul class="submenu hidden pl-6">
-            <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="team1.html">
-              <i class="fa-solid fa-users"></i><span>Team 1</span>
-            </li>
-            <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="team2.html">
-              <i class="fa-solid fa-users"></i><span>Team 2</span>
-            </li>
-          </ul>
+            <ul class="submenu hidden pl-6">
+              <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="roles.html">
+                <i class="fa-solid fa-user"></i><span>Role</span>
+              </li>
+              <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="users.html">
+                <i class="fa-solid fa-users"></i><span>User</span>
+              </li>
+            </ul>
+          </li>
+        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="Setting.html">
+          <i class="fa-solid fa-gear"></i><span>Setting</span>
         </li>
       </ul>
     </nav>
@@ -182,7 +168,7 @@
           <input
             type="text"
             id="search-input"
-            placeholder="Search products..."
+            placeholder="Search"
             class="border rounded-lg pr-10 pl-3 py-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -206,13 +192,13 @@
             <i class="fa-solid fa-user"></i><span>Profile</span>
           </li>
           <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2">
-            <i class="fa-solid fa-lock"></i><span>Change password</span>
+            <i class="fa-solid fa-lock"></i><span><a href="ChangepassPage.html">Change password</a></span>
           </li>
           <li class="px-4 py-2 hover:bg-red-100 text-red-600 cursor-pointer flex items-center gap-2" onclick="handleLogout()">
             <i class="fa-solid fa-sign-out-alt"></i><span>Logout</span>
           </li>
           <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2">
-            <i class="fa-solid fa-gear"></i><span>Settings</span>
+            <i class="fa-solid fa-gear"></i><span><a href="Setting.html">Settings</a></span>
           </li>
         </ul>
       </div>
@@ -245,7 +231,7 @@
           </button>
         </div>
         <form id="add-category-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- Category Type -->
+
           <div>
             <label for="category-type" class="block text-sm font-medium text-gray-700">Category Type</label>
             <select
@@ -259,7 +245,6 @@
             </select>
           </div>
 
-          <!-- Product ID -->
           <div>
             <label for="category-id" class="block text-sm font-medium text-gray-700">Product ID</label>
             <input
@@ -270,7 +255,6 @@
               required />
           </div>
 
-          <!-- Product Name -->
           <div>
             <label for="category-name" class="block text-sm font-medium text-gray-700">Product Name</label>
             <input
@@ -281,7 +265,6 @@
               required />
           </div>
 
-          <!-- Category -->
           <div>
             <label for="category-category" class="block text-sm font-medium text-gray-700">Category</label>
             <input
@@ -292,7 +275,6 @@
               required />
           </div>
 
-          <!-- Sizes -->
           <div>
             <label for="category-sizes" class="block text-sm font-medium text-gray-700">Sizes</label>
             <input
@@ -303,7 +285,6 @@
               required />
           </div>
 
-          <!-- Price -->
           <div>
             <label for="category-price" class="block text-sm font-medium text-gray-700">Price</label>
             <input
@@ -316,7 +297,6 @@
               required />
           </div>
 
-          <!-- Brand -->
           <div>
             <label for="category-brand" class="block text-sm font-medium text-gray-700">Brand</label>
             <input
@@ -327,7 +307,6 @@
               required />
           </div>
 
-          <!-- Image URL -->
           <div>
             <label for="category-image" class="block text-sm font-medium text-gray-700">Image URL</label>
             <input
@@ -337,7 +316,6 @@
               placeholder="Enter image URL" />
           </div>
 
-          <!-- Description - full width -->
           <div class="md:col-span-2">
             <label for="category-description" class="block text-sm font-medium text-gray-700">Description</label>
             <textarea
@@ -347,7 +325,6 @@
               rows="4"></textarea>
           </div>
 
-          <!-- Buttons - full width -->
           <div class="md:col-span-2 flex justify-end gap-2">
             <button type="button" id="cancel-category" class="btn px-4 py-2 bg-gray-200 text-gray-700 rounded-lg">Cancel</button>
             <button type="submit" class="btn px-4 py-2 bg-blue-600 text-white rounded-lg">Add Product</button>
@@ -365,7 +342,6 @@
           </button>
         </div>
         <form id="edit-category-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- Category Type -->
           <div>
             <label for="edit-category-type" class="block text-sm font-medium text-gray-700">Category Type</label>
             <select
@@ -379,7 +355,6 @@
             </select>
           </div>
 
-          <!-- Product ID -->
           <div>
             <label for="edit-category-id" class="block text-sm font-medium text-gray-700">Product ID</label>
             <input
@@ -389,7 +364,6 @@
               readonly />
           </div>
 
-          <!-- Product Name -->
           <div>
             <label for="edit-category-name" class="block text-sm font-medium text-gray-700">Product Name</label>
             <input
@@ -400,7 +374,6 @@
               required />
           </div>
 
-          <!-- Category -->
           <div>
             <label for="edit-category-category" class="block text-sm font-medium text-gray-700">Category</label>
             <input
@@ -411,7 +384,6 @@
               required />
           </div>
 
-          <!-- Sizes -->
           <div>
             <label for="edit-category-sizes" class="block text-sm font-medium text-gray-700">Sizes</label>
             <input
@@ -422,7 +394,6 @@
               required />
           </div>
 
-          <!-- Price -->
           <div>
             <label for="edit-category-price" class="block text-sm font-medium text-gray-700">Price</label>
             <input
@@ -434,8 +405,6 @@
               placeholder="Enter price"
               required />
           </div>
-
-          <!-- Brand -->
           <div>
             <label for="edit-category-brand" class="block text-sm font-medium text-gray-700">Brand</label>
             <input
@@ -446,7 +415,6 @@
               required />
           </div>
 
-          <!-- Image URL -->
           <div>
             <label for="edit-category-image" class="block text-sm font-medium text-gray-700">Image URL</label>
             <input
@@ -456,7 +424,6 @@
               placeholder="Enter image URL" />
           </div>
 
-          <!-- Description (full width) -->
           <div class="md:col-span-2">
             <label for="edit-category-description" class="block text-sm font-medium text-gray-700">Description</label>
             <textarea
@@ -466,7 +433,6 @@
               rows="4"></textarea>
           </div>
 
-          <!-- Action Buttons (full width) -->
           <div class="md:col-span-2 flex justify-end gap-2">
             <button type="button" id="cancel-edit-category" class="btn px-4 py-2 bg-gray-200 text-gray-700 rounded-lg">Cancel</button>
             <button type="submit" class="btn px-4 py-2 bg-blue-600 text-white rounded-lg">Update Product</button>

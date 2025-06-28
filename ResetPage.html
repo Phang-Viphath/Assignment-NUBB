@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Password - Café Code</title>
+    <link rel="icon" type="image/png" href="https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="ResetPage.js" defer></script>
+    <style>
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-100 flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-sm">
+        <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Reset Password</h2>
+        <form id="resetForm" class="space-y-4">
+            <div class="relative">
+                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <i class="fa-solid fa-user absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 mt-4"></i>
+                <input type="email" id="email" name="email" autocomplete="username"
+                    class="mt-1 w-full px-4 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter your email" required />
+            </div>
+            <div id="passwordSection" class="space-y-4 hidden">
+                <div class="relative">
+                    <label for="newPassword" class="block text-sm font-medium text-gray-700">New Password</label>
+                    <i class="fa-solid fa-lock absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 mt-3"></i>
+                    <input type="password" id="newPassword" name="newPassword" autocomplete="new-password"
+                        class="mt-1 w-full px-4 py-2 pl-10 pr-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Enter new password" />
+                    <i id="toggleNewPassword" class="fa-solid fa-eye absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 mt-3 cursor-pointer"></i>
+                </div>
+                <div class="relative">
+                    <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                    <i class="fa-solid fa-lock absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 mt-3"></i>
+                    <input type="password" id="confirmPassword" name="confirmPassword" autocomplete="new-password"
+                        class="mt-1 w-full px-4 py-2 pl-10 pr-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Confirm new password" />
+                    <i id="toggleConfirmPassword" class="fa-solid fa-eye absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 mt-3 cursor-pointer"></i>
+                </div>
+            </div>
+            <button id="submitBtn"
+                class="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition duration-200"
+                type="submit">
+                Verify Email
+            </button>
+            <div id="loading-overlay" class="text-center my-4 hidden">
+                <div class="loading-spinner"></div>
+                <p id="loading-text" class="text-gray-600 mt-2">Verifying Email...</p>
+            </div>
+            <p id="error" class="text-red-500 text-center hidden"></p>
+            <p id="success" class="text-green-500 text-center hidden"></p>
+        </form>
+        <p class="mt-4 text-center text-gray-600">
+            Back to <a href="LoginPage.html" class="text-blue-600 hover:underline">Login</a> | 
+      Don't have an account? <a href="RegisterPage.html" class="text-blue-600 hover:underline">Sign up here</a>
+        </p>
+    </div>
+</body>
+</html>
