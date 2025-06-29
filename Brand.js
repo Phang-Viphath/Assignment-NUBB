@@ -371,7 +371,7 @@ function toggleDropdown() {
 
 function handleLogout() {
   localStorage.removeItem('name');
-  window.location.href = './LoginPage.html';
+  window.location.href = 'LoginPage.html';
 }
 
 document.getElementById('profile-item').addEventListener('click', () => {

@@ -318,14 +318,20 @@ function printCart() {
   }
 
   const printWindow = window.open('', '_blank');
-  const cartItemsHtml = cart.map(item => `
-    <tr>
-      <td>${sanitizeInput(item.Name)}</td>
-      <td>${item.quantity}</td>
-      <td>$${parseFloat(item.Price).toFixed(2)}</td>
-      <td>$${(item.quantity * parseFloat(item.Price)).toFixed(2)}</td>
-    </tr>
-  `).join('');
+  const today = new Date().toLocaleDateString('en-US', { timeZone: 'Asia/Phnom_Penh', hour: '2-digit', minute: '2-digit' });
+
+  const cartItemsHtml = cart.map(item => {
+    const imageUrl = item.Image && isValidUrl(item.Image) ? sanitizeInput(item.Image) : 'https://placehold.co/40x40?text=No+Image';
+    console.log(`Cart item: ${item.Name}, Image URL: ${imageUrl}`);
+    return `
+      <tr>
+        <td>${sanitizeInput(item.Name)}</td>
+        <td>${item.quantity}</td>
+        <td>$${parseFloat(item.Price).toFixed(2)}</td>
+        <td>$${(item.quantity * parseFloat(item.Price)).toFixed(2)}</td>
+      </tr>
+    `;
+  }).join('');
 
   const subtotal = cart.reduce((sum, item) => sum + item.quantity * parseFloat(item.Price), 0);
 
@@ -335,27 +341,37 @@ function printCart() {
         <title>Cart Receipt - Café Code</title>
         <link href="https://cdn.tailwindcss.com" rel="stylesheet">
         <style>
-          body { font-family: Arial, sans-serif; margin: 40px; }
-          .container { max-width: 800px; margin: 0 auto; }
-          .header { text-align: center; margin-bottom: 20px; }
-          table { width: 100%; border-collapse: collapse; }
+          body { font-family: Arial, sans-serif;}
+          .container { max-width: 900px; margin: 0 auto; }
+          .header { text-align: center; display: flex; flex-direction: column; align-items: center; }
+          .header h1 { font-size: 18px; font-weight: bold; color: #1a202c; }
+          .header p { font-size: 14px; color: #4a5568; margin-top: 5px; }
+          table { width: 100%; border-collapse: collapse; margin-top: 20px; }
           th, td { border: 1px solid #e5e7eb; padding: 12px; text-align: left; }
           th { background-color: #f3f4f6; }
-          .footer { text-align: center; margin-top: 20px; color: #6b7280; }
+          img { border-radius: 50%; max-width: 90px; max-height: 90px; }
+          .footer { text-align: center; margin-top: 10px; color: #6b7280; font-size: 14px; }
+          @media print {
+            img { display: block; }
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            table { page-break-inside: avoid; }
+          }
         </style>
       </head>
       <body>
         <div class="container">
           <div class="header">
-            <h1 class="text-2xl font-bold">Café Code Receipt</h1>
+            <img src="https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true" alt="Café Code Logo" onerror="this.src='https://placehold.co/100x100?text=Logo';this.alt='No Logo';">
+            <h1>Café Code</h1>
+            <p>Date: ${today}</p>
           </div>
           <table>
             <thead>
               <tr>
-                <th>Product</th>
+                <th>Description</th>
                 <th>Qty</th>
                 <th>Price</th>
-                <th>Total</th>
+                <th>Amount</th>
               </tr>
             </thead>
             <tbody>
@@ -363,24 +379,26 @@ function printCart() {
             </tbody>
             <tfoot>
               <tr>
-                <td colspan="3" class="text-right font-bold">Subtotal:</td>
-                <td>$${subtotal.toFixed(2)}</td>
-              </tr>
-              <tr>
-                <td colspan="3" class="text-right font-bold">Total:</td>
+                <td colspan="3">Total:</td>
                 <td>$${subtotal.toFixed(2)}</td>
               </tr>
             </tfoot>
           </table>
+          <div class="footer">Wifi Name: Café Code</div>
+          <div class="footer">Password: CafeCode9999</div>
           <div class="footer">Thank you for your purchase at Café Code!</div>
         </div>
       </body>
     </html>
   `);
+
   printWindow.document.close();
-  printWindow.focus();
-  printWindow.print();
+  setTimeout(() => {
+    printWindow.focus();
+    printWindow.print();
+  }, 300);
 }
+
 
 function checkoutNow() {
   if (cart.length === 0) {
