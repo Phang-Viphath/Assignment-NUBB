@@ -160,11 +160,11 @@ function renderTable(brands) {
   brands.forEach(brand => {
     const rowElement = document.createElement('tr');
     rowElement.classList.add('table-row', 'border-t');
-    const imageUrl = brand.image && isValidUrl(brand.image) ? brand.image : 'https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true';
+    const imageUrl = brand.image && isValidUrl(brand.image) ? brand.image : 'https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true';
     rowElement.innerHTML = `
       <td class="px-4 py-3 text-gray-800">${sanitizeInput(brand.id) || 'N/A'}</td>
       <td class="px-4 py-3">
-        <img src="${imageUrl}" alt="Brand Logo" class="w-10 h-10 rounded-full" onerror="this.src='https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true'">
+        <img src="${imageUrl}" alt="Brand Logo" class="w-10 h-10 rounded-full" onerror="this.src='https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true'">
       </td>
       <td class="px-4 py-3 text-gray-800">${sanitizeInput(brand.brand) || 'N/A'}</td>
       <td class="px-4 py-3 text-gray-600">${sanitizeInput(brand.description) || 'No description'}</td>

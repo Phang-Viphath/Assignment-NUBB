@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Café Code</title>
-  <link rel="icon" type="Phath" href="https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true">
+  <link rel="icon" type="Phath" href="https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="MainLayout.js" defer></script>
@@ -14,36 +15,42 @@
       font-size: 1.25rem;
       color: #3b82f6;
     }
+
     .team-card {
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
+
     .team-card:hover {
       transform: translateY(-4px);
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     }
+
     #sidebar {
       position: fixed;
       top: 0;
       left: 0;
       height: 100vh;
-      width: 16rem; 
+      width: 16rem;
       z-index: 20;
     }
+
     header {
       position: fixed;
       top: 0;
-      left: 16rem; 
+      left: 16rem;
       right: 0;
       z-index: 10;
     }
+
     main {
-      margin-left: 16rem; 
+      margin-left: 16rem;
       margin-top: 4rem;
       height: calc(100vh - 4rem);
-      overflow-y: auto; 
+      overflow-y: auto;
     }
   </style>
 </head>
+
 <body class="min-h-screen flex">
   <script>
     try {
@@ -58,61 +65,74 @@
   </script>
 
   <aside id="sidebar" class="bg-gray-800 text-white w-64 min-h-screen transition-all duration-300 flex flex-col">
-      <div class="h-[130px] flex items-center justify-center">
-        <div id="logo" class="demo-logo-vertical cursor-pointer text-center px-2 pt-5">
-          <img src="https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true" alt="Logo" class="w-[80px] h-[80px] rounded-full mx-auto shadow-md border-2 border-gray-600">
-          <span class="block text-lg font-bold text-white mt-1">Café Code</span>
-          <span class="block text-xs font-light text-gray-300 flex items-center justify-center gap-1">
-            <i class="fa-solid fa-map-marker-alt text-gray-300"></i> Battambang. Phnom Penh
-          </span>
-        </div>
+    <div class="h-[130px] flex items-center justify-center">
+      <div id="logo" class="demo-logo-vertical cursor-pointer text-center px-2 pt-5">
+        <img src="https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true" alt="Logo"
+          class="w-[80px] h-[80px] rounded-full mx-auto shadow-md border-2 border-gray-600">
+        <span class="block text-lg font-bold text-white mt-1">Café Code</span>
+        <span class="block text-xs font-light text-gray-300 flex items-center justify-center gap-1">
+          <i class="fa-solid fa-map-marker-alt text-gray-300"></i> Battambang. Phnom Penh
+        </span>
       </div>
-      <nav id="menu" class="mt-4 flex-1">
-        <ul>
-          <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="index.html">
-            <i class="fa-solid fa-desktop"></i><span>Dashboard</span>
-          </li>
-          <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="about.html">
-            <i class="fa-solid fa-user"></i><span>About</span>
-          </li>
-          <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="brands.html">
-            <i class="fa-solid fa-chart-pie"></i><span>Brand</span>
-          </li>
-          <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="products.html">
-            <i class="fa-solid fa-chart-pie"></i><span>Product</span>
-          </li>
-          <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="customer.html">
-            <i class="fa-solid fa-user"></i><span>Customer</span>
-          </li>
-          <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="employees.html">
-            <i class="fa-solid fa-user"></i><span>Employees</span>
-          </li>
-          <li class="px-4 py-2 cursor-pointer">
-            <div class="flex items-center justify-between" onclick="toggleSubmenu(this)">
-              <div class="flex items-center gap-2">
-                <i class="fa-solid fa-user"></i><span>User</span>
-              </div>
-              <i class="fa-solid fa-chevron-down"></i>
+    </div>
+    <nav id="menu" class="mt-4 flex-1">
+      <ul>
+        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="index.html">
+          <i class="fa-solid fa-desktop"></i><span>Dashboard</span>
+        </li>
+        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="brands.html">
+          <i class="fa-solid fa-tags"></i><span>Brand</span>
+        </li>
+        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="products.html">
+          <i class="fa-solid fa-box"></i><span>Product</span>
+        </li>
+        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="customer.html">
+          <i class="fa-solid fa-user"></i><span>Customer</span>
+        </li>
+        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="employees.html">
+          <i class="fa-solid fa-user"></i><span>Employees</span>
+        </li>
+        <li class="px-4 py-2 cursor-pointer">
+          <div class="flex items-center justify-between" onclick="toggleSubmenu(this)">
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-user"></i><span>User</span>
             </div>
-            <ul class="submenu hidden pl-6">
-              <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="roles.html">
-                <i class="fa-solid fa-user"></i><span>Role</span>
-              </li>
-              <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="users.html">
-                <i class="fa-solid fa-users"></i><span>User</span>
-              </li>
-            </ul>
-          </li>
-          <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="Setting.html">
-            <i class="fa-solid fa-gear"></i><span>Setting</span>
-          </li>
-        </ul>
-      </nav>
-      <div class="px-4 py-2 mt-auto mb-4">
-        <div class="flex items-center gap-3 cursor-pointer text-white bg-gray-600 hover:bg-gray-700 px-4 py-3 rounded-lg transition-colors duration-200 font-semibold text-base" onclick="handleLogout()">
-          <i class="fa-solid fa-sign-out-alt text-lg"></i><span>Logout</span>
-        </div>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <ul class="submenu hidden pl-6">
+            <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="roles.html">
+              <i class="fa-solid fa-user"></i><span>Role</span>
+            </li>
+            <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="users.html">
+              <i class="fa-solid fa-users"></i><span>User</span>
+            </li>
+          </ul>
+        </li>
+        <li class="px-4 py-2 cursor-pointer">
+          <div class="flex items-center justify-between" onclick="toggleSubmenu(this)">
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-gear"></i><span>Setting</span>
+            </div>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <ul class="submenu hidden pl-6">
+            <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="about.html">
+              <i class="fa-solid fa-user"></i><span>About</span>
+            </li>
+            <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="Setting.html">
+              <i class="fa-solid fa-gear"></i><span>Setting</span>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <div class="px-4 py-2 mt-auto mb-4">
+      <div
+        class="flex items-center gap-3 cursor-pointer text-white bg-gray-600 hover:bg-gray-700 px-4 py-3 rounded-lg transition-colors duration-200 font-semibold text-base"
+        onclick="handleLogout()">
+        <i class="fa-solid fa-sign-out-alt text-lg"></i><span>Logout</span>
       </div>
+    </div>
   </aside>
 
   <div class="flex-1 flex flex-col">
@@ -121,12 +141,9 @@
         <h3 class="text-xl font-bold">Café Code</h3>
         <div class="relative w-48">
           <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-          <input
-            type="text"
-            placeholder="Search"
+          <input type="text" placeholder="Search"
             class="border rounded-lg pr-10 pl-3 py-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-            onkeyup="handleSearch(this.value)"
-          />
+            onkeyup="handleSearch(this.value)" />
         </div>
       </div>
       <div class="relative">
@@ -134,13 +151,9 @@
           <div class="text-right">
             <div class="font-bold text-base" id="user-name">Guest</div>
           </div>
-          <img
-            id="profile-image"
-            src="https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true"
-            alt="Profile"
-            class="w-10 h-10 rounded-full"
-            onerror="this.src='https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true'"
-          />
+          <img id="profile-image" src="https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true"
+            alt="Profile" class="w-10 h-10 rounded-full"
+            onerror="this.src='https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true'" />
           <i class="fa-solid fa-chevron-down"></i>
         </div>
         <ul id="dropdown" class="hidden absolute right-0 mt-4 w-48 bg-white shadow-lg rounded-xl">
@@ -150,7 +163,8 @@
           <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2">
             <i class="fa-solid fa-lock"></i><span><a href="ChangepassPage.html">Change password</a></span>
           </li>
-          <li class="px-4 py-2 hover:bg-red-100 text-red-600 cursor-pointer flex items-center gap-2" onclick="handleLogout()">
+          <li class="px-4 py-2 hover:bg-red-100 text-red-600 cursor-pointer flex items-center gap-2"
+            onclick="handleLogout()">
             <i class="fa-solid fa-sign-out-alt"></i><span>Logout</span>
           </li>
           <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2">
@@ -169,7 +183,10 @@
           </button>
         </div>
         <div class="flex flex-col items-center">
-          <img id="modal-profile-image" src="https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true" alt="Profile" class="w-20 h-20 rounded-full mb-4" onerror="this.src='https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true'">
+          <img id="modal-profile-image"
+            src="https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true" alt="Profile"
+            class="w-20 h-20 rounded-full mb-4"
+            onerror="this.src='https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true'">
           <p><span class="font-bold">ID:</span> <span id="modal-user-id">No ID</span></p>
           <p><span class="font-bold">Name:</span> <span id="modal-user-name">Guest</span></p>
           <p><span class="font-bold">Email:</span> <span id="modal-user-email">No email</span></p>
@@ -183,10 +200,12 @@
         <h1 class="text-4xl font-extrabold text-gray-900 mb-6 text-center">About Our Team</h1>
         <div class="prose prose-gray max-w-none">
           <p class="text-lg text-gray-700 leading-relaxed mb-4">
-            Welcome to the Coffee Code Dashboard! Our platform is designed to streamline your coffee business operations with intuitive tools for managing Brands, Categories, Products, Customers, Employees, and Users.
+            Welcome to the Coffee Code Dashboard! Our platform is designed to streamline your coffee business operations
+            with intuitive tools for managing Brands, Categories, Products, Customers, Employees, and Users.
           </p>
           <p class="text-lg text-gray-700 leading-relaxed mb-8">
-            Our dedicated team is passionate about empowering your business with innovative solutions and exceptional support. Reach out to us through our support channels for any inquiries or assistance.
+            Our dedicated team is passionate about empowering your business with innovative solutions and exceptional
+            support. Reach out to us through our support channels for any inquiries or assistance.
           </p>
         </div>
         <div class="mt-20 mb-10">
@@ -252,4 +271,5 @@
     </main>
   </div>
 </body>
+
 </html>

@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
       name: localStorage.getItem('name') || 'Guest',
       email: localStorage.getItem('email') || 'No email',
       phone: localStorage.getItem('phone') || 'No phone number',
-      image: localStorage.getItem('image') || 'https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true'
+      image: localStorage.getItem('image') || 'https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true'
     };
   }
 
@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: localStorage.getItem('name') || 'Guest',
             email: localStorage.getItem('email') || 'No email',
             phone: localStorage.getItem('phone') || 'No phone number',
-            image: localStorage.getItem('image') || 'https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true'
+            image: localStorage.getItem('image') || 'https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true'
         };
     };
 

@@ -22,16 +22,24 @@ let cart = JSON.parse(localStorage.getItem('cart')) || [];
 const productCache = new Map();
 
 function toggleLoading(show) {
-  document.getElementById('product-loading').classList.toggle('hidden', !show);
-  document.getElementById('product-error').classList.add('hidden');
-  document.getElementById('product-list').classList.toggle('hidden', show);
+  const loadingElement = document.getElementById('product-loading');
+  const errorElement = document.getElementById('product-error');
+  const listElement = document.getElementById('product-list');
+  if (loadingElement) loadingElement.classList.toggle('hidden', !show);
+  if (errorElement) errorElement.classList.add('hidden');
+  if (listElement) listElement.classList.toggle('hidden', show);
 }
 
 function showError(message) {
-  document.getElementById('product-loading').classList.add('hidden');
-  document.getElementById('product-error').classList.remove('hidden');
-  document.getElementById('product-error').querySelector('p').textContent = `Failed to load products: ${message}`;
-  document.getElementById('product-list').classList.add('hidden');
+  const loadingElement = document.getElementById('product-loading');
+  const errorElement = document.getElementById('product-error');
+  const listElement = document.getElementById('product-list');
+  if (loadingElement) loadingElement.classList.add('hidden');
+  if (errorElement) {
+    errorElement.classList.remove('hidden');
+    errorElement.querySelector('p').textContent = `Failed to load products: ${message}`;
+  }
+  if (listElement) listElement.classList.add('hidden');
 }
 
 function showNotification(title, message) {
@@ -152,7 +160,7 @@ function validateProducts(productData, category) {
     return false;
   }
   if (hasImageIssues) {
-    showNotification('Warning', `Some products in ${CATEGORIES[category].name} have invalid or missing image URLs. Update Google Sheets with direct image links (e.g., from a CDN or correct raw URLs).`);
+    showNotification('Warning', `Some products in ${CATEGORIES[category].name} have invalid or missing image URLs. Update Google Sheets with direct image links.`);
   }
   console.log(`Product data validated successfully for category '${category}'!`);
   return true;
@@ -204,8 +212,10 @@ function validateCart() {
 
 function updateCartBadge() {
   const cartBadge = document.querySelector('#cartBtn span');
-  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-  cartBadge.textContent = totalItems;
+  if (cartBadge) {
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    cartBadge.textContent = totalItems;
+  }
 }
 
 function handleImageError(imgElement, productName, imageUrl) {
@@ -218,6 +228,12 @@ function updateCartDisplay() {
   const cartItemsElement = document.getElementById('cartItems');
   const cartSubtotalElement = document.getElementById('cartSubtotal');
   const cartTotalElement = document.getElementById('cartTotal');
+
+  if (!cartItemsElement || !cartSubtotalElement || !cartTotalElement) {
+    console.error('Cart display elements not found');
+    showNotification('Error', 'Cart display elements are missing in the DOM');
+    return;
+  }
 
   if (cart.length === 0) {
     cartItemsElement.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center py-8">Your cart is empty</p>';
@@ -311,6 +327,141 @@ function checkoutCart() {
   });
 }
 
+function Payment() {
+  if (cart.length === 0) {
+    showNotification('Error', 'Your cart is empty');
+    return;
+  }
+
+  const paymentModal = document.getElementById('payment-modal-Show');
+  if (!paymentModal) {
+    console.error('Payment modal not found');
+    showNotification('Error', 'Payment modal is missing in the DOM');
+    return;
+  }
+
+  paymentModal.classList.remove('hidden');
+
+  const closeModal = () => {
+    paymentModal.classList.add('hidden');
+  };
+
+  const handlePayment = async () => {
+    if (donePaymentBtn.disabled) return;
+    donePaymentBtn.disabled = true;
+    donePaymentBtn.textContent = 'Processing...';
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      showNotification('Success', 'Payment processed successfully');
+      paymentModal.classList.add('hidden');
+      cart = [];
+      saveCart();
+      updateCartDisplay();
+      closeCartModal();
+    } catch (error) {
+      showNotification('Error', 'Payment processing failed: ' + error.message);
+    } finally {
+      donePaymentBtn.disabled = false;
+      donePaymentBtn.textContent = 'Done';
+    }
+  };
+
+  const closeModalBtn = document.getElementById('close-modal-QR');
+  const donePaymentBtn = document.getElementById('done-payment');
+
+  if (closeModalBtn) {
+    closeModalBtn.removeEventListener('click', closeModal);
+    closeModalBtn.addEventListener('click', closeModal);
+  } else {
+    console.error('Close modal button not found');
+    showNotification('Error', 'Close modal button is missing in the DOM');
+  }
+
+  if (donePaymentBtn) {
+    donePaymentBtn.removeEventListener('click', handlePayment);
+    donePaymentBtn.addEventListener('click', handlePayment);
+  } else {
+    console.error('Done payment button not found');
+    showNotification('Error', 'Done payment button is missing in the DOM');
+  }
+
+  const handleEscKey = (e) => {
+    if (e.key === 'Escape' && !paymentModal.classList.contains('hidden')) {
+      closeModal();
+    }
+  };
+  document.removeEventListener('keydown', handleEscKey);
+  document.addEventListener('keydown', handleEscKey);
+}
+
+function CheckInDetail() {
+  if (cart.length === 0) {
+    showNotification('Error', 'Your cart is empty');
+    return;
+  }
+
+  const detailModal = document.getElementById('check-detail-modal');
+  if (!detailModal) {
+    console.error('Check detail modal not found');
+    showNotification('Error', 'Check detail modal is missing in the DOM');
+    return;
+  }
+
+  const detailContent = document.getElementById('cart-detail-content');
+  if (!detailContent) {
+    console.error('Cart detail content element not found');
+    showNotification('Error', 'Cart detail content element is missing in the DOM');
+    return;
+  }
+
+  detailContent.innerHTML = cart.map(item => {
+    const imageUrl = item['Image'] && isValidUrl(item['Image']) ? sanitizeInput(item['Image']) : 'https://placehold.co/48x48?text=No+Image';
+    return `
+      <div class="border-b border-gray-200 dark:border-gray-700 py-2">
+        <div class="flex items-center gap-3">
+          <img src="${imageUrl}" alt="${sanitizeInput(item.Name)}" class="w-16 h-16 object-cover rounded-md" onerror="handleImageError(this, '${sanitizeInput(item.Name)}', '${imageUrl}')">
+          <div class="flex-1">
+            <p class="text-gray-800 dark:text-white font-medium">${sanitizeInput(item.Name)}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Quantity: ${item.quantity}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Total: $${(item.quantity * parseFloat(item.Price)).toFixed(2)}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Description: ${sanitizeInput(item.Description)}</p>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  const subtotal = cart.reduce((sum, item) => sum + item.quantity * parseFloat(item.Price), 0);
+  detailContent.innerHTML += `
+    <div class="text-right mt-4">
+      <p class="text-lg font-semibold text-gray-800 dark:text-white">Total: $${subtotal.toFixed(2)}</p>
+    </div>
+  `;
+
+  detailModal.classList.remove('hidden');
+
+  const closeModalBtn = document.getElementById('close-detail-modal');
+  const closeModal = () => {
+    detailModal.classList.add('hidden');
+  };
+
+  if (closeModalBtn) {
+    closeModalBtn.removeEventListener('click', closeModal);
+    closeModalBtn.addEventListener('click', closeModal);
+  } else {
+    console.error('Close detail modal button not found');
+    showNotification('Error', 'Close detail modal button is missing in the DOM');
+  }
+
+  const handleEscKey = (e) => {
+    if (e.key === 'Escape' && !detailModal.classList.contains('hidden')) {
+      closeModal();
+    }
+  };
+  document.removeEventListener('keydown', handleEscKey);
+  document.addEventListener('keydown', handleEscKey);
+}
+
 function printCart() {
   if (cart.length === 0) {
     showNotification('Error', 'Your cart is empty');
@@ -399,29 +550,20 @@ function printCart() {
   }, 300);
 }
 
-
-function checkoutNow() {
-  if (cart.length === 0) {
-    showNotification('Error', 'Your cart is empty');
+function renderProducts(productList) {
+  const productListElement = document.getElementById('product-list');
+  if (!productListElement) {
+    console.error('Product list element not found');
+    showNotification('Error', 'Product list container is missing in the DOM');
     return;
   }
 
-  showConfirmBox('Proceed with immediate checkout?', () => {
-    cart = [];
-    saveCart();
-    updateCartDisplay();
-    closeCartModal();
-    showNotification('Success', 'Immediate checkout completed. Redirecting to payment...');
-  });
-}
-
-function renderProducts(productList) {
-  const productListElement = document.getElementById('product-list');
   productListElement.innerHTML = '';
   if (productList.length === 0) {
     productListElement.innerHTML = '<p class="text-center text-gray-600 col-span-4">No products found. Add a product to get started.</p>';
     return;
   }
+
   let hasMissingImages = false;
   productListElement.innerHTML = productList.map(item => {
     const imageUrl = item['Image'] && isValidUrl(item['Image']) ? sanitizeInput(item['Image']) : 'https://placehold.co/240x192?text=No+Image';
@@ -429,9 +571,6 @@ function renderProducts(productList) {
       hasMissingImages = true;
     }
 
-    const img = new Image();
-    img.src = imageUrl;
-    console.log(`Rendering product '${item.Name}' with Image URL: ${imageUrl}`);
     return `
       <div class="bg-white rounded-xl shadow-lg p-4 hover:shadow-xl transition-all duration-300 flex flex-col gap-4 border border-gray-100 hover:border-gray-200">
         <div class="relative w-full h-56 rounded-lg overflow-hidden">
@@ -476,7 +615,6 @@ function searchProduct(id, category, callback) {
   }
 
   const apiUrl = CATEGORIES[category].api;
-  console.log(`Searching for id: ${id} in category: ${category}`);
   toggleLoading(true);
   fetch(`${apiUrl}?action=search&id=${encodeURIComponent(id)}`, { cache: 'default' })
     .then(response => {
@@ -485,7 +623,6 @@ function searchProduct(id, category, callback) {
     })
     .then(result => {
       toggleLoading(false);
-      console.log('Search response:', result);
       if (result.status === 'success') {
         productCache.set(cacheKey, result.data);
         callback(result.data);
@@ -510,8 +647,8 @@ function renderViewModal(product) {
   const imageUrl = product['Image'] && isValidUrl(product['Image']) ? sanitizeInput(product['Image']) : 'https://placehold.co/240x192?text=No+Image';
 
   modal.innerHTML = `
-    <div class="relative bg-white rounded-2xl p-6 shadow-2xl w-full max-w-md mx-auto">
-      <button id="close-view-product-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition duration-200">
+    <div class="relative bg-white rounded-2xl p-6 shadow-2xl w-full max-w-md mx-auto" role="dialog" aria-modal="true">
+      <button id="close-view-product-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition duration-200" aria-label="Close product modal">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
@@ -642,7 +779,7 @@ function openProductModal(product = null) {
   form.reset();
   idInput.removeAttribute('readonly');
   idInput.value = '';
-  title.textContent = product ? 'Edit Product' : 'Add Product';
+  title.textContent = product ? 'Edit' : 'Add';
   if (product) {
     idInput.value = sanitizeInput(product.Id) || '';
     idInput.setAttribute('readonly', 'readonly');
@@ -730,13 +867,9 @@ function handleProductSubmit(e) {
   }
 
   const action = document.getElementById('product-id').hasAttribute('readonly') ? 'update' : 'insert';
-  console.log(`Submitting ${action} with id: ${id}, image: ${logo}`);
-
-  if (action === 'insert') {
-    if (products.some(p => p.Id === id)) {
-      showNotification('Error', `Product ID ${id} already exists`);
-      return;
-    }
+  if (action === 'insert' && products.some(p => p.Id === id)) {
+    showNotification('Error', `Product ID ${id} already exists`);
+    return;
   }
 
   const formData = new URLSearchParams({
@@ -763,7 +896,6 @@ function handleProductSubmit(e) {
     })
     .then(result => {
       toggleLoading(false);
-      console.log('Response from GAS:', result);
       if (result.status === 'success') {
         closeProductModal();
         fetchProducts(selectedCategory);
@@ -788,14 +920,12 @@ function editProduct(id) {
     toggleLoading(false);
   } else {
     const selectedCategory = document.getElementById('category-select')?.value || 'espresso';
-    console.log(`Fetching product with id: ${id} for category: ${selectedCategory}`);
     searchProduct(id, selectedCategory, function(product) {
       if (!product) {
         showNotification('Error', `Product with ID ${id} not found`);
         toggleLoading(false);
         return;
       }
-      console.log('Product fetched for editing:', product);
       openProductModal(product);
     });
   }
@@ -806,7 +936,6 @@ function deleteProduct(id) {
     const selectedCategory = document.getElementById('category-select')?.value || 'espresso';
     const apiUrl = CATEGORIES[selectedCategory].api;
 
-    console.log(`Deleting product with id: ${id}`);
     const formData = new URLSearchParams({
       action: 'delete',
       id
@@ -824,7 +953,6 @@ function deleteProduct(id) {
       })
       .then(result => {
         toggleLoading(false);
-        console.log('Delete response:', result);
         if (result.status === 'success') {
           fetchProducts(selectedCategory);
           showNotification('Success', 'Product deleted successfully');
@@ -880,8 +1008,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const userNameElement = document.getElementById('user-name');
   if (userNameElement) {
     userNameElement.textContent = localStorage.getItem('name') || 'Guest';
-  } else {
-    console.warn('User name element not found');
   }
 
   fetchProducts('espresso');
@@ -890,15 +1016,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const categorySelect = document.getElementById('category-select');
   if (categorySelect) {
     categorySelect.addEventListener('change', e => fetchProducts(e.target.value));
-  } else {
-    console.warn('Category select element not found');
   }
 
   const addProductBtn = document.getElementById('add-product-btn');
   if (addProductBtn) {
     addProductBtn.addEventListener('click', () => openProductModal());
-  } else {
-    console.warn('Add product button not found');
   }
 
   const closeProductModalBtn = document.getElementById('close-product-modal');
@@ -923,22 +1045,34 @@ document.addEventListener('DOMContentLoaded', () => {
   const cartBtn = document.getElementById('cartBtn');
   if (cartBtn) {
     cartBtn.addEventListener('click', openCartModal);
-  } else {
-    console.error('Cart button not found');
-    showNotification('Error', 'Cart button is missing in the DOM');
   }
 
   const closeCartBtn = document.getElementById('closeCartBtn');
   if (closeCartBtn) closeCartBtn.addEventListener('click', closeCartModal);
 
   const checkoutCartBtn = document.getElementById('checkoutCartBtn');
-  if (checkoutCartBtn) checkoutCartBtn.addEventListener('click', checkoutCart);
+  if (checkoutCartBtn) {
+    checkoutCartBtn.removeEventListener('click', checkoutCart);
+    checkoutCartBtn.addEventListener('click', checkoutCart);
+  }
+
+  const checkDetailBtn = document.getElementById('Check-in-detail');
+  if (checkDetailBtn) {
+    checkDetailBtn.removeEventListener('click', CheckInDetail);
+    checkDetailBtn.addEventListener('click', CheckInDetail);
+  }
+
+  const PaymentBtn = document.getElementById('Payment-modal');
+  if (PaymentBtn) {
+    PaymentBtn.removeEventListener('click', Payment);
+    PaymentBtn.addEventListener('click', Payment);
+  }
 
   const printCartBtn = document.getElementById('printCartBtn');
-  if (printCartBtn) printCartBtn.addEventListener('click', printCart);
-
-  const checkoutBtn = document.getElementById('checkoutBtn');
-  if (checkoutBtn) checkoutBtn.addEventListener('click', checkoutNow);
+  if (printCartBtn) {
+    printCartBtn.removeEventListener('click', printCart);
+    printCartBtn.addEventListener('click', printCart);
+  }
 
   const closeViewProductModalBtn = document.getElementById('close-view-product-modal');
   if (closeViewProductModalBtn) closeViewProductModalBtn.addEventListener('click', closeViewProductModal);
@@ -962,9 +1096,6 @@ document.addEventListener('DOMContentLoaded', () => {
         deleteProduct(deleteBtn.dataset.id);
       }
     });
-  } else {
-    console.error('Product list element not found');
-    showNotification('Error', 'Product list container is missing in the DOM');
   }
 
   const cartItems = document.getElementById('cartItems');
@@ -981,15 +1112,10 @@ document.addEventListener('DOMContentLoaded', () => {
         removeFromCart(removeBtn.dataset.index);
       }
     });
-  } else {
-    console.error('Cart items element not found');
-    showNotification('Error', 'Cart items container is missing in the DOM');
   }
 
   const searchInput = document.querySelector('input[placeholder="Search Products"]');
   if (searchInput) {
     searchInput.addEventListener('input', debounce(e => filterProducts(e.target.value), 300));
-  } else {
-    console.warn('Search input not found');
   }
 });

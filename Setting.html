@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Café Code</title>
-  <link rel="icon" type="Phath" href="https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true">
+  <link rel="icon" type="Phath" href="https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="MainLayout.js" defer></script>
@@ -46,13 +46,13 @@
     } catch (error) {
       console.error('Error checking user:', error);
       window.location.href = "LoginPage.html";
-    }
+    };
   </script>
 
   <aside id="sidebar" class="bg-gray-800 text-white w-64 min-h-screen transition-all duration-300 flex flex-col">
     <div class="h-[130px] flex items-center justify-center">
       <div id="logo" class="demo-logo-vertical cursor-pointer text-center px-2 pt-5">
-        <img src="https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true" alt="Logo"
+        <img src="https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true" alt="Logo"
           class="w-[80px] h-[80px] rounded-full mx-auto shadow-md border-2 border-gray-600">
         <span class="block text-lg font-bold text-white mt-1">Café Code</span>
         <span class="block text-xs font-light text-gray-300 flex items-center justify-center gap-1">
@@ -65,14 +65,11 @@
         <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="index.html">
           <i class="fa-solid fa-desktop"></i><span>Dashboard</span>
         </li>
-        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="about.html">
-          <i class="fa-solid fa-user"></i><span>About</span>
-        </li>
         <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="brands.html">
-          <i class="fa-solid fa-chart-pie"></i><span>Brand</span>
+          <i class="fa-solid fa-tags"></i><span>Brand</span>
         </li>
         <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="products.html">
-          <i class="fa-solid fa-chart-pie"></i><span>Product</span>
+          <i class="fa-solid fa-box"></i><span>Product</span>
         </li>
         <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="customer.html">
           <i class="fa-solid fa-user"></i><span>Customer</span>
@@ -96,8 +93,21 @@
             </li>
           </ul>
         </li>
-        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="Setting.html">
-          <i class="fa-solid fa-gear"></i><span>Setting</span>
+        <li class="px-4 py-2 cursor-pointer">
+          <div class="flex items-center justify-between" onclick="toggleSubmenu(this)">
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-gear"></i><span>Setting</span>
+            </div>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <ul class="submenu hidden pl-6">
+            <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="about.html">
+              <i class="fa-solid fa-user"></i><span>About</span>
+            </li>
+            <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="Setting.html">
+              <i class="fa-solid fa-gear"></i><span>Setting</span>
+            </li>
+          </ul>
         </li>
       </ul>
     </nav>
@@ -125,9 +135,9 @@
           <div class="text-right">
             <div class="font-bold text-base" id="user-name">Guest</div>
           </div>
-          <img id="profile-image" src="https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true"
+          <img id="profile-image" src="https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true"
             alt="Profile" class="w-10 h-10 rounded-full"
-            onerror="this.src='https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true'" />
+            onerror="this.src='https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true'" />
           <i class="fa-solid fa-chevron-down"></i>
         </div>
         <ul id="dropdown" class="hidden absolute right-0 mt-4 w-48 bg-white shadow-lg rounded-xl">
@@ -157,9 +167,9 @@
         </div>
         <div class="flex flex-col items-center">
           <img id="modal-profile-image"
-            src="https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true" alt="Profile"
+            src="https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true" alt="Profile"
             class="w-20 h-20 rounded-full mb-4"
-            onerror="this.src='https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true'">
+            onerror="this.src='https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true'">
           <p><span class="font-bold">ID:</span> <span id="modal-user-id">No ID</span></p>
           <p><span class="font-bold">Name:</span> <span id="modal-user-name">Guest</span></p>
           <p><span class="font-bold">Email:</span> <span id="modal-user-email">No email</span></p>
