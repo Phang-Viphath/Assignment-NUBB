@@ -278,6 +278,7 @@ function toggleDropdown() {
 
 function handleLogout() {
   localStorage.removeItem('name');
+  window.location.href = "LogoutPage.html";
 }
 
 document.querySelectorAll('#menu li[data-key]').forEach(item => {

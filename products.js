@@ -912,6 +912,7 @@ function toggleDropdown() {
 function handleLogout() {
   localStorage.removeItem('name');
   localStorage.removeItem('cart');
+  window.location.href = "LogoutPage.html";
 }
 
 function openCartModal() {
