@@ -82,10 +82,14 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    if (phone && !/^\d{7,15}$/.test(phone)) {
-      console.log('Validation failed: Invalid phone format');
-      showError('Phone number must be 7-15 digits.');
-      return;
+    if (phone) {
+      const cleanedPhone = phone.replace(/[\s-]/g, '');
+      const phoneRegex = /^[0-9]{7,15}$/;
+      if (!phoneRegex.test(cleanedPhone)) {
+        console.log('Validation failed: Invalid phone format');
+        showError('Phone number must contain 7-15 digits (only digits, spaces, or dashes allowed).');
+        return;
+      }
     }
 
     const urlRegex = /^https?:\/\/.*\.(?:png|jpg|jpeg|gif)(?:\?.*)?$/i;
@@ -129,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loadingOverlay.classList.add('hidden');
         registerBtn.disabled = false;
         return;
-    }
+      }
 
       console.log('Registration successful, storing data in localStorage');
       localStorage.setItem('id', id);
