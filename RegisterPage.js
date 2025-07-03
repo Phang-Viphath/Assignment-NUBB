@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('DOM loaded, initializing form elements');
   const registerForm = document.getElementById('registerForm');
   const idInput = document.getElementById('id');
+  const imageInput = document.getElementById('image');
   const nameInput = document.getElementById('name');
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
@@ -10,12 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const loadingOverlay = document.getElementById('loading-overlay');
   const togglePassword = document.getElementById('togglePassword');
   const errorMessage = document.getElementById('error-message');
-  const apiUrl = 'https://script.google.com/macros/s/AKfycbyNjbbkogc09ApMMIAq7QIPIyKiI2lpGg0qtrGYWZKjuaL7hrIZ3yxnjPMtGPyuJHDN/exec';
+  const apiUrl = 'https://script.google.com/macros/s/AKfycbyENKMzyaE5SjfezoAzVt2QLperscP9npjLkHJ_csM-UEylG8B3e3-eI2YKoabA9P3t/exec';
 
-  console.log('Form elements initialized:', { 
-    registerForm: !!registerForm, 
-    idInput: !!idInput, 
-    emailInput: !!emailInput 
+  console.log('Form elements initialized:', {
+    registerForm: !!registerForm,
+    idInput: !!idInput,
+    imageInput: !!imageInput,
+    emailInput: !!emailInput
   });
 
   const showError = (message) => {
@@ -24,19 +26,44 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => errorMessage.classList.add('hidden'), 5000);
   };
 
+  imageInput.addEventListener('input', () => {
+    const url = imageInput.value.trim();
+    if (url) {
+      imagePreview.src = url;
+      imagePreview.classList.remove('hidden');
+      imagePreview.onerror = () => {
+        showError('Invalid image URL. Please enter a valid image URL.');
+        imagePreview.classList.add('hidden');
+      };
+      imagePreview.onload = () => {
+        imagePreview.classList.remove('hidden');
+      };
+    } else {
+      imagePreview.classList.add('hidden');
+    }
+  });
+
   registerForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const id = idInput.value.trim();
+    const imageUrl = imageInput.value.trim();
     const name = nameInput.value.trim();
     const email = emailInput.value.trim();
     const password = passwordInput.value.trim();
     const phone = phoneInput.value.trim();
-    
-    console.log('Form submitted with values:', { id, name, email, phone, passwordLength: password.length });
+
+    console.log('Form submitted with values:', {
+      id,
+      imageUrl,
+      name,
+      email,
+      phone,
+      passwordLength: password.length
+    });
 
     errorMessage.classList.add('hidden');
 
-    if (!id || !name || !email || !password) {
+    if (!id || !imageUrl || !name || !email || !password) {
       console.log('Validation failed: Required fields missing');
       showError('Please fill in all required fields.');
       return;
@@ -61,6 +88,13 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    const urlRegex = /^https?:\/\/.*\.(?:png|jpg|jpeg|gif)(?:\?.*)?$/i;
+    if (!urlRegex.test(imageUrl)) {
+      console.log('Validation failed: Invalid image URL');
+      showError('Please enter a valid image URL (JPEG, PNG, or GIF).');
+      return;
+    }
+
     try {
       console.log('Starting registration process');
       loadingOverlay.classList.remove('hidden');
@@ -75,6 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
         body: new URLSearchParams({
           action: 'insert',
           id,
+          image: imageUrl,
           name,
           email,
           password,
@@ -94,16 +129,17 @@ document.addEventListener('DOMContentLoaded', () => {
         loadingOverlay.classList.add('hidden');
         registerBtn.disabled = false;
         return;
-      }
+    }
 
       console.log('Registration successful, storing data in localStorage');
       localStorage.setItem('id', id);
       localStorage.setItem('name', name);
       localStorage.setItem('email', email);
       localStorage.setItem('phone', phone || '');
+      localStorage.setItem('image', imageUrl);
       loadingOverlay.classList.add('hidden');
       registerBtn.disabled = false;
-      window.location.href = "LoginPage.html"; 
+      window.location.href = "LoginPage.html";
     } catch (error) {
       console.error('Registration error:', error);
       showError(error.name === 'AbortError' ? 'Request timed out. Please try again.' : 'An error occurred during registration.');

@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const passwordSection = document.getElementById('passwordSection');
   const toggleNewPassword = document.getElementById('toggleNewPassword');
   const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
-  const apiUrl = 'https://script.google.com/macros/s/AKfycbyNjbbkogc09ApMMIAq7QIPIyKiI2lpGg0qtrGYWZKjuaL7hrIZ3yxnjPMtGPyuJHDN/exec';
+  const apiUrl = 'https://script.google.com/macros/s/AKfycbyENKMzyaE5SjfezoAzVt2QLperscP9npjLkHJ_csM-UEylG8B3e3-eI2YKoabA9P3t/exec';
   let verifiedUser = null;
 
   resetForm.addEventListener('submit', async (e) => {
@@ -94,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
           body: new URLSearchParams({
             action: 'update',
             id: verifiedUser.id,
+            image: verifiedUser.image,
             email: verifiedUser.email,
             password: newPassword,
             name: verifiedUser.name,

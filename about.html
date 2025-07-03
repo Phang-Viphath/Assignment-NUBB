@@ -8,47 +8,8 @@
   <link rel="icon" type="Phath" href="https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="MainLayout.js" defer></script>
-  <style>
-    .icon-fallback::before {
-      content: "🔍";
-      font-size: 1.25rem;
-      color: #3b82f6;
-    }
-
-    .team-card {
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .team-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    #sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      width: 16rem;
-      z-index: 20;
-    }
-
-    header {
-      position: fixed;
-      top: 0;
-      left: 16rem;
-      right: 0;
-      z-index: 10;
-    }
-
-    main {
-      margin-left: 16rem;
-      margin-top: 4rem;
-      height: calc(100vh - 4rem);
-      overflow-y: auto;
-    }
-  </style>
+  <script src="./JS/MainLayout.js" defer></script>
+  <link rel="stylesheet" href="./MainStyle.css">
 </head>
 
 <body class="min-h-screen flex">
@@ -56,23 +17,56 @@
     try {
       const user = localStorage.getItem('name');
       if (!user) {
-        window.location.href = "LoginPage.html";
+        window.location.href = "Page/LoginPage.html";
       }
     } catch (error) {
       console.error('Error checking user:', error);
-      window.location.href = "LoginPage.html";
+      window.location.href = "Page/LoginPage.html";
     }
   </script>
 
   <aside id="sidebar" class="bg-gray-800 text-white w-64 min-h-screen transition-all duration-300 flex flex-col">
     <div class="h-[130px] flex items-center justify-center">
-      <div id="logo" class="demo-logo-vertical cursor-pointer text-center px-2 pt-5">
+      <div id="Profile-Cofe" class="demo-logo-vertical cursor-pointer text-center px-2 pt-5">
         <img src="https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true" alt="Logo"
           class="w-[80px] h-[80px] rounded-full mx-auto shadow-md border-2 border-gray-600">
         <span class="block text-lg font-bold text-white mt-1">Café Code</span>
         <span class="block text-xs font-light text-gray-300 flex items-center justify-center gap-1">
           <i class="fa-solid fa-map-marker-alt text-gray-300"></i> Battambang. Phnom Penh
         </span>
+      </div>
+    </div>
+    <div id="cafe-modal" class="modal hidden">
+      <div class="modal-content">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-2xl font-bold text-gray-800">Café Code</h2>
+          <button id="close-modal-Cafe" class="text-gray-600 hover:text-gray-800">
+            <i class="fa-solid fa-times text-xl"></i>
+          </button>
+        </div>
+        <div class="text-center">
+          <img id="img-modal-Cafe" class="w-24 h-24 rounded-full mx-auto mb-4"
+            src="https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true" alt="Café Code Logo">
+          <p class="text-gray-700 mb-4">
+            Café Code is a vibrant community where coffee enthusiasts and coders unite. Our mission is to create a
+            unique digital café experience, blending the warmth of a coffee shop with the innovation of coding. Based in
+            Battambang and Phnom Penh, we offer a platform for creativity, collaboration, and caffeine-fueled
+            inspiration.
+          </p>
+          <div class="space-y-2">
+            <p class="text-sm font-medium text-gray-700">
+              <i class="fa-solid fa-envelope mr-2"></i>Contact:<a href="mailto:info@cafecode.com"
+                class="text-blue-600 hover:underline m-1">info@cafecode.com</a>
+            </p>
+            <p class="text-sm font-medium text-gray-700">
+              <i class="fa-solid fa-globe mr-2"></i>Website:<a href="https://cafecode.com"
+                class="text-blue-600 hover:underline ml-1">cafecode.com</a>
+            </p>
+            <p class="text-sm font-medium text-gray-700">
+              <i class="fa-solid fa-map-marker-alt mr-2"></i>Location: Battambang, Phnom Penh
+            </p>
+          </div>
+        </div>
       </div>
     </div>
     <nav id="menu" class="mt-4 flex-1">
@@ -161,7 +155,7 @@
             <i class="fa-solid fa-user"></i><span>Profile</span>
           </li>
           <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2">
-            <i class="fa-solid fa-lock"></i><span><a href="ChangepassPage.html">Change password</a></span>
+            <i class="fa-solid fa-lock"></i><span><a href="Page/ChangepassPage.html">Change password</a></span>
           </li>
           <li class="px-4 py-2 hover:bg-red-100 text-red-600 cursor-pointer flex items-center gap-2"
             onclick="handleLogout()">
@@ -182,15 +176,14 @@
             <i class="fa-solid fa-times"></i>
           </button>
         </div>
-        <div class="flex flex-col items-center">
-          <img id="modal-profile-image"
-            src="https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true" alt="Profile"
-            class="w-20 h-20 rounded-full mb-4"
-            onerror="this.src='https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true'">
-          <p><span class="font-bold">ID:</span> <span id="modal-user-id">No ID</span></p>
-          <p><span class="font-bold">Name:</span> <span id="modal-user-name">Guest</span></p>
-          <p><span class="font-bold">Email:</span> <span id="modal-user-email">No email</span></p>
-          <p><span class="font-bold">Phone:</span> <span id="modal-user-phone">No phone number</span></p>
+        <div id="flex" class="flex flex-col items-center">
+          <img id="modal-profile-image" src="No null"
+            alt="Profile" class="w-20 h-20 rounded-full mb-4"
+            onerror="this.src='Not null'">
+          <p id="p"><span class="font-bold">ID:</span> <span id="modal-user-id">No ID</span></p>
+          <p id="p"><span class="font-bold">Name:</span> <span id="modal-user-name">Guest</span></p>
+          <p id="p"><span class="font-bold">Email:</span> <span id="modal-user-email">No email</span></p>
+          <p id="p"><span class="font-bold">Phone:</span> <span id="modal-user-phone">No phone number</span></p>
         </div>
       </div>
     </div>

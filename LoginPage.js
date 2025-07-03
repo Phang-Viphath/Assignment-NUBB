@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const loadingOverlay = document.getElementById('loading-overlay');
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
-  const apiUrl = 'https://script.google.com/macros/s/AKfycbyNjbbkogc09ApMMIAq7QIPIyKiI2lpGg0qtrGYWZKjuaL7hrIZ3yxnjPMtGPyuJHDN/exec';
+  const apiUrl = 'https://script.google.com/macros/s/AKfycbyENKMzyaE5SjfezoAzVt2QLperscP9npjLkHJ_csM-UEylG8B3e3-eI2YKoabA9P3t/exec';
 
   loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('name', user.name);
       localStorage.setItem('email', user.email);
       localStorage.setItem('phone', user.phone || '');
+      localStorage.setItem('image', user.image || 'https://via.placeholder.com/150');
       window.location.href = 'index.html';
     } catch (error) {
       console.error('Login error:', error);

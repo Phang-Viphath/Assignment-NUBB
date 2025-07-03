@@ -8,102 +8,9 @@
   <link rel="icon" type="Phath" href="https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="Brand.js" defer></script>
   <script src="MainLayout.js" defer></script>
-  <style>
-    .table-row {
-      transition: background-color 0.2s ease;
-    }
-
-    .table-row:hover {
-      background-color: #f9fafb;
-    }
-
-    .btn {
-      transition: all 0.3s ease;
-    }
-
-    .btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .loading-spinner {
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #3b82f6;
-      border-radius: 50%;
-      width: 24px;
-      height: 24px;
-      animation: spin 1s linear infinite;
-      margin: auto;
-    }
-
-    @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
-
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-
-    #sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      width: 16rem;
-      z-index: 20;
-    }
-
-    header {
-      position: fixed;
-      top: 0;
-      left: 16rem;
-      right: 0;
-      z-index: 10;
-    }
-
-    main {
-      margin-left: 16rem;
-      margin-top: 4rem;
-      height: calc(100vh - 4rem);
-      overflow-y: auto;
-    }
-
-    @keyframes fade-in-up {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fade-out-down {
-      from {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      to {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-    }
-
-    .animate-fade-in-up {
-      animation: fade-in-up 0.3s ease-out forwards;
-    }
-
-    .animate-fade-out-down {
-      animation: fade-out-down 0.3s ease-out forwards;
-    }
-  </style>
+  <script src="Brand.js" defer></script>
+  <link rel="stylesheet" href="MainStyle.css">
 </head>
 
 <body class="min-h-screen flex">
@@ -121,13 +28,46 @@
 
   <aside id="sidebar" class="bg-gray-800 text-white w-64 min-h-screen transition-all duration-300 flex flex-col">
     <div class="h-[130px] flex items-center justify-center">
-      <div id="logo" class="demo-logo-vertical cursor-pointer text-center px-2 pt-5">
+      <div id="Profile-Cofe" class="demo-logo-vertical cursor-pointer text-center px-2 pt-5">
         <img src="https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true" alt="Logo"
           class="w-[80px] h-[80px] rounded-full mx-auto shadow-md border-2 border-gray-600">
         <span class="block text-lg font-bold text-white mt-1">Café Code</span>
         <span class="block text-xs font-light text-gray-300 flex items-center justify-center gap-1">
           <i class="fa-solid fa-map-marker-alt text-gray-300"></i> Battambang. Phnom Penh
         </span>
+      </div>
+    </div>
+    <div id="cafe-modal" class="modal hidden">
+      <div class="modal-content">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-2xl font-bold text-gray-800">Café Code</h2>
+          <button id="close-modal-Cafe" class="text-gray-600 hover:text-gray-800">
+            <i class="fa-solid fa-times text-xl"></i>
+          </button>
+        </div>
+        <div class="text-center">
+          <img id="img-modal-Cafe" class="w-24 h-24 rounded-full mx-auto mb-4"
+            src="https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true" alt="Café Code Logo">
+          <p class="text-gray-700 mb-4">
+            Café Code is a vibrant community where coffee enthusiasts and coders unite. Our mission is to create a
+            unique digital café experience, blending the warmth of a coffee shop with the innovation of coding. Based in
+            Battambang and Phnom Penh, we offer a platform for creativity, collaboration, and caffeine-fueled
+            inspiration.
+          </p>
+          <div class="space-y-2">
+            <p class="text-sm font-medium text-gray-700">
+              <i class="fa-solid fa-envelope mr-2"></i>Contact:<a href="mailto:info@cafecode.com"
+                class="text-blue-600 hover:underline m-1">info@cafecode.com</a>
+            </p>
+            <p class="text-sm font-medium text-gray-700">
+              <i class="fa-solid fa-globe mr-2"></i>Website:<a href="https://cafecode.com"
+                class="text-blue-600 hover:underline ml-1">cafecode.com</a>
+            </p>
+            <p class="text-sm font-medium text-gray-700">
+              <i class="fa-solid fa-map-marker-alt mr-2"></i>Location: Battambang, Phnom Penh
+            </p>
+          </div>
+        </div>
       </div>
     </div>
     <nav id="menu" class="mt-4 flex-1">
@@ -205,9 +145,7 @@
           <div class="text-right">
             <div class="font-bold text-base" id="user-name">Guest</div>
           </div>
-          <img id="profile-image" src="https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true"
-            alt="Profile" class="w-10 h-10 rounded-full"
-            onerror="this.src='https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true'" />
+          <img id="profile-image" src="No null" alt="Profile" class="w-10 h-10 rounded-full" />
           <i class="fa-solid fa-chevron-down"></i>
         </div>
         <ul id="dropdown" class="hidden absolute right-0 mt-4 w-48 bg-white shadow-lg rounded-xl">
@@ -236,15 +174,14 @@
             <i class="fa-solid fa-times"></i>
           </button>
         </div>
-        <div class="flex flex-col items-center">
-          <img id="modal-profile-image"
-            src="https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true" alt="Profile"
-            class="w-20 h-20 rounded-full mb-4"
+        <div id="flex" class="flex flex-col items-center">
+          <img id="modal-profile-image" src="https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true"
+            alt="Profile" class="w-20 h-20 rounded-full mb-4"
             onerror="this.src='https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true'">
-          <p><span class="font-bold">ID:</span> <span id="modal-user-id">No ID</span></p>
-          <p><span class="font-bold">Name:</span> <span id="modal-user-name">Guest</span></p>
-          <p><span class="font-bold">Email:</span> <span id="modal-user-email">No email</span></p>
-          <p><span class="font-bold">Phone:</span> <span id="modal-user-phone">No phone number</span></p>
+          <p id="p"><span class="font-bold">ID:</span> <span id="modal-user-id">No ID</span></p>
+          <p id="p"><span class="font-bold">Name:</span> <span id="modal-user-name">Guest</span></p>
+          <p id="p"><span class="font-bold">Email:</span> <span id="modal-user-email">No email</span></p>
+          <p id="p"><span class="font-bold">Phone:</span> <span id="modal-user-phone">No phone number</span></p>
         </div>
       </div>
     </div>

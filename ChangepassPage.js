@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const toggleCurrentPassword = document.getElementById('toggleCurrentPassword');
   const toggleNewPassword = document.getElementById('toggleNewPassword');
   const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
-  const apiUrl = 'https://script.google.com/macros/s/AKfycbyNjbbkogc09ApMMIAq7QIPIyKiI2lpGg0qtrGYWZKjuaL7hrIZ3yxnjPMtGPyuJHDN/exec';
+  const apiUrl = 'https://script.google.com/macros/s/AKfycbyENKMzyaE5SjfezoAzVt2QLperscP9npjLkHJ_csM-UEylG8B3e3-eI2YKoabA9P3t/exec';
 
   changePassForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -77,17 +77,21 @@ document.addEventListener('DOMContentLoaded', () => {
         errorDiv.textContent = 'Incorrect email or current password';
         return;
       }
+      
+      console.log(user);
+
       const updateResponse = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
-          action: 'update',
-          id: user.id,
-          email: user.email,
-          password: newPassword,
-          name: user.name,
-          phone: user.phone || ''
-        })
+          body: new URLSearchParams({
+            action: 'update',
+            id: user.id,
+            image: user.image || '',
+            email: user.email,
+            password: newPassword,
+            name: user.name,
+            phone: user.phone || ''
+          })
       });
 
       if (!updateResponse.ok) {
@@ -99,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (updateResult.status !== 'success') {
         throw new Error(updateResult.data || 'Failed to update password');
       }
-
+      
       successDiv.classList.remove('hidden');
       successDiv.textContent = 'Password changed successfully! Redirecting to login...';
       setTimeout(() => {

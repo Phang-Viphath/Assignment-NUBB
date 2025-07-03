@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const userNameElement = document.getElementById('user-name');
   const profileImageElement = document.getElementById('profile-image');
   const menuItems = document.querySelectorAll('#menu li[data-key]');
-  const logoElement = document.getElementById('logo');
+  const profileCofeElement = document.getElementById('Profile-Cofe');
   const profileItemElement = document.getElementById('profile-item');
   const closeModalButton = document.getElementById('close-modal');
   const profileModal = document.getElementById('profile-modal');
@@ -87,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
   } catch (error) {
     console.error('Error initializing user info:', error);
   }
+
   try {
     if (!menuItems.length) {
       console.warn('No menu items found with #menu li[data-key] selector');
@@ -103,10 +104,12 @@ document.addEventListener('DOMContentLoaded', () => {
   } catch (error) {
     console.error('Error highlighting active menu item:', error);
   }
+
   initializeDashboard();
   setupEventListeners();
   updateDashboard();
-  if (logoElement) logoElement.addEventListener('click', showProfileModal);
+
+  if (profileCofeElement) profileCofeElement.addEventListener('click', showProfilCafeeModal);
   if (profileItemElement) profileItemElement.addEventListener('click', showProfileModal);
   if (closeModalButton) closeModalButton.addEventListener('click', closeModal);
   if (profileModal) {
@@ -121,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
       name: localStorage.getItem('name') || 'Guest',
       email: localStorage.getItem('email') || 'No email',
       phone: localStorage.getItem('phone') || 'No phone number',
-      image: localStorage.getItem('image') || 'https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true'
+      image: localStorage.getItem('image') || 'No image'
     };
   }
 
@@ -142,97 +145,35 @@ document.addEventListener('DOMContentLoaded', () => {
   function closeModal() {
     if (profileModal) profileModal.classList.add('hidden');
   }
-});
 
-document.addEventListener('DOMContentLoaded', () => {
-    const userNameElement = document.getElementById('user-name');
-    const profileImageElement = document.getElementById('profile-image');
-    const menuItems = document.querySelectorAll('#menu li[data-key]');
-    const logoElement = document.getElementById('logo');
-    const profileItemElement = document.getElementById('profile-item');
-    const closeModalButton = document.getElementById('close-modal');
-    const profileModal = document.getElementById('profile-modal');
-    const modalUserId = document.getElementById('modal-user-id');
-    const modalUserName = document.getElementById('modal-user-name');
-    const modalUserEmail = document.getElementById('modal-user-email');
-    const modalUserPhone = document.getElementById('modal-user-phone');
-    const modalProfileImage = document.getElementById('modal-profile-image');
+  function showProfilCafeeModal() {
+    console.log('Showing Café Code modal');
+    const cafeModal = document.getElementById('cafe-modal');
+    const closeModalBtn = document.getElementById('close-modal-Cafe');
 
-    const getUserProfileData = () => {
-        return {
-            id: localStorage.getItem('id') || 'No ID',
-            name: localStorage.getItem('name') || 'Guest',
-            email: localStorage.getItem('email') || 'No email',
-            phone: localStorage.getItem('phone') || 'No phone number',
-            image: localStorage.getItem('image') || 'https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true'
-        };
-    };
-
-    try {
-        const userData = getUserProfileData();
-        if (userNameElement) userNameElement.textContent = userData.name;
-    } catch (error) {
-        console.error('Error initializing user info:', error);
+    if (cafeModal) {
+      cafeModal.classList.remove('hidden');
+    } else {
+      console.error('Café modal element not found');
+      return;
     }
 
-    const currentPath = window.location.pathname;
-    menuItems.forEach(item => {
-        item.classList.remove('bg-gray-700', 'text-white');
-
-        const itemPathSegment = item.dataset.key.split('/').pop();
-        const currentPageSegment = currentPath.split('/').pop();
-
-        if (itemPathSegment === currentPageSegment) {
-            item.classList.add('bg-gray-700', 'text-white');
-        }
-
-        item.addEventListener('click', () => {
-            try {
-                window.location.href = item.dataset.key;
-            } catch (error) {
-                console.error('Navigation error:', error);
-            }
-        });
+    cafeModal.addEventListener('click', (e) => {
+      if (e.target === cafeModal) {
+        console.log('Closing modal via outside click');
+        cafeModal.classList.add('hidden');
+      }
     });
 
-    if (logoElement) {
-        logoElement.addEventListener('click', showProfileModal);
+    if (closeModalBtn) {
+      closeModalBtn.addEventListener('click', () => {
+        console.log('Closing modal via button');
+        cafeModal.classList.add('hidden');
+      });
+    } else {
+      console.error('Close modal button not found');
     }
-    if (profileItemElement) {
-        profileItemElement.addEventListener('click', showProfileModal);
-    }
-
-    if (closeModalButton) {
-        closeModalButton.addEventListener('click', closeModal);
-    }
-
-    if (profileModal) {
-        profileModal.addEventListener('click', (e) => {
-            if (e.target === profileModal) {
-                closeModal();
-            }
-        });
-    }
-
-
-    function showProfileModal() {
-        try {
-            const userData = getUserProfileData();
-            if (modalUserId) modalUserId.textContent = userData.id;
-            if (modalUserName) modalUserName.textContent = userData.name;
-            if (modalUserEmail) modalUserEmail.textContent = userData.email;
-            if (modalUserPhone) modalUserPhone.textContent = userData.phone;
-            if (modalProfileImage) modalProfileImage.src = userData.image;
-
-            if (profileModal) profileModal.classList.remove('hidden');
-        } catch (error) {
-            console.error('Error showing profile modal:', error);
-        }
-    }
-
-    function closeModal() {
-        if (profileModal) profileModal.classList.add('hidden');
-    }
+  }
 });
 
 function initializeDashboard() {
@@ -328,7 +269,6 @@ function initializeDashboard() {
 
 async function fetchSalesData(category, date, timeRange) {
   try {
-    // Placeholder for actual API fetch
     const data = EXAMPLE_SALES_DATA[category][timeRange] || [];
     if (!Array.isArray(data)) {
       throw new Error(`Invalid data format for ${category} ${timeRange}`);
@@ -502,7 +442,7 @@ function handleLogout() {
     localStorage.removeItem('email');
     localStorage.removeItem('image');
     localStorage.removeItem('phone');
-    window.location.href = "LoginPage.html";
+    window.location.href = "LogoutPage.html";
   } catch (error) {
     console.error('Logout error:', error);
   }
