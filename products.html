@@ -12,7 +12,7 @@
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="MainLayout.js" defer></script>
   <script src="products.js" defer></script>
-  <link rel="stylesheet" href="MainStyle.css">
+  <link rel="stylesheet" href="Style/MainStyle.css">
 </head>
 
 <body class="min-h-screen flex">
@@ -26,45 +26,55 @@
     }
   </script>
 
-  <aside id="sidebar" class="bg-gray-800 text-white w-64 min-h-screen transition-all duration-300 flex flex-col">
+  <aside id="sidebar"
+    class="bg-[#2a2a4a] text-white w-64 min-h-screen transition-all duration-300 flex flex-col relative">
+    <div class="absolute inset-0 opacity-10 pointer-events-none"></div>
     <div class="h-[130px] flex items-center justify-center">
       <div id="Profile-Cofe" class="demo-logo-vertical cursor-pointer text-center px-2 pt-5">
         <img src="https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true" alt="Logo"
-          class="w-[80px] h-[80px] rounded-full mx-auto shadow-md border-2 border-gray-600">
-        <span class="block text-lg font-bold text-white mt-1">Café Code</span>
+          class="w-[80px] h-[80px] rounded-full mx-auto shadow-[0_0_10px_rgba(0,221,235,0.5)] border-2 border-[#00ddeb] object-cover"
+          onerror="this.src='https://via.placeholder.com/80?text=Logo'">
+        <span class="block text-lg font-bold text-[#00ddeb] mt-1 font-sans uppercase tracking-wider">Café Code</span>
         <span class="block text-xs font-light text-gray-300 flex items-center justify-center gap-1">
-          <i class="fa-solid fa-map-marker-alt text-gray-300"></i> Battambang. Phnom Penh
+          <i class="fa-solid fa-map-marker-alt text-[#00ddeb]"></i> Battambang. Phnom Penh
         </span>
       </div>
     </div>
-    <div id="cafe-modal" class="modal hidden">
-      <div class="modal-content">
+    <div id="cafe-modal"
+      class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[1000]">
+      <div
+        class="modal-content bg-[#2a2a4a] rounded-2xl p-6 sm:p-8 w-full max-w-[32rem] sm:max-w-[30%] shadow-2xl relative overflow-hidden animate-slide-in">
+        <div class="absolute inset-0 opacity-10 pointer-events-none"></div>
         <div class="flex justify-between items-center mb-4">
-          <h2 class="text-2xl font-bold text-gray-800">Café Code</h2>
-          <button id="close-modal-Cafe" class="text-gray-600 hover:text-gray-800">
+          <h2 class="text-2xl sm:text-[1.875rem] font-bold text-[#00ddeb] font-sans uppercase tracking-tight">Café Code
+          </h2>
+          <button id="close-modal-Cafe"
+            class="text-gray-300 hover:text-white transition-all duration-200 hover:scale-110">
             <i class="fa-solid fa-times text-xl"></i>
           </button>
         </div>
         <div class="text-center">
-          <img id="img-modal-Cafe" class="w-24 h-24 rounded-full mx-auto mb-4"
-            src="https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true" alt="Café Code Logo">
-          <p class="text-gray-700 mb-4">
+          <img id="img-modal-Cafe"
+            class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-[#2a2a4a] shadow-[0_4px_12px_rgba(0,221,235,0.2)] hover:shadow-[0_6px_16px_rgba(0,221,235,0.3)] hover:scale-105 transition-all duration-300 object-cover"
+            src="https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true" alt="Café Code Logo"
+            onerror="this.src='https://via.placeholder.com/96?text=Logo'">
+          <p class="text-gray-300 mb-4 font-sans text-base sm:text-[0.9375rem] leading-relaxed">
             Café Code is a vibrant community where coffee enthusiasts and coders unite. Our mission is to create a
             unique digital café experience, blending the warmth of a coffee shop with the innovation of coding. Based in
             Battambang and Phnom Penh, we offer a platform for creativity, collaboration, and caffeine-fueled
             inspiration.
           </p>
           <div class="space-y-2">
-            <p class="text-sm font-medium text-gray-700">
-              <i class="fa-solid fa-envelope mr-2"></i>Contact:<a href="mailto:info@cafecode.com"
-                class="text-blue-600 hover:underline m-1">info@cafecode.com</a>
+            <p class="text-sm font-medium text-gray-300 font-sans flex items-center">
+              <i class="fa-solid fa-envelope mr-2 text-[#00ddeb]"></i>Contact:<a href="mailto:info@cafecode.com"
+                class="text-[#00ddeb] hover:text-[#00b8c4] hover:underline transition-all duration-200 ml-1">info@cafecode.com</a>
             </p>
-            <p class="text-sm font-medium text-gray-700">
-              <i class="fa-solid fa-globe mr-2"></i>Website:<a href="https://cafecode.com"
-                class="text-blue-600 hover:underline ml-1">cafecode.com</a>
+            <p class="text-sm font-medium text-gray-300 font-sans flex items-center">
+              <i class="fa-solid fa-globe mr-2 text-[#00ddeb]"></i>Website:<a href="https://cafecode.com"
+                class="text-[#00ddeb] hover:text-[#00b8c4] hover:underline transition-all duration-200 ml-1">cafecode.com</a>
             </p>
-            <p class="text-sm font-medium text-gray-700">
-              <i class="fa-solid fa-map-marker-alt mr-2"></i>Location: Battambang, Phnom Penh
+            <p class="text-sm font-medium text-gray-300 font-sans flex items-center">
+              <i class="fa-solid fa-map-marker-alt mr-2 text-[#00ddeb]"></i>Location: Battambang, Phnom Penh
             </p>
           </div>
         </div>
@@ -72,168 +82,289 @@
     </div>
     <nav id="menu" class="mt-4 flex-1">
       <ul>
-        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="index.html">
-          <i class="fa-solid fa-desktop"></i><span>Dashboard</span>
+        <li
+          class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300"
+          data-key="index.html">
+          <i class="fa-solid fa-desktop text-[#00ddeb]"></i><span class="text-gray-200 font-sans">Dashboard</span>
         </li>
-        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="brands.html">
-          <i class="fa-solid fa-tags"></i><span>Brand</span>
+        <li
+          class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300"
+          data-key="brands.html">
+          <i class="fa-solid fa-tags text-[#00ddeb]"></i><span class="text-gray-200 font-sans">Brand</span>
         </li>
-        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="products.html">
-          <i class="fa-solid fa-box"></i><span>Product</span>
+        <li
+          class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300"
+          data-key="products.html">
+          <i class="fa-solid fa-box text-[#00ddeb]"></i><span class="text-gray-200 font-sans">Product</span>
         </li>
-        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="customer.html">
-          <i class="fa-solid fa-user"></i><span>Customer</span>
+        <li
+          class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300"
+          data-key="customer.html">
+          <i class="fa-solid fa-user text-[#00ddeb]"></i><span class="text-gray-200 font-sans">Customer</span>
         </li>
-        <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="employees.html">
-          <i class="fa-solid fa-user"></i><span>Employees</span>
+        <li
+          class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300"
+          data-key="employees.html">
+          <i class="fa-solid fa-user text-[#00ddeb]"></i><span class="text-gray-200 font-sans">Employees</span>
         </li>
         <li class="px-4 py-2 cursor-pointer">
           <div class="flex items-center justify-between" onclick="toggleSubmenu(this)">
             <div class="flex items-center gap-2">
-              <i class="fa-solid fa-user"></i><span>User</span>
+              <i class="fa-solid fa-user text-[#00ddeb]"></i><span class="text-gray-200 font-sans">User</span>
             </div>
-            <i class="fa-solid fa-chevron-down"></i>
+            <i class="fa-solid fa-chevron-down text-gray-300"></i>
           </div>
           <ul class="submenu hidden pl-6">
-            <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="roles.html">
-              <i class="fa-solid fa-user"></i><span>Role</span>
+            <li
+              class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300"
+              data-key="roles.html">
+              <i class="fa-solid fa-user text-[#00ddeb]"></i><span class="text-gray-200 font-sans">Role</span>
             </li>
-            <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="users.html">
-              <i class="fa-solid fa-users"></i><span>User</span>
+            <li
+              class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300"
+              data-key="users.html">
+              <i class="fa-solid fa-users text-[#00ddeb]"></i><span class="text-gray-200 font-sans">User</span>
             </li>
           </ul>
         </li>
         <li class="px-4 py-2 cursor-pointer">
           <div class="flex items-center justify-between" onclick="toggleSubmenu(this)">
             <div class="flex items-center gap-2">
-              <i class="fa-solid fa-gear"></i><span>Setting</span>
+              <i class="fa-solid fa-gear text-[#00ddeb]"></i><span class="text-gray-200 font-sans">Setting</span>
             </div>
-            <i class="fa-solid fa-chevron-down"></i>
+            <i class="fa-solid fa-chevron-down text-gray-300"></i>
           </div>
           <ul class="submenu hidden pl-6">
-            <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="about.html">
-              <i class="fa-solid fa-user"></i><span>About</span>
+            <li
+              class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300"
+              data-key="about.html">
+              <i class="fa-solid fa-user text-[#00ddeb]"></i><span class="text-gray-200 font-sans">About</span>
             </li>
-            <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-2" data-key="Setting.html">
-              <i class="fa-solid fa-gear"></i><span>Setting</span>
+            <li
+              class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300"
+              data-key="Setting.html">
+              <i class="fa-solid fa-gear text-[#00ddeb]"></i><span class="text-gray-200 font-sans">Setting</span>
             </li>
           </ul>
         </li>
       </ul>
     </nav>
     <div class="px-4 py-2 mt-auto mb-4">
-      <button
-        class="flex items-center gap-3 cursor-pointer text-white bg-gray-600 hover:bg-gray-700 px-4 py-3 rounded-lg transition-colors duration-200 font-semibold text-base w-full"
-        onclick="handleLogout()" aria-label="Logout">
-        <i class="fa-solid fa-sign-out-alt text-lg"></i><span>Logout</span>
-      </button>
+      <div
+        class="flex items-center gap-3 cursor-pointer text-white bg-[#1f1f3a] hover:bg-[#252550] px-4 py-3 rounded-lg transition-all duration-300 font-semibold text-base shadow-[0_0_10px_rgba(0,221,235,0.5)]"
+        onclick="handleLogout()">
+        <i class="fa-solid fa-sign-out-alt text-lg text-red-400"></i><span class="text-gray-200 font-sans">Logout</span>
+      </div>
     </div>
   </aside>
 
   <div class="flex-1 flex flex-col">
-    <header class="bg-white shadow flex items-center justify-between px-5 h-16">
+    <header class="bg-indigo-900 shadow-lg flex items-center justify-between px-5 h-16">
       <div class="flex items-center gap-4">
-        <h3 class="text-xl font-bold">Café Code</h3>
+        <h3 class="text-xl font-bold text-[#00ddeb] font-sans uppercase tracking-wider">Café Code</h3>
         <div class="relative w-48">
-          <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+          <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-300"></i>
           <input type="text" placeholder="Search Products"
-            class="border rounded-lg pr-10 pl-3 py-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-            aria-label="Search products" />
+            class="border border-[#00ddeb] rounded-md pr-10 pl-3 py-1 w-full bg-[#1f1f3a] text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00ddeb] focus:ring-opacity-50 transition-all duration-300 hover:bg-[#252550]"
+            onkeyup="handleSearch(this.value)" />
         </div>
       </div>
-      <div class="flex items-center gap-4">
-        <button id="cartBtn" class="relative text-gray-700 hover:text-blue-600 transition duration-200"
-          aria-label="View cart">
-          <i class="fas fa-shopping-cart text-xl"></i>
-          <span
-            class="absolute -top-2 -right-3 bg-red-600 text-white text-[10px] w-[20px] h-[20px] rounded-full flex items-center justify-center text-xs font-semibold shadow">0</span>
-        </button>
       <div class="relative">
-        <div class="flex items-center gap-2 cursor-pointer" onclick="toggleDropdown()">
+        <div class="flex items-center gap-2 cursor-pointer pr-2">
+          <button id="cartBtn" class="relative mr-3 text-gray-100 hover:text-yellow-300 transition duration-200"
+            aria-label="View cart">
+            <i class="fas fa-shopping-cart text-xl"></i>
+            <span
+              class="absolute -top-2 -right-3 bg-red-600 text-white text-[10px] w-[20px] h-[20px] rounded-full flex items-center justify-center text-xs font-semibold shadow">0</span>
+          </button>
           <div class="text-right">
-            <div class="font-bold text-base" id="user-name">Guest</div>
+            <div class="font-bold text-base text-gray-200 font-sans" id="user-name">Guest</div>
           </div>
-          <img id="profile-image" src="No null" alt="Profile" class="w-10 h-10 rounded-full" />
-          <i class="fa-solid fa-chevron-down"></i>
+          <img id="profile-image" src="Not Null" alt="Profile" class="w-10 h-10 rounded-full"
+            onerror="this.src='Not Null'" onclick="toggleDropdown()" />
         </div>
-        <ul id="dropdown" class="hidden absolute right-0 mt-4 w-48 bg-white shadow-lg rounded-xl">
-          <li id="profile-item" class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2">
-            <i class="fa-solid fa-user"></i><span>Profile</span>
+        <ul id="dropdown"
+          class="hidden absolute right-0 mt-4 w-48 bg-[#2a2a4a] shadow-2xl rounded-xl border border-[#00ddeb] z-50">
+          <li id="profile-item"
+            class="px-4 py-2 hover:bg-[#252550] cursor-pointer rounded-xl flex items-center gap-2 transition-all duration-300">
+            <i class="fa-solid fa-user text-[#00ddeb]"></i><span class="text-gray-200 font-sans">Profile</span>
           </li>
-          <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2">
-            <i class="fa-solid fa-lock"></i><span><a href="ChangepassPage.html">Change password</a></span>
+          <li class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 transition-all duration-300">
+            <i class="fa-solid fa-lock text-[#00ddeb]"></i><span class="text-gray-200 font-sans"><a
+                href="ChangepassPage.html" class="hover:text-[#00b8c4]">Change password</a></span>
           </li>
-          <li class="px-4 py-2 hover:bg-red-100 text-red-600 cursor-pointer flex items-center gap-2"
+          <li
+            class="px-4 py-2 hover:bg-red-900/50 text-red-400 cursor-pointer flex items-center gap-2 transition-all duration-300"
             onclick="handleLogout()">
-            <i class="fa-solid fa-sign-out-alt"></i><span>Logout</span>
+            <i class="fa-solid fa-sign-out-alt text-red-400"></i><span class="text-gray-200 font-sans">Logout</span>
           </li>
-          <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2">
-            <i class="fa-solid fa-gear"></i><span><a href="Setting.html">Settings</a></span>
+          <li
+            class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300">
+            <i class="fa-solid fa-gear text-[#00ddeb]"></i><span class="text-gray-200 font-sans"><a href="Setting.html"
+                class="hover:text-[#00b8c4]">Settings</a></span>
           </li>
         </ul>
       </div>
-      </div>
     </header>
+
+    <div id="profile-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-[#2a2a4a] rounded-2xl p-6 w-full max-w-md shadow-2xl relative overflow-hidden animate-slide-in">
+        <div class="absolute inset-0 opacity-10 pointer-events-none">
+        </div>
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-bold text-[#00ddeb] font-sans uppercase tracking-wider">
+            User Profile</h2>
+          <button id="close-modal" class="text-gray-300 hover:text-white transition-all duration-200">
+            <i class="fa-solid fa-times text-lg"></i>
+          </button>
+        </div>
+        <div id="flex"
+          class="flex flex-col items-center p-6 bg-[#1f1f3a] rounded-xl shadow-[0_0_10px_rgba(0,221,235,0.5)] border border-[#00ddeb]">
+          <img id="modal-profile-image" src="Not Null" alt="Profile"
+            class="w-20 h-20 rounded-full mb-4 border-4 border-[#2a2a4a] shadow-[0_4px_12px_rgba(0,221,235,0.2)] hover:shadow-[0_6px_16px_rgba(0,221,235,0.3)] hover:scale-105 transition-all duration-300 object-cover">
+          <p id="p" class="flex items-center w-full text-base text-gray-300 font-sans py-2">
+            <span class="font-bold text-[#00ddeb] min-w-[80px] text-right mr-4">ID:</span>
+            <span id="modal-user-id" class="flex-1 text-left break-words">No ID</span>
+          </p>
+          <p id="p" class="flex items-center w-full text-base text-gray-300 font-sans py-2">
+            <span class="font-bold text-[#00ddeb] min-w-[80px] text-right mr-4">Name:</span>
+            <span id="modal-user-name" class="flex-1 text-left break-words">Guest</span>
+          </p>
+          <p id="p" class="flex items-center w-full text-base text-gray-300 font-sans py-2">
+            <span class="font-bold text-[#00ddeb] min-w-[80px] text-right mr-4">Email:</span>
+            <span id="modal-user-email" class="flex-1 text-left break-words">No email</span>
+          </p>
+          <p id="p" class="flex items-center w-full text-base text-gray-300 font-sans py-2">
+            <span class="font-bold text-[#00ddeb] min-w-[80px] text-right mr-4">Phone:</span>
+            <span id="modal-user-phone" class="flex-1 text-left break-words">No phone number</span>
+          </p>
+          <button id="edit-profile"
+            class="mt-4 bg-[#00ddeb] text-[#1a1a2e] font-semibold py-2 px-4 rounded-lg hover:bg-[#00b8c4] transition-all duration-300 flex items-center shadow-[0_0_10px_rgba(0,221,235,0.5)] hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#00ddeb]">
+            <i class="fa-solid fa-edit mr-2"></i> Edit Profile
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="profile-modal-edit"
+      class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-[#2a2a4a] rounded-2xl p-6 w-full max-w-md shadow-2xl relative overflow-hidden animate-slide-in">
+        <div class="absolute inset-0 opacity-10 pointer-events-none">
+        </div>
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-bold text-[#00ddeb] font-sans uppercase tracking-wider">
+            User Profile</h2>
+          <button id="close-modal" class="text-gray-300 hover:text-white transition-all duration-200">
+            <i class="fa-solid fa-times text-lg"></i>
+          </button>
+        </div>
+        <div id="flex"
+          class="flex flex-col items-center p-6 bg-[#1f1f3a] rounded-xl shadow-[0_0_10px_rgba(0,221,235,0.5)] border border-[#00ddeb]">
+          <div class="w-full mb-2">
+            <label class="font-bold text-gray-200 font-sans text-sm">Name:</label>
+            <input id="edit-name" type="text"
+              class="w-full p-2 border border-[#00ddeb] rounded-md bg-[#252550] text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00ddeb] transition-all duration-300 hover:bg-[#2a2a4a]">
+          </div>
+          <div class="w-full mb-2">
+            <label class="font-bold text-gray-200 font-sans text-sm">Email:</label>
+            <input id="edit-email" type="email"
+              class="w-full p-2 border border-[#00ddeb] rounded-md bg-[#252550] text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00ddeb] transition-all duration-300 hover:bg-[#2a2a4a]">
+          </div>
+          <div class="w-full mb-2">
+            <label class="font-bold text-gray-200 font-sans text-sm">Phone:</label>
+            <input id="edit-phone" type="text"
+              class="w-full p-2 border border-[#00ddeb] rounded-md bg-[#252550] text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00ddeb] transition-all duration-300 hover:bg-[#2a2a4a]">
+          </div>
+          <div class="w-full mb-2">
+            <label class="font-bold text-gray-200 font-sans text-sm">Image URL:</label>
+            <input id="edit-image" type="text"
+              class="w-full p-2 border border-[#00ddeb] rounded-md bg-[#252550] text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00ddeb] transition-all duration-300 hover:bg-[#2a2a4a]">
+          </div>
+          <div id="loading-overlay1" class="text-center my-4 hidden">
+            <div
+              class="border-4 border-[#00ddeb] border-t-4 border-t-green-400 rounded-full w-6 h-6 animate-spin mx-auto">
+            </div>
+            <p id="loading-text" class="text-gray-300 font-sans text-sm">Update Profile...</p>
+          </div>
+          <div class="flex justify-end mt-4 space-x-2">
+            <button id="save-profile"
+              class="bg-green-400 text-[#1a1a2e] font-semibold py-2 px-4 rounded-lg hover:bg-green-500 transition-all duration-300 flex items-center shadow-[0_0_10px_rgba(0,128,0,0.5)] hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-400"
+              aria-label="Save Profile">
+              <i class="fa-solid fa-save mr-2"></i> Save
+            </button>
+            <button id="cancel-edit"
+              class="bg-[#1f1f3a] text-gray-300 font-semibold py-2 px-4 rounded-lg hover:bg-[#252550] transition-all duration-300 flex items-center shadow-[0_0_10px_rgba(0,221,235,0.5)] hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#00ddeb]"
+              aria-label="Cancel Edit">
+              <i class="fa-solid fa-times mr-2"></i> Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div id="cartModal"
       class="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-end opacity-0 invisible transition-opacity duration-300">
       <div
-        class="bg-white dark:bg-gray-800 w-full max-w-md h-full overflow-y-auto transform translate-x-full transition-transform duration-300">
+        class="bg-[#2a2a4a] w-full max-w-md h-full overflow-y-auto transform translate-x-full transition-transform duration-300 relative">
+        <div class="absolute inset-0 opacity-10 pointer-events-none"></div>
         <div class="p-6">
           <div class="flex justify-between items-center mb-6">
-            <h3 class="text-xl font-bold text-gray-800 dark:text-white">Shopping</h3>
-            <button id="closeCartBtn" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white"
+            <h3 class="font-sans text-xl font-bold text-[#00ddeb] uppercase tracking-wider">Shopping</h3>
+            <button id="closeCartBtn" class="text-gray-300 hover:text-white transition-all duration-300"
               aria-label="Close cart">
               <i class="fas fa-times text-xl"></i>
             </button>
           </div>
           <div id="cartItems" class="mb-6">
-            <p class="text-gray-500 dark:text-gray-400 text-center py-8">Your cart is empty</p>
+            <p class="text-gray-400 text-center py-8 font-sans text-sm">Your cart is empty</p>
           </div>
-          <div class="border-t border-gray-200 dark:border-gray-700 pt-4 mb-6">
+          <div class="border-t border-[#00ddeb] pt-4 mb-6">
             <div class="flex justify-between mb-2">
-              <span class="text-gray-600 dark:text-gray-300">Subtotal:</span>
-              <span id="cartSubtotal" class="font-semibold text-gray-800 dark:text-white">$0.00</span>
+              <span class="text-gray-300 font-sans text-sm">Subtotal:</span>
+              <span id="cartSubtotal" class="font-semibold text-gray-200 font-sans">$0.00</span>
             </div>
             <div class="flex justify-between mb-2">
-              <span class="text-gray-600 dark:text-gray-300">Delivery Fee:</span>
-              <span class="font-semibold text-gray-800 dark:text-white">Free</span>
+              <span class="text-gray-300 font-sans text-sm">Delivery Fee:</span>
+              <span class="font-semibold text-gray-200 font-sans">Free</span>
             </div>
             <div class="flex justify-between text-lg font-bold">
-              <span class="text-gray-800 dark:text-white">Total:</span>
-              <span id="cartTotal" class="text-gray-800 dark:text-white">$0.00</span>
+              <span class="text-gray-200 font-sans">Total:</span>
+              <span id="cartTotal" class="text-gray-200 font-sans">$0.00</span>
             </div>
           </div>
           <div class="flex gap-4">
             <button id="checkoutCartBtn"
-              class="bg-yellow-600 text-white w-full py-3 rounded-lg font-semibold hover:bg-yellow-700 transition flex items-center justify-center gap-2"
+              class="bg-[#00ddeb] text-[#1a1a2e] w-full py-3 rounded-md font-semibold hover:bg-[#00b8c4] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)] flex items-center justify-center gap-2"
               aria-label="Checkout cart">
-              <i class="fas fa-cash-register"></i>Checkout
+              <i class="fas fa-cash-register"></i> Checkout
             </button>
             <button id="Check-in-detail"
-              class="bg-yellow-600 text-white w-full py-3 rounded-lg font-semibold hover:bg-yellow-700 transition flex items-center justify-center gap-2"
+              class="bg-[#00ddeb] text-[#1a1a2e] w-full py-3 rounded-md font-semibold hover:bg-[#00b8c4] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)] flex items-center justify-center gap-2"
               aria-label="Checkout cart">
-              <i class="fas fa-shopping-bag"></i>Detail
+              <i class="fas fa-shopping-bag"></i> Detail
             </button>
             <button id="printCartBtn"
-              class="bg-green-600 text-white w-full py-3 rounded-lg font-semibold hover:bg-green-700 transition flex items-center justify-center gap-2"
+              class="bg-green-600 text-white w-full py-3 rounded-md font-semibold hover:bg-green-700 transition-all duration-300 shadow-[0_0_10px_rgba(0,128,0,0.5)] flex items-center justify-center gap-2"
               aria-label="Print cart">
-              <i class="fas fa-print"></i>Print
+              <i class="fas fa-print"></i> Print
             </button>
           </div>
           <button id="Payment-modal"
-            class="bg-blue-600 text-white w-full py-3 rounded-lg font-semibold hover:bg-blue-700 transition mt-4 flex items-center justify-center gap-2"
+            class="bg-[#00ddeb] text-[#1a1a2e] w-full py-3 rounded-md font-semibold hover:bg-[#00b8c4] transition-all duration-300 mt-4 shadow-[0_0_10px_rgba(0,221,235,0.5)] flex items-center justify-center gap-2"
             aria-label="Checkout now">
-            <i class="fas fa-credit-card"></i>Payment
+            <i class="fas fa-credit-card"></i> Payment
           </button>
           <div id="check-detail-modal"
             class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden px-5" role="dialog"
             aria-modal="true" aria-label="Cart details modal">
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg max-w-md w-full text-center">
-              <h2 class="text-lg text-gray-600 dark:text-gray-200 font-semibold mb-4">Check in detail</h2>
+            <div class="bg-[#2a2a4a] p-6 rounded-2xl max-w-md w-full text-center relative overflow-hidden">
+              <div class="absolute inset-0 opacity-10 pointer-events-none">
+              </div>
+              <h2 class="text-lg text-gray-200 font-semibold mb-4 font-sans">Check in detail</h2>
               <div id="cart-detail-content" class="space-y-4 text-left"></div>
               <div class="flex justify-end space-x-4 mt-6">
-                <button id="close-detail-modal" class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600"
+                <button id="close-detail-modal"
+                  class="px-4 py-2 bg-[#1f1f3a] text-gray-300 rounded-md hover:bg-[#252550] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)]"
                   aria-label="Close cart details modal">
                   Close
                 </button>
@@ -242,16 +373,20 @@
           </div>
           <div id="payment-modal-Show"
             class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden px-5">
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg max-w-sm w-full text-center">
-              <h2 class="text-lg text-gray-600 dark:text-gray-200 font-semibold mb-4">Scan to Pay</h2>
+            <div class="bg-[#2a2a4a] p-6 rounded-2xl max-w-sm w-full text-center relative overflow-hidden">
+              <div class="absolute inset-0 opacity-10 pointer-events-none">
+              </div>
+              <h2 class="text-lg text-gray-200 font-semibold mb-4 font-sans">Scan to Pay</h2>
               <img src="https://github.com/Phang-Viphath/Image/blob/main/QRcode.jpg?raw=true" alt="Bank QR Code"
-                class="w-48 h-48 mx-auto mb-4">
-              <p class="text-gray-600 dark:text-gray-300 mb-4">Please scan the QR code to complete your payment.</p>
+                class="w-48 h-48 mx-auto mb-4 rounded-md border border-[#00ddeb]">
+              <p class="text-gray-300 mb-4 font-sans text-sm">Please scan the QR code to complete your payment.</p>
               <div class="flex justify-center space-x-4">
-                <button id="close-modal-QR" class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">
+                <button id="close-modal-QR"
+                  class="px-4 py-2 bg-[#1f1f3a] text-gray-300 rounded-md hover:bg-[#252550] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)]">
                   Close
                 </button>
-                <button id="done-payment" class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">
+                <button id="done-payment"
+                  class="px-4 py-2 bg-[#00ddeb] text-[#1a1a2e] rounded-md hover:bg-[#00b8c4] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)]">
                   Done
                 </button>
               </div>
@@ -265,31 +400,15 @@
 
     </div>
 
-    <div id="profile-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg">
-        <div class="flex justify-between items-center mb-4">
-          <h2 class="text-xl font-bold">User Profile</h2>
-          <button id="close-modal" class="text-gray-600 hover:text-gray-800">
-            <i class="fa-solid fa-times text-xl"></i>
-          </button>
-        </div>
-        <div id="flex" class="flex flex-col items-center">
-          <img id="modal-profile-image" src="No null" alt="Profile" class="w-20 h-20 rounded-full mb-4">
-          <p id="p"><span class="font-bold">ID:</span> <span id="modal-user-id">No ID</span></p>
-          <p id="p"><span class="font-bold">Name:</span> <span id="modal-user-name">Guest</span></p>
-          <p id="p"><span class="font-bold">Email:</span> <span id="modal-user-email">No email</span></p>
-          <p id="p"><span class="font-bold">Phone:</span> <span id="modal-user-phone">No phone number</span></p>
-        </div>
-      </div>
-    </div>
-
     <div id="product-modal"
       class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div class="bg-white rounded-lg p-6 w-full max-w-2xl shadow-lg overflow-y-auto max-h-[90vh]">
+      <div class="bg-[#2a2a4a] rounded-2xl p-6 w-full max-w-2xl shadow-2xl overflow-y-auto max-h-[90vh] relative">
+        <div class="absolute inset-0 opacity-10 pointer-events-none"></div>
         <div class="flex justify-between items-center mb-4">
-          <h2 id="product-modal-title" class="text-xl font-bold text-gray-900">Add</h2>
+          <h2 id="product-modal-title" class="font-sans text-xl font-bold text-[#00ddeb] uppercase tracking-wider">Add
+          </h2>
           <button id="close-product-modal"
-            class="text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="text-gray-300 hover:text-white transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#00ddeb]"
             aria-label="Close product modal">
             <i class="fa-solid fa-times text-lg"></i>
           </button>
@@ -297,35 +416,37 @@
         <form id="product-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="flex flex-col gap-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1" for="product-id">ID</label>
+              <label class="block text-sm font-medium text-gray-300 font-sans mb-1" for="product-id">ID</label>
               <input id="product-id" type="text" name="id"
-                class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="border border-[#00ddeb] rounded-md p-2 w-full bg-[#1f1f3a] text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00ddeb] focus:ring-opacity-50 transition-all duration-300 hover:bg-[#252550]"
                 required aria-required="true" placeholder="Enter unique product ID">
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1" for="product-name">Name</label>
+              <label class="block text-sm font-medium text-gray-300 font-sans mb-1" for="product-name">Name</label>
               <input id="product-name" type="text" name="Name"
-                class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="border border-[#00ddeb] rounded-md p-2 w-full bg-[#1f1f3a] text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00ddeb] focus:ring-opacity-50 transition-all duration-300 hover:bg-[#252550]"
                 required aria-required="true" placeholder="Enter product name">
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1" for="product-logo">Image URL</label>
+              <label class="block text-sm font-medium text-gray-300 font-sans mb-1" for="product-logo">Image URL</label>
               <input id="product-logo" type="url" name="Image"
-                class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="border border-[#00ddeb] rounded-md p-2 w-full bg-[#1f1f3a] text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00ddeb] focus:ring-opacity-50 transition-all duration-300 hover:bg-[#252550]"
                 placeholder="https://example.com/image.jpg">
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1" for="product-description">Description</label>
+              <label class="block text-sm font-medium text-gray-300 font-sans mb-1"
+                for="product-description">Description</label>
               <textarea id="product-description" name="Description"
-                class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="border border-[#00ddeb] rounded-md p-2 w-full bg-[#1f1f3a] text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00ddeb] focus:ring-opacity-50 transition-all duration-300 hover:bg-[#252550]"
                 rows="1" placeholder="Enter product description"></textarea>
             </div>
           </div>
           <div class="flex flex-col gap-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1" for="product-category">Category</label>
+              <label class="block text-sm font-medium text-gray-300 font-sans mb-1"
+                for="product-category">Category</label>
               <select id="product-category" name="Category"
-                class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="border border-[#00ddeb] rounded-md p-2 w-full bg-[#1f1f3a] text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00ddeb] focus:ring-opacity-50 transition-all duration-300 hover:bg-[#252550]"
                 required aria-required="true">
                 <option value="Espresso-Based Drinks">Espresso-Based Drinks</option>
                 <option value="Iced Coffee & Cold Brews">Iced Coffee & Cold Brews</option>
@@ -334,29 +455,31 @@
               </select>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1" for="product-sizes">Sizes</label>
+              <label class="block text-sm font-medium text-gray-300 font-sans mb-1" for="product-sizes">Sizes</label>
               <input id="product-sizes" type="text" name="Sizes"
-                class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="border border-[#00ddeb] rounded-md p-2 w-full bg-[#1f1f3a] text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00ddeb] focus:ring-opacity-50 transition-all duration-300 hover:bg-[#252550]"
                 required aria-required="true" placeholder="e.g., S,M,L">
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1" for="product-price">Price</label>
+              <label class="block text-sm font-medium text-gray-300 font-sans mb-1" for="product-price">Price</label>
               <input id="product-price" type="number" name="Price" step="0.01" min="0"
-                class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="border border-[#00ddeb] rounded-md p-2 w-full bg-[#1f1f3a] text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00ddeb] focus:ring-opacity-50 transition-all duration-300 hover:bg-[#252550]"
                 required aria-required="true" placeholder="Enter price">
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1" for="product-brand">Brand</label>
+              <label class="block text-sm font-medium text-gray-300 font-sans mb-1" for="product-brand">Brand</label>
               <input id="product-brand" type="text" name="Brand"
-                class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="border border-[#00ddeb] rounded-md p-2 w-full bg-[#1f1f3a] text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00ddeb] focus:ring-opacity-50 transition-all duration-300 hover:bg-[#252550]"
                 required aria-required="true" placeholder="Enter brand name">
             </div>
           </div>
           <div class="col-span-1 md:col-span-2 flex justify-end gap-3 mt-4">
             <button id="cancel-product" type="button"
-              class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-colors">Cancel</button>
+              class="px-4 py-2 bg-[#1f1f3a] text-gray-300 rounded-md hover:bg-[#252550] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)] focus:outline-none focus:ring-2 focus:ring-[#00ddeb]">Cancel</button>
             <button type="submit"
-              class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"><i class="fa-solid fa-save"></i> Save</button>
+              class="px-4 py-2 bg-[#00ddeb] text-[#1a1a2e] rounded-md hover:bg-[#00b8c4] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)] focus:outline-none focus:ring-2 focus:ring-[#00ddeb] flex items-center justify-center gap-2">
+              <i class="fa-solid fa-save"></i> Save
+            </button>
           </div>
         </form>
       </div>
@@ -364,19 +487,18 @@
 
     <div id="view-product-modal"
       class="hidden fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
-
     </div>
 
-    <main class="flex-1 p-6 bg-gray-100">
-      <div class="bg-white rounded-xl shadow-md p-8 max-w-7xl mx-auto">
-        <div class="flex justify-between items-center mb-6">
-          <div class="flex items-center gap-4 p-4 bg-white shadow-sm rounded-lg">
-            <h1 class="text-2xl font-semibold text-gray-900 tracking-tight">
-              Products
-            </h1>
+    <main
+      class="flex-1 min-h-[calc(100vh-4rem)] pl-8 pt-5 pr-8 pb-8 bg-gradient-to-br from-[#1a1a2e] to-[#16213e] text-gray-200">
+      <div class="bg-[#2a2a4a] rounded-2xl shadow-2xl p-8 max-w-7xl mx-auto relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 pointer-events-none"></div>
+        <div class="flex justify-between items-center">
+          <div class="flex items-center gap-4 pb-8 bg-[#2a2a4a] shadow-sm rounded-lg">
+            <h1 class="font-sans text-2xl font-semibold text-[#00ddeb] tracking-tight uppercase">Products</h1>
             <div class="relative">
               <select id="category-select"
-                class="appearance-none border border-gray-300 rounded-lg px-3 py-2 pl-3 pr-10 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition duration-200 hover:border-blue-400 cursor-pointer"
+                class="appearance-none border border-[#00ddeb] rounded-md px-3 py-2 pl-3 pr-10 bg-[#1f1f3a] text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00ddeb] focus:ring-opacity-50 transition-all duration-300 hover:bg-[#252550] cursor-pointer"
                 aria-label="Select product category">
                 <option value="espresso">Espresso-Based Drinks</option>
                 <option value="iced">Iced Coffee & Cold Brews</option>
@@ -384,7 +506,7 @@
                 <option value="pastries">Pastries & Snacks</option>
               </select>
               <span class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                   xmlns="http://www.w3.org/2000/svg">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>
@@ -392,19 +514,20 @@
             </div>
           </div>
           <button id="add-product-btn"
-            class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 flex items-center gap-2"
+            class="bg-[#00ddeb] text-[#1a1a2e] mb-8 px-4 py-2 rounded-md hover:bg-[#00b8c4] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)] flex items-center gap-2"
             aria-label="Add new product">
             <i class="fa-solid fa-cart-plus"></i> Add
           </button>
         </div>
         <div id="product-loading" class="text-center my-4 hidden">
-          <div class="loading-spinner"></div>
-          <p class="text-gray-600 mt-2">Loading products...</p>
+          <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-[#00ddeb] border-r-transparent">
+          </div>
+          <p class="text-gray-400 mt-2 font-sans text-sm">Loading products...</p>
         </div>
-        <div id="product-error" class="text-center my-4 hidden text-red-600">
+        <div id="product-error" class="text-center my-4 hidden text-red-400 font-sans">
           <p>Failed to load products. Check console for details or try again.</p>
           <button onclick="fetchProducts()"
-            class="mt-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Retry</button>
+            class="mt-2 bg-[#00ddeb] text-[#1a1a2e] px-4 py-2 rounded-md hover:bg-[#00b8c4] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)]">Retry</button>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="product-list"></div>
       </div>

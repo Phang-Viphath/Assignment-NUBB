@@ -1,105 +1,6 @@
 const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzV7fgCx6mi8rO5V4g_gie4gJtuDAWQ-d0R-vUlBssZMFwtPrEVrOsvGjY60eVSH-3o/exec';
 let allBrands = [];
 
-function showNotification(title, message) {
-  let notificationBox = document.getElementById('custom-notification-box');
-  if (!notificationBox) {
-    notificationBox = document.createElement('div');
-    notificationBox.id = 'custom-notification-box';
-    notificationBox.className = 'fixed bottom-4 right-4 z-[60] w-80 space-y-2';
-    document.body.appendChild(notificationBox);
-  }
-
-  const icons = {
-    Success: 'fas fa-check-circle text-green-500',
-    Error: 'fas fa-times-circle text-red-500',
-    Info: 'fas fa-info-circle text-blue-500',
-    Warning: 'fas fa-exclamation-circle text-yellow-500'
-  };
-
-  const notification = document.createElement('div');
-  notification.className = `
-    bg-white rounded-xl shadow-xl p-4 border-l-4
-    ${title === 'Error' ? 'border-red-500' : title === 'Success' ? 'border-green-500' : title === 'Warning' ? 'border-yellow-500' : 'border-blue-500'}
-    transform transition-all duration-300 animate-fade-in-up
-  `;
-  notification.innerHTML = `
-    <div class="flex gap-3 items-start">
-      <i class="${icons[title] || 'fas fa-bell text-gray-500'} text-2xl mt-1"></i>
-      <div class="flex-1">
-        <h3 class="text-md font-semibold text-gray-900">${title}</h3>
-        <p class="text-sm text-gray-700">${message}</p>
-      </div>
-      <button class="text-gray-400 hover:text-gray-600 text-sm mt-1" onclick="this.closest('div[role=alert]').remove()">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-  `;
-  notification.setAttribute('role', 'alert');
-
-  notificationBox.appendChild(notification);
-  setTimeout(() => {
-    notification.classList.add('animate-fade-out-down');
-    setTimeout(() => notification.remove(), 300);
-  }, 3000);
-}
-function showConfirmBox(message, onConfirm) {
-  let confirmBox = document.getElementById('custom-confirm-box');
-  if (!confirmBox) {
-    confirmBox = document.createElement('div');
-    confirmBox.id = 'custom-confirm-box';
-    confirmBox.className = 'fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-[60] p-4';
-    confirmBox.setAttribute('aria-modal', 'true');
-    confirmBox.setAttribute('role', 'dialog');
-    confirmBox.innerHTML = `
-      <div class="bg-white rounded-lg p-6 shadow-xl w-full max-w-sm">
-        <h3 class="text-xl font-bold mb-4 text-gray-900">Confirm Action</h3>
-        <p id="confirm-box-message" class="text-gray-700 mb-6"></p>
-        <div class="flex justify-end gap-3">
-          <button id="confirm-box-cancel-btn" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">Cancel</button>
-          <button id="confirm-box-ok-btn" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">Confirm</button>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(confirmBox);
-  }
-
-  document.getElementById('confirm-box-message').textContent = message;
-  confirmBox.classList.remove('hidden');
-
-  const cancelBtn = document.getElementById('confirm-box-cancel-btn');
-  const confirmBtn = document.getElementById('confirm-box-ok-btn');
-  const newCancelBtn = cancelBtn.cloneNode(true);
-  const newConfirmBtn = confirmBtn.cloneNode(true);
-  cancelBtn.replaceWith(newCancelBtn);
-  confirmBtn.replaceWith(newConfirmBtn);
-
-  newCancelBtn.addEventListener('click', () => {
-    confirmBox.classList.add('hidden');
-  });
-
-  newConfirmBtn.addEventListener('click', () => {
-    confirmBox.classList.add('hidden');
-    if (typeof onConfirm === 'function') {
-      onConfirm();
-    }
-  });
-
-  confirmBox.addEventListener('click', (e) => {
-    if (e.target === confirmBox) {
-      confirmBox.classList.add('hidden');
-    }
-  });
-
-  const handleEscape = (e) => {
-    if (e.key === 'Escape') {
-      confirmBox.classList.add('hidden');
-      document.removeEventListener('keydown', handleEscape);
-    }
-  };
-  document.addEventListener('keydown', handleEscape);
-}
-
 function toggleLoading(show) {
   document.getElementById('loading-overlay').classList.toggle('hidden', !show);
 }
@@ -159,20 +60,26 @@ function renderTable(brands) {
   tableBody.innerHTML = '';
   brands.forEach(brand => {
     const rowElement = document.createElement('tr');
-    rowElement.classList.add('table-row', 'border-t');
-    const imageUrl = brand.image && isValidUrl(brand.image) ? brand.image : 'Not null';
+    rowElement.classList.add('border-t', 'border-[#00ddeb]', 'hover:bg-[#252550]', 'transition-all', 'duration-300');
+    const imageUrl = brand.image && isValidUrl(brand.image) ? brand.image : 'https://via.placeholder.com/40';
     rowElement.innerHTML = `
-      <td class="px-4 py-3 text-gray-800">${sanitizeInput(brand.id) || 'N/A'}</td>
-      <td class="px-4 py-3">
-        <img src="${imageUrl}" alt="Brand Logo" class="w-10 h-10 rounded-full" onerror="this.src='Not null'">
-      </td>
-      <td class="px-4 py-3 text-gray-800">${sanitizeInput(brand.brand) || 'N/A'}</td>
-      <td class="px-4 py-3 text-gray-600">${sanitizeInput(brand.description) || 'No description'}</td>
-      <td class="px-4 py-3 text-center">
-        <button onclick="openEditModal('${sanitizeInput(brand.id)}', '${sanitizeInput(brand.image)}', '${sanitizeInput(brand.brand)}', '${sanitizeInput(brand.description)}')" class="bg-blue-500 text-white px-2 py-1 rounded mr-2 hover:bg-blue-600"><i class="fa-solid fa-edit"></i></button>
-        <button onclick="deleteBrand('${sanitizeInput(brand.id)}')" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"><i class="fa-solid fa-trash"></i></button>
-      </td>
-    `;
+                    <td class="px-4 py-3 font-sans text-sm text-gray-200">${sanitizeInput(brand.id) || 'N/A'}</td>
+                    <td class="px-4 py-3">
+                        <img src="${imageUrl}" alt="Brand Logo" class="w-10 h-10 rounded-full object-cover" onerror="this.src='https://via.placeholder.com/40'">
+                    </td>
+                    <td class="px-4 py-3 font-sans text-sm text-gray-200">${sanitizeInput(brand.brand) || 'N/A'}</td>
+                    <td class="px-4 py-3 font-sans text-sm text-gray-300">${sanitizeInput(brand.description) || 'No description'}</td>
+                    <td class="px-4 py-3 text-center">
+                        <button onclick="openEditModal('${sanitizeInput(brand.id)}', '${sanitizeInput(brand.image)}', '${sanitizeInput(brand.brand)}', '${sanitizeInput(brand.description)}')" 
+                            class="bg-[#00ddeb] text-[#1a1a2e] px-2 py-1 rounded-md mr-2 hover:bg-[#00b8c4] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)]">
+                            <i class="fa-solid fa-edit"></i>
+                        </button>
+                        <button onclick="deleteBrand('${sanitizeInput(brand.id)}')" 
+                            class="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600 transition-all duration-300 shadow-[0_0_10px_rgba(255,0,0,0.5)]">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                `;
     tableBody.appendChild(rowElement);
   });
 }
@@ -371,17 +278,7 @@ function toggleDropdown() {
 
 function handleLogout() {
   localStorage.removeItem('name');
-  window.location.href = 'LoginPage.html';
 }
-
-document.getElementById('profile-item').addEventListener('click', () => {
-  document.getElementById('modal-user-name').textContent = localStorage.getItem('name') || 'Guest';
-  document.getElementById('profile-modal').classList.remove('hidden');
-});
-
-document.getElementById('close-modal').addEventListener('click', () => {
-  document.getElementById('profile-modal').classList.add('hidden');
-});
 
 document.querySelectorAll('#menu li[data-key]').forEach(item => {
   item.addEventListener('click', (e) => {

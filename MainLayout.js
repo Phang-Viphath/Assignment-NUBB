@@ -66,6 +66,128 @@ const EXAMPLE_SALES_DATA = {
 
 let categoryChart, trendChart, profitChart;
 
+function showError(message) {
+  const loadingElement = document.getElementById('product-loading');
+  const errorElement = document.getElementById('product-error');
+  const listElement = document.getElementById('product-list');
+  if (loadingElement) loadingElement.classList.add('hidden');
+  if (errorElement) {
+    errorElement.classList.remove('hidden');
+    errorElement.querySelector('p').textContent = `Failed to load products: ${message}`;
+  }
+  if (listElement) listElement.classList.add('hidden');
+}
+
+function showNotification(title, message) {
+  let notificationBox = document.getElementById('custom-notification-box');
+  if (!notificationBox) {
+    notificationBox = document.createElement('div');
+    notificationBox.id = 'custom-notification-box';
+    notificationBox.className = 'fixed bottom-4 right-4 z-50 w-80 space-y-2';
+    document.body.appendChild(notificationBox);
+  }
+
+  const icons = {
+    Success: 'fas fa-check-circle text-green-400',
+    Error: 'fas fa-times-circle text-red-400',
+    Info: 'fas fa-info-circle text-[#00ddeb]',
+    Warning: 'fas fa-exclamation-circle text-yellow-400'
+  };
+
+  const notification = document.createElement('div');
+  notification.className = `
+    bg-[#2a2a4a] rounded-xl shadow-2xl p-4 border-l-4
+    ${title === 'Error' ? 'border-red-400' : title === 'Success' ? 'border-green-400' : title === 'Warning' ? 'border-yellow-400' : 'border-[#00ddeb]'}
+    transform transition-all duration-300 animate-fade-in-up
+  `;
+  notification.innerHTML = `
+    <div class="flex gap-3 items-start">
+      <i class="${icons[title] || 'fas fa-bell text-gray-300'} text-2xl mt-1"></i>
+      <div class="flex-1">
+        <h3 class="text-md font-semibold text-[#00ddeb] font-sans uppercase">${title}</h3>
+        <p class="text-sm text-gray-300 font-sans">${message}</p>
+      </div>
+      <button class="text-gray-300 hover:text-white text-sm mt-1 transition-all duration-300" onclick="this.closest('div[role=alert]').remove()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  `;
+  notification.setAttribute('role', 'alert');
+
+  notificationBox.appendChild(notification);
+  setTimeout(() => {
+    notification.classList.add('animate-fade-out-down');
+    setTimeout(() => notification.remove(), 300);
+  }, 3000);
+}
+
+const style = document.createElement('style');
+style.innerHTML = `
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes fade-out-down {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+  }
+  .animate-fade-in-up {
+    animation: fade-in-up 0.3s ease-out forwards;
+  }
+  .animate-fade-out-down {
+    animation: fade-out-down 0.3s ease-out forwards;
+  }
+`;
+document.head.appendChild(style);
+
+function showConfirmBox(message, onConfirm) {
+  let confirmBox = document.getElementById('custom-confirm-box');
+  if (!confirmBox) {
+    confirmBox = document.createElement('div');
+    confirmBox.id = 'custom-confirm-box';
+    confirmBox.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 hidden';
+    confirmBox.innerHTML = `
+      <div class="bg-[#2a2a4a] rounded-2xl p-6 shadow-2xl w-full max-w-sm relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 pointer-events-none"></div>
+        <h3 class="text-xl font-bold mb-4 text-[#00ddeb] font-sans uppercase">Confirm Action</h3>
+        <p id="confirm-box-message" class="text-gray-300 mb-6 font-sans text-sm"></p>
+        <div class="flex justify-end gap-3">
+          <button id="confirm-box-cancel-btn" class="px-4 py-2 bg-[#1f1f3a] text-gray-300 rounded-md hover:bg-[#252550] focus:outline-none focus:ring-2 focus:ring-[#00ddeb] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)]">Cancel</button>
+          <button id="confirm-box-ok-btn" class="px-4 py-2 bg-[#00ddeb] text-[#1a1a2e] rounded-md hover:bg-[#00b8c4] focus:outline-none focus:ring-2 focus:ring-[#00ddeb] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)]">Confirm</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(confirmBox);
+  }
+  document.getElementById('confirm-box-message').textContent = message;
+  confirmBox.classList.remove('hidden');
+
+  const cancelBtn = document.getElementById('confirm-box-cancel-btn');
+  const okBtn = document.getElementById('confirm-box-ok-btn');
+  const newCancelBtn = cancelBtn.cloneNode(true);
+  const newOkBtn = okBtn.cloneNode(true);
+  cancelBtn.replaceWith(newCancelBtn);
+  okBtn.replaceWith(newOkBtn);
+
+  newCancelBtn.onclick = () => confirmBox.classList.add('hidden');
+  newOkBtn.onclick = () => {
+    confirmBox.classList.add('hidden');
+    onConfirm();
+  };
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const userNameElement = document.getElementById('user-name');
   const profileImageElement = document.getElementById('profile-image');
@@ -79,6 +201,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalUserEmail = document.getElementById('modal-user-email');
   const modalUserPhone = document.getElementById('modal-user-phone');
   const modalProfileImage = document.getElementById('modal-profile-image');
+  const editProfileButton = document.getElementById('edit-profile');
+  const editModal = document.getElementById('profile-modal-edit');
+  const saveProfileButton = document.getElementById('save-profile');
+  const cancelEditButton = document.getElementById('cancel-edit');
+  const editNameInput = document.getElementById('edit-name');
+  const editEmailInput = document.getElementById('edit-email');
+  const editPhoneInput = document.getElementById('edit-phone');
+  const editImageInput = document.getElementById('edit-image');
+  const closeEditModalButton = document.querySelector('#profile-modal-edit #close-modal');
+  const loadingOverlay = document.getElementById('loading-overlay1');
 
   try {
     const userData = getUserProfileData();
@@ -173,6 +305,125 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       console.error('Close modal button not found');
     }
+  }
+
+  function showError(message) {
+    const errorElement = document.createElement('div');
+    errorElement.className = 'text-red-500 text-center my-4';
+    errorElement.innerHTML = `<p>Failed to load profile data: ${message}</p>`;
+    if (editModal) {
+      editModal.querySelector('.flex').prepend(errorElement);
+      setTimeout(() => errorElement.remove(), 5000);
+    }
+  }
+
+  if (editProfileButton) {
+    editProfileButton.addEventListener('click', () => {
+      try {
+        const userData = getUserProfileData();
+        if (editNameInput) editNameInput.value = userData.name;
+        if (editEmailInput) editEmailInput.value = userData.email;
+        if (editPhoneInput) editPhoneInput.value = userData.phone;
+        if (editImageInput) editImageInput.value = userData.image;
+        if (editModal) editModal.classList.remove('hidden');
+        if (profileModal) profileModal.classList.add('hidden');
+      } catch (error) {
+        console.error('Error opening edit modal:', error);
+        showError(error.message);
+      }
+    });
+  }
+
+  if (saveProfileButton) {
+    saveProfileButton.addEventListener('click', () => {
+      showConfirmBox('Are you sure you want to save changes to your profile?', async () => {
+        try {
+          if (loadingOverlay) loadingOverlay.classList.remove('hidden');
+
+          const userData = getUserProfileData();
+          const userId = userData.id;
+
+          const searchResponse = await fetch(`https://script.google.com/macros/s/AKfycbyENKMzyaE5SjfezoAzVt2QLperscP9npjLkHJ_csM-UEylG8B3e3-eI2YKoabA9P3t/exec?action=search&id=${userId}`, {
+            method: 'GET'
+          });
+          const searchResult = await searchResponse.json();
+
+          if (searchResult.status !== 'success') {
+            throw new Error('Failed to retrieve user data: ' + searchResult.data);
+          }
+
+          const currentPassword = searchResult.data.password || '';
+
+          const updatedData = {
+            action: 'update',
+            id: userId,
+            image: editImageInput.value || userData.image,
+            email: editEmailInput.value || userData.email,
+            password: currentPassword,
+            name: editNameInput.value || userData.name,
+            phone: editPhoneInput.value || userData.phone
+          };
+
+          const updateResponse = await fetch('https://script.google.com/macros/s/AKfycbyENKMzyaE5SjfezoAzVt2QLperscP9npjLkHJ_csM-UEylG8B3e3-eI2YKoabA9P3t/exec', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams(updatedData).toString()
+          });
+
+          const updateResult = await updateResponse.json();
+          if (updateResult.status === 'success') {
+            localStorage.setItem('name', updatedData.name);
+            localStorage.setItem('email', updatedData.email);
+            localStorage.setItem('phone', updatedData.phone);
+            localStorage.setItem('image', updatedData.image);
+
+            if (modalUserName) modalUserName.textContent = updatedData.name;
+            if (modalUserEmail) modalUserEmail.textContent = updatedData.email;
+            if (modalUserPhone) modalUserPhone.textContent = updatedData.phone;
+            if (modalProfileImage) modalProfileImage.src = updatedData.image;
+
+            if (userNameElement) userNameElement.textContent = updatedData.name;
+            if (profileImageElement) profileImageElement.src = updatedData.image;
+
+            if (editModal) editModal.classList.add('hidden');
+            if (profileModal) profileModal.classList.remove('hidden');
+
+            showNotification('Success', 'Profile updated successfully!');
+          } else {
+            console.error('Failed to update profile:', updateResult.data);
+            showNotification('Error', 'Failed to update profile: ' + updateResult.data);
+          }
+        } catch (error) {
+          console.error('Error saving profile:', error);
+          showError(error.message);
+        } finally {
+          if (loadingOverlay) loadingOverlay.classList.add('hidden');
+        }
+      });
+    });
+  }
+
+  if (cancelEditButton) {
+    cancelEditButton.addEventListener('click', () => {
+      if (editModal) editModal.classList.add('hidden');
+      if (profileModal) profileModal.classList.remove('hidden');
+    });
+  }
+
+  if (closeEditModalButton) {
+    closeEditModalButton.addEventListener('click', () => {
+      if (editModal) editModal.classList.add('hidden');
+    });
+  }
+
+  if (editModal) {
+    editModal.addEventListener('click', (e) => {
+      if (e.target === editModal) {
+        editModal.classList.add('hidden');
+      }
+    });
   }
 });
 
@@ -429,12 +680,19 @@ function toggleSubmenu(element) {
   const submenu = element.nextElementSibling;
   if (submenu) submenu.classList.toggle('hidden');
 }
-
 function toggleDropdown() {
   const dropdown = document.getElementById('dropdown');
-  if (dropdown) dropdown.classList.toggle('hidden');
+  dropdown.classList.toggle('hidden');
 }
-
+const dropdownItems = document.querySelectorAll('#dropdown li');
+if (dropdownItems) {
+  dropdownItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const dropdown = document.getElementById('dropdown');
+      if (dropdown) dropdown.classList.add('hidden');
+    });
+  });
+}
 function handleLogout() {
   try {
     localStorage.removeItem('id');

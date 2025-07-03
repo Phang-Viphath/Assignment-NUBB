@@ -42,84 +42,6 @@ function showError(message) {
   if (listElement) listElement.classList.add('hidden');
 }
 
-function showNotification(title, message) {
-  let notificationBox = document.getElementById('custom-notification-box');
-  if (!notificationBox) {
-    notificationBox = document.createElement('div');
-    notificationBox.id = 'custom-notification-box';
-    notificationBox.className = 'fixed bottom-4 right-4 z-50 w-80 space-y-2';
-    document.body.appendChild(notificationBox);
-  }
-
-  const icons = {
-    Success: 'fas fa-check-circle text-green-500',
-    Error: 'fas fa-times-circle text-red-500',
-    Info: 'fas fa-info-circle text-blue-500',
-    Warning: 'fas fa-exclamation-circle text-yellow-500'
-  };
-
-  const notification = document.createElement('div');
-  notification.className = `
-    bg-white rounded-xl shadow-xl p-4 border-l-4
-    ${title === 'Error' ? 'border-red-500' : title === 'Success' ? 'border-green-500' : title === 'Warning' ? 'border-yellow-500' : 'border-blue-500'}
-    transform transition-all duration-300 animate-fade-in-up
-  `;
-  notification.innerHTML = `
-    <div class="flex gap-3 items-start">
-      <i class="${icons[title] || 'fas fa-bell text-gray-500'} text-2xl mt-1"></i>
-      <div class="flex-1">
-        <h3 class="text-md font-semibold text-gray-900">${title}</h3>
-        <p class="text-sm text-gray-700">${message}</p>
-      </div>
-      <button class="text-gray-400 hover:text-gray-600 text-sm mt-1" onclick="this.closest('div[role=alert]').remove()">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-  `;
-  notification.setAttribute('role', 'alert');
-
-  notificationBox.appendChild(notification);
-  setTimeout(() => {
-    notification.classList.add('animate-fade-out-down');
-    setTimeout(() => notification.remove(), 300);
-  }, 3000);
-}
-
-function showConfirmBox(message, onConfirm) {
-  let confirmBox = document.getElementById('custom-confirm-box');
-  if (!confirmBox) {
-    confirmBox = document.createElement('div');
-    confirmBox.id = 'custom-confirm-box';
-    confirmBox.className = 'fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 p-4 hidden';
-    confirmBox.innerHTML = `
-      <div class="bg-white rounded-lg p-6 shadow-xl w-full max-w-sm">
-        <h3 class="text-xl font-bold mb-4 text-gray-900">Confirm Action</h3>
-        <p id="confirm-box-message" class="text-gray-700 mb-6"></p>
-        <div class="flex justify-end gap-3">
-          <button id="confirm-box-cancel-btn" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 focus:outline-none focus:ring-blue-500 focus:ring-2 transition-colors">Cancel</button>
-          <button id="confirm-box-ok-btn" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-blue-500 focus:ring-2 transition-colors">Confirm</button>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(confirmBox);
-  }
-  document.getElementById('confirm-box-message').textContent = message;
-  confirmBox.classList.remove('hidden');
-
-  const cancelBtn = document.getElementById('confirm-box-cancel-btn');
-  const okBtn = document.getElementById('confirm-box-ok-btn');
-  const newCancelBtn = cancelBtn.cloneNode(true);
-  const newOkBtn = okBtn.cloneNode(true);
-  cancelBtn.replaceWith(newCancelBtn);
-  okBtn.replaceWith(newOkBtn);
-
-  newCancelBtn.onclick = () => confirmBox.classList.add('hidden');
-  newOkBtn.onclick = () => {
-    confirmBox.classList.add('hidden');
-    onConfirm();
-  };
-}
-
 function validateProducts(productData, category) {
   if (!productData || productData.length === 0) {
     console.warn(`No products found in response for category: ${category}`);
@@ -236,32 +158,32 @@ function updateCartDisplay() {
   }
 
   if (cart.length === 0) {
-    cartItemsElement.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center py-8">Your cart is empty</p>';
+    cartItemsElement.innerHTML = '<p class="text-gray-400 text-center py-8 font-sans text-sm">Your cart is empty</p>';
     cartSubtotalElement.textContent = '$0.00';
     cartTotalElement.textContent = '$0.00';
   } else {
     cartItemsElement.innerHTML = cart.map((item, index) => {
-      const imageUrl = item['Image'] && isValidUrl(item['Image']) ? sanitizeInput(item['Image']) : 'https://placehold.co/48x48?text=No+Image';
+      const imageUrl = item['Image'] && isValidUrl(item['Image']) ? sanitizeInput(item['Image']) : 'https://via.placeholder.com/48x48?text=No+Image';
       console.log(`Rendering cart item '${item.Name}' with Image URL: ${imageUrl}`);
       return `
-        <div class="flex justify-between items-center py-2 border-b border-gray-200 dark:border-gray-700">
-          <div class="flex items-center gap-3">
-            <img src="${imageUrl}" alt="${sanitizeInput(item.Name)}" class="w-12 h-12 object-cover rounded-md" onerror="handleImageError(this, '${sanitizeInput(item.Name)}', '${imageUrl}')">
-            <div>
-              <p class="text-gray-800 dark:text-white font-medium">${sanitizeInput(item.Name)}</p>
-              <p class="text-gray-500 dark:text-gray-400 text-sm">$${parseFloat(item.Price).toFixed(2)}</p>
-            </div>
-          </div>
-          <div class="flex items-center gap-2">
-            <button class="decrease-qty-btn text-gray-500 hover:text-gray-700" data-index="${index}" aria-label="Decrease quantity">-</button>
-            <span class="text-gray-800 dark:text-white">${item.quantity}</span>
-            <button class="increase-qty-btn text-gray-500 hover:text-gray-700" data-index="${index}" aria-label="Increase quantity">+</button>
-            <button class="remove-item-btn text-red-500 hover:text-red-700" data-index="${index}" aria-label="Remove item">
-              <i class="fas fa-trash-alt"></i>
-            </button>
-          </div>
-        </div>
-      `;
+                        <div class="flex justify-between items-center py-2 border-b border-[#00ddeb]">
+                            <div class="flex items-center gap-3">
+                                <img src="${imageUrl}" alt="${sanitizeInput(item.Name)}" class="w-12 h-12 object-cover rounded-md border border-[#00ddeb]" onerror="handleImageError(this, '${sanitizeInput(item.Name)}', '${imageUrl}')">
+                                <div>
+                                    <p class="text-gray-200 font-medium font-sans">${sanitizeInput(item.Name)}</p>
+                                    <p class="text-gray-300 text-sm font-sans">$${parseFloat(item.Price).toFixed(2)}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button class="decrease-qty-btn text-gray-300 hover:text-[#00ddeb] transition-all duration-300" data-index="${index}" aria-label="Decrease quantity">-</button>
+                                <span class="text-gray-200 font-sans">${item.quantity}</span>
+                                <button class="increase-qty-btn text-gray-300 hover:text-[#00ddeb] transition-all duration-300" data-index="${index}" aria-label="Increase quantity">+</button>
+                                <button class="remove-item-btn text-red-400 hover:text-red-500 transition-all duration-300" data-index="${index}" aria-label="Remove item">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
     }).join('');
 
     const subtotal = cart.reduce((sum, item) => sum + item.quantity * parseFloat(item.Price), 0);
@@ -415,28 +337,28 @@ function CheckInDetail() {
   }
 
   detailContent.innerHTML = cart.map(item => {
-    const imageUrl = item['Image'] && isValidUrl(item['Image']) ? sanitizeInput(item['Image']) : 'https://placehold.co/48x48?text=No+Image';
+    const imageUrl = item['Image'] && isValidUrl(item['Image']) ? sanitizeInput(item['Image']) : 'https://via.placeholder.com/48x48?text=No+Image';
     return `
-      <div class="border-b border-gray-200 dark:border-gray-700 py-2">
-        <div class="flex items-center gap-3">
-          <img src="${imageUrl}" alt="${sanitizeInput(item.Name)}" class="w-16 h-16 object-cover rounded-md" onerror="handleImageError(this, '${sanitizeInput(item.Name)}', '${imageUrl}')">
-          <div class="flex-1">
-            <p class="text-gray-800 dark:text-white font-medium">${sanitizeInput(item.Name)}</p>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Quantity: ${item.quantity}</p>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Total: $${(item.quantity * parseFloat(item.Price)).toFixed(2)}</p>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Description: ${sanitizeInput(item.Description)}</p>
-          </div>
-        </div>
-      </div>
-    `;
+                    <div class="border-b border-[#00ddeb] py-2">
+                        <div class="flex items-center gap-3">
+                            <img src="${imageUrl}" alt="${sanitizeInput(item.Name)}" class="w-16 h-16 object-cover rounded-md border border-[#00ddeb]" onerror="handleImageError(this, '${sanitizeInput(item.Name)}', '${imageUrl}')">
+                            <div class="flex-1">
+                                <p class="text-gray-200 font-medium font-sans">${sanitizeInput(item.Name)}</p>
+                                <p class="text-sm text-gray-300 font-sans">Quantity: ${item.quantity}</p>
+                                <p class="text-sm text-gray-300 font-sans">Total: $${(item.quantity * parseFloat(item.Price)).toFixed(2)}</p>
+                                <p class="text-sm text-gray-300 font-sans">Description: ${sanitizeInput(item.Description)}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
   }).join('');
 
   const subtotal = cart.reduce((sum, item) => sum + item.quantity * parseFloat(item.Price), 0);
   detailContent.innerHTML += `
-    <div class="text-right mt-4">
-      <p class="text-lg font-semibold text-gray-800 dark:text-white">Total: $${subtotal.toFixed(2)}</p>
-    </div>
-  `;
+                <div class="text-right mt-4">
+                    <p class="text-lg font-semibold text-gray-200 font-sans">Total: $${subtotal.toFixed(2)}</p>
+                </div>
+            `;
 
   detailModal.classList.remove('hidden');
 
@@ -560,45 +482,46 @@ function renderProducts(productList) {
 
   productListElement.innerHTML = '';
   if (productList.length === 0) {
-    productListElement.innerHTML = '<p class="text-center text-gray-600 col-span-4">No products found. Add a product to get started.</p>';
+    productListElement.innerHTML = '<p class="text-center text-gray-400 col-span-4 font-sans text-sm">No products found. Add a product to get started.</p>';
     return;
   }
 
   let hasMissingImages = false;
   productListElement.innerHTML = productList.map(item => {
-    const imageUrl = item['Image'] && isValidUrl(item['Image']) ? sanitizeInput(item['Image']) : 'https://placehold.co/240x192?text=No+Image';
+    const imageUrl = item['Image'] && isValidUrl(item['Image']) ? sanitizeInput(item['Image']) : 'https://via.placeholder.com/240x192?text=No+Image';
     if (!item['Image'] || !isValidUrl(item['Image'])) {
       hasMissingImages = true;
     }
 
     return `
-      <div class="bg-white rounded-xl shadow-lg p-4 hover:shadow-xl transition-all duration-300 flex flex-col gap-4 border border-gray-100 hover:border-gray-200">
-        <div class="relative w-full h-56 rounded-lg overflow-hidden">
-          <img src="${imageUrl}" alt="${sanitizeInput(item.Name)}" class="w-full h-full object-cover" loading="lazy" onerror="handleImageError(this, '${sanitizeInput(item.Name)}', '${imageUrl}')">
-        </div>
-        <div class="flex flex-col flex-grow">
-          <h3 class="text-xl font-bold text-gray-900 truncate">${sanitizeInput(item.Name)}</h3>
-          <div class="mt-2 space-y-1">
-            <p class="text-sm text-gray-500"><span class="font-semibold text-gray-700">Sizes:</span> ${sanitizeInput(item.Sizes) || 'N/A'}</p>
-            <p class="text-sm text-gray-500"><span class="font-semibold text-gray-700">Price:</span> $${parseFloat(item.Price).toFixed(2)}</p>
-          </div>
-        </div>
-        <div class="flex justify-around mt-auto">
-          <button class="edit-btn flex items-center gap-1 px-4 py-2 rounded-lg bg-blue-100 text-blue-700 hover:bg-blue-200 hover:text-blue-800 transition-colors duration-200" data-id="${item.Id}" aria-label="Edit product ${item.Name}">
-            <i class="fa-solid fa-edit text-base"></i>
-          </button>
-          <button class="view-btn flex items-center gap-1 px-4 py-2 bg-yellow-100 text-yellow-700 rounded-lg hover:bg-yellow-200 hover:text-yellow-800 transition-colors duration-200" data-id="${item.Id}" aria-label="View product ${item.Name}">
-            <i class="fa-solid fa-eye text-base"></i>
-          </button>
-          <button class="add-to-cart-btn flex items-center gap-1 px-4 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 hover:text-green-800 transition-colors duration-200" data-id="${item.Id}" aria-label="Add ${item.Name} to cart">
-            <i class="fas fa-shopping-cart text-base"></i>
-          </button>
-          <button class="delete-btn flex items-center gap-1 px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 hover:text-red-800 transition-colors duration-200" data-id="${item.Id}" aria-label="Delete product ${item.Name}">
-            <i class="fa-solid fa-trash-alt text-base"></i>
-          </button>
-        </div>
-      </div>
-    `;
+                    <div class="bg-[#2a2a4a] rounded-xl shadow-lg p-4 hover:shadow-xl transition-all duration-300 flex flex-col gap-4 border border-[#00ddeb] hover:border-[#00b8c4] relative overflow-hidden">
+                        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/circuit-board.png')] opacity-10 pointer-events-none"></div>
+                        <div class="relative w-full h-56 rounded-lg overflow-hidden">
+                            <img src="${imageUrl}" alt="${sanitizeInput(item.Name)}" class="w-full h-full object-cover" loading="lazy" onerror="handleImageError(this, '${sanitizeInput(item.Name)}', '${imageUrl}')">
+                        </div>
+                        <div class="flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold text-gray-200 truncate font-sans">${sanitizeInput(item.Name)}</h3>
+                            <div class="mt-2 space-y-1">
+                                <p class="text-sm text-gray-300 font-sans"><span class="font-semibold text-gray-200">Sizes:</span> ${sanitizeInput(item.Sizes) || 'N/A'}</p>
+                                <p class="text-sm text-gray-300 font-sans"><span class="font-semibold text-gray-200">Price:</span> $${parseFloat(item.Price).toFixed(2)}</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-around mt-auto">
+                            <button class="edit-btn flex items-center gap-1 px-4 py-2 rounded-md bg-[#1f1f3a] text-[#00ddeb] hover:bg-[#252550] hover:text-[#00b8c4] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)]" data-id="${item.Id}" aria-label="Edit product ${item.Name}">
+                                <i class="fa-solid fa-edit text-base"></i>
+                            </button>
+                            <button class="view-btn flex items-center gap-1 px-4 py-2 bg-[#1f1f3a] text-[#00ddeb] rounded-md hover:bg-[#252550] hover:text-[#00b8c4] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)]" data-id="${item.Id}" aria-label="View product ${item.Name}">
+                                <i class="fa-solid fa-eye text-base"></i>
+                            </button>
+                            <button class="add-to-cart-btn flex items-center gap-1 px-4 py-2 bg-[#1f1f3a] text-green-400 rounded-md hover:bg-[#252550] hover:text-green-500 transition-all duration-300 shadow-[0_0_10px_rgba(0,128,0,0.5)]" data-id="${item.Id}" aria-label="Add ${item.Name} to cart">
+                                <i class="fas fa-shopping-cart text-base"></i>
+                            </button>
+                            <button class="delete-btn flex items-center gap-1 px-4 py-2 bg-[#1f1f3a] text-red-400 rounded-md hover:bg-[#252550] hover:text-red-500 transition-all duration-300 shadow-[0_0_10px_rgba(255,0,0,0.5)]" data-id="${item.Id}" aria-label="Delete product ${item.Name}">
+                                <i class="fa-solid fa-trash-alt text-base"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
   }).join('');
 
   if (hasMissingImages) {
@@ -637,6 +560,12 @@ function searchProduct(id, category, callback) {
     });
 }
 
+function handleImageError(img, name, originalUrl) {
+  img.src = 'https://via.placeholder.com/48x48?text=No+Image';
+  img.alt = `No image for ${name}`;
+  console.warn(`Failed to load image for ${name} at ${originalUrl}`);
+}
+
 function renderViewModal(product) {
   const modal = document.getElementById('view-product-modal');
   if (!modal) {
@@ -644,35 +573,37 @@ function renderViewModal(product) {
     showNotification('Error', 'View product modal is missing in the DOM');
     return;
   }
-  const imageUrl = product['Image'] && isValidUrl(product['Image']) ? sanitizeInput(product['Image']) : 'https://placehold.co/240x192?text=No+Image';
+  const imageUrl = product['Image'] && isValidUrl(product['Image']) ? sanitizeInput(product['Image']) : 'https://via.placeholder.com/240x192?text=No+Image';
 
   modal.innerHTML = `
-    <div class="relative bg-white rounded-2xl p-6 shadow-2xl w-full max-w-md mx-auto" role="dialog" aria-modal="true">
-      <button id="close-view-product-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition duration-200" aria-label="Close product modal">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
-      <h3 class="text-2xl font-bold mb-5 text-gray-900 text-center">Product Details</h3>
-      <div class="flex justify-center mb-5">
-        <img 
-          id="view-product-image" 
-          src="${imageUrl}" 
-          alt="${sanitizeInput(product.Name) || 'Product Image'}" 
-          class="w-64 h-64 object-cover rounded-xl border border-gray-200 shadow-sm"
-        >
-      </div>
-      <div class="space-y-3 text-gray-700 text-sm">
-        <p><span class="font-semibold text-gray-800">Name:</span> <span id="view-product-name">${sanitizeInput(product.Name) || 'N/A'}</span></p>
-        <p><span class="font-semibold text-gray-800">ID:</span> <span id="view-product-id">${product.Id || 'N/A'}</span></p>
-        <p><span class="font-semibold text-gray-800">Category:</span> <span id="view-product-category">${sanitizeInput(product.Category) || 'N/A'}</span></p>
-        <p><span class="font-semibold text-gray-800">Sizes:</span> <span id="view-product-sizes">${sanitizeInput(product.Sizes) || 'N/A'}</span></p>
-        <p><span class="font-semibold text-gray-800">Price:</span> <span id="view-product-price" class="text-green-600 font-semibold">$${parseFloat(product.Price).toFixed(2)}</span></p>
-        <p><span class="font-semibold text-gray-800">Brand:</span> <span id="view-product-brand">${sanitizeInput(product.Brand) || 'N/A'}</span></p>
-        <p><span class="font-semibold text-gray-800">Description:</span> <span id="view-product-description">${sanitizeInput(product.Description) || 'N/A'}</span></p>
-      </div>
-    </div>
-  `;
+                <div class="relative bg-[#2a2a4a] rounded-2xl p-6 shadow-2xl w-full max-w-md mx-auto" role="dialog" aria-modal="true">
+                    <div class="absolute inset-0 opacity-10 pointer-events-none"></div>
+                    <button id="close-view-product-modal" class="absolute top-4 right-4 text-gray-300 hover:text-white transition-all duration-300" aria-label="Close product modal">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                    <h3 class="text-2xl font-bold mb-5 text-[#00ddeb] text-center font-sans uppercase">Product Details</h3>
+                    <div class="flex justify-center mb-5">
+                        <img 
+                            id="view-product-image" 
+                            src="${imageUrl}" 
+                            alt="${sanitizeInput(product.Name) || 'Product Image'}" 
+                            class="w-64 h-64 object-cover rounded-xl border border-[#00ddeb] shadow-sm"
+                            onerror="this.src='https://via.placeholder.com/240x192?text=No+Image'"
+                        >
+                    </div>
+                    <div class="space-y-3 text-gray-200 text-sm font-sans">
+                        <p><span class="font-semibold text-gray-300">Name:</span> <span id="view-product-name">${sanitizeInput(product.Name) || 'N/A'}</span></p>
+                        <p><span class="font-semibold text-gray-300">ID:</span> <span id="view-product-id">${product.Id || 'N/A'}</span></p>
+                        <p><span class="font-semibold text-gray-300">Category:</span> <span id="view-product-category">${sanitizeInput(product.Category) || 'N/A'}</span></p>
+                        <p><span class="font-semibold text-gray-300">Sizes:</span> <span id="view-product-sizes">${sanitizeInput(product.Sizes) || 'N/A'}</span></p>
+                        <p><span class="font-semibold text-gray-300">Price:</span> <span id="view-product-price" class="text-green-400 font-semibold">$${parseFloat(product.Price).toFixed(2)}</span></p>
+                        <p><span class="font-semibold text-gray-300">Brand:</span> <span id="view-product-brand">${sanitizeInput(product.Brand) || 'N/A'}</span></p>
+                        <p><span class="font-semibold text-gray-300">Description:</span> <span id="view-product-description">${sanitizeInput(product.Description) || 'N/A'}</span></p>
+                    </div>
+                </div>
+            `;
   modal.classList.remove('hidden');
   document.getElementById('close-view-product-modal').addEventListener('click', closeViewProductModal);
 }
@@ -686,7 +617,7 @@ function viewProduct(id) {
     toggleLoading(false);
   } else {
     const selectedCategory = document.getElementById('category-select')?.value || 'espresso';
-    searchProduct(id, selectedCategory, function(product) {
+    searchProduct(id, selectedCategory, function (product) {
       renderViewModal(product);
     });
   }
@@ -920,7 +851,7 @@ function editProduct(id) {
     toggleLoading(false);
   } else {
     const selectedCategory = document.getElementById('category-select')?.value || 'espresso';
-    searchProduct(id, selectedCategory, function(product) {
+    searchProduct(id, selectedCategory, function (product) {
       if (!product) {
         showNotification('Error', `Product with ID ${id} not found`);
         toggleLoading(false);
@@ -981,7 +912,6 @@ function toggleDropdown() {
 function handleLogout() {
   localStorage.removeItem('name');
   localStorage.removeItem('cart');
-  window.location.href = 'LoginPage.html';
 }
 
 function openCartModal() {
