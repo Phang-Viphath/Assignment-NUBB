@@ -8,8 +8,8 @@
   <link rel="icon" type="Phath" href="https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="./JS/MainLayout.js" defer></script>
-  <link rel="stylesheet" href="./MainStyle.css">
+  <script src="MainLayout.js" defer></script>
+  <link rel="stylesheet" href="MainStyle.css">
 </head>
 
 <body class="min-h-screen flex">
@@ -17,11 +17,11 @@
     try {
       const user = localStorage.getItem('name');
       if (!user) {
-        window.location.href = "Page/LoginPage.html";
+        window.location.href = "LoginPage.html";
       }
     } catch (error) {
       console.error('Error checking user:', error);
-      window.location.href = "Page/LoginPage.html";
+      window.location.href = "LoginPage.html";
     }
   </script>
 
@@ -155,7 +155,7 @@
             <i class="fa-solid fa-user"></i><span>Profile</span>
           </li>
           <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2">
-            <i class="fa-solid fa-lock"></i><span><a href="Page/ChangepassPage.html">Change password</a></span>
+            <i class="fa-solid fa-lock"></i><span><a href="ChangepassPage.html">Change password</a></span>
           </li>
           <li class="px-4 py-2 hover:bg-red-100 text-red-600 cursor-pointer flex items-center gap-2"
             onclick="handleLogout()">
