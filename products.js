@@ -398,10 +398,10 @@ function printCart() {
     console.log(`Cart item: ${item.Name}, Image URL: ${imageUrl}`);
     return `
       <tr>
-        <td>${sanitizeInput(item.Name)}</td>
-        <td>${item.quantity}</td>
-        <td>$${parseFloat(item.Price).toFixed(2)}</td>
-        <td>$${(item.quantity * parseFloat(item.Price)).toFixed(2)}</td>
+        <td class="px-4 py-3 text-gray-300 font-sans">${sanitizeInput(item.Name)}</td>
+        <td class="px-4 py-3 text-gray-300 font-sans">${item.quantity}</td>
+        <td class="px-4 py-3 text-gray-300 font-sans">$${parseFloat(item.Price).toFixed(2)}</td>
+        <td class="px-4 py-3 text-gray-300 font-sans">$${(item.quantity * parseFloat(item.Price)).toFixed(2)}</td>
       </tr>
     `;
   }).join('');
@@ -412,39 +412,35 @@ function printCart() {
     <html>
       <head>
         <title>Cart Receipt - Café Code</title>
-        <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script src="MainLayout.js" defer></script>
         <style>
-          body { font-family: Arial, sans-serif;}
-          .container { max-width: 900px; margin: 0 auto; }
-          .header { text-align: center; display: flex; flex-direction: column; align-items: center; }
-          .header h1 { font-size: 18px; font-weight: bold; color: #1a202c; }
-          .header p { font-size: 14px; color: #4a5568; margin-top: 5px; }
-          table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-          th, td { border: 1px solid #e5e7eb; padding: 12px; text-align: left; }
-          th { background-color: #f3f4f6; }
-          img { border-radius: 50%; max-width: 90px; max-height: 90px; }
-          .footer { text-align: center; margin-top: 10px; color: #6b7280; font-size: 14px; }
+          body { font-family: 'Inter', sans-serif; }
+          table { page-break-inside: avoid; }
           @media print {
             img { display: block; }
             body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            table { page-break-inside: avoid; }
           }
         </style>
       </head>
-      <body>
-        <div class="container">
-          <div class="header">
-            <img src="https://github.com/Phang-Viphath/Image/blob/main/Brand/brand%20name.png?raw=true" alt="Café Code Logo" onerror="this.src='https://placehold.co/100x100?text=Logo';this.alt='No Logo';">
-            <h1>Café Code</h1>
-            <p>Date: ${today}</p>
+      <body class="bg-[#2a2a4a] text-gray-200 bg-[#2a2a4a]">
+        <div class="container max-w-3xl mt-16 mx-auto p-6 bg-[#2a2a4a] relative overflow-hidden">
+          <div class="absolute inset-0 opacity-10 pointer-events-none"></div>
+          <div class="header text-center flex flex-col items-center">
+            <img src="https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true" alt="Café Code Logo" class="w-[90px] h-[90px] rounded-full border border-[#00ddeb] shadow-[0_0_10px_rgba(0,221,235,0.5)] mb-2" onerror="this.src='https://placehold.co/90x90?text=Logo';this.alt='No Logo';">
+            <h1 class="text-lg font-bold text-[#00ddeb] font-sans uppercase tracking-wider">Café Code</h1>
+            <p class="text-sm text-gray-300 font-sans mt-1">Date: ${today}</p>
           </div>
-          <table>
+          <table class="w-full border-collapse mt-5 border border-[#00ddeb]">
             <thead>
-              <tr>
-                <th>Description</th>
-                <th>Qty</th>
-                <th>Price</th>
-                <th>Amount</th>
+              <tr class="bg-[#1f1f3a]">
+                <th class="px-4 py-3 text-left text-gray-200 font-sans font-semibold border border-[#00ddeb]">Description</th>
+                <th class="px-4 py-3 text-left text-gray-200 font-sans font-semibold border border-[#00ddeb]">Qty</th>
+                <th class="px-4 py-3 text-left text-gray-200 font-sans font-semibold border border-[#00ddeb]">Price</th>
+                <th class="px-4 py-3 text-left text-gray-200 font-sans font-semibold border border-[#00ddeb]">Amount</th>
               </tr>
             </thead>
             <tbody>
@@ -452,14 +448,14 @@ function printCart() {
             </tbody>
             <tfoot>
               <tr>
-                <td colspan="3">Total:</td>
-                <td>$${subtotal.toFixed(2)}</td>
+                <td colspan="3" class="px-4 py-3 text-right text-gray-200 font-sans font-semibold border border-[#00ddeb]">Total:</td>
+                <td class="px-4 py-3 text-gray-200 font-sans font-semibold border border-[#00ddeb]">$${subtotal.toFixed(2)}</td>
               </tr>
             </tfoot>
           </table>
-          <div class="footer">Wifi Name: Café Code</div>
-          <div class="footer">Password: CafeCode9999</div>
-          <div class="footer">Thank you for your purchase at Café Code!</div>
+          <div class="footer text-center mt-3 text-gray-300 font-sans text-sm">Wifi Name: Café Code</div>
+          <div class="footer text-center text-gray-300 font-sans text-sm">Password: CafeCode9999</div>
+          <div class="footer text-center text-gray-300 font-sans text-sm">Thank you for your purchase at Café Code!</div>
         </div>
       </body>
     </html>
