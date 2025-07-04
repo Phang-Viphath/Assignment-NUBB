@@ -92,13 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    const urlRegex = /^https?:\/\/.*\.(?:png|jpg|jpeg|gif)(?:\?.*)?$/i;
-    if (!urlRegex.test(imageUrl)) {
-      console.log('Validation failed: Invalid image URL');
-      showError('Please enter a valid image URL (JPEG, PNG, or GIF).');
-      return;
-    }
-
     try {
       console.log('Starting registration process');
       loadingOverlay.classList.remove('hidden');
