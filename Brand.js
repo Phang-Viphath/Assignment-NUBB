@@ -60,7 +60,7 @@ function renderTable(brands) {
   tableBody.innerHTML = '';
   brands.forEach(brand => {
     const rowElement = document.createElement('tr');
-    rowElement.classList.add('border-t', 'border-[#00ddeb]', 'hover:bg-[#252550]', 'transition-all', 'duration-300');
+    rowElement.classList.add('border-b', 'border-[#00ddeb]', 'hover:bg-[#252550]', 'transition-all', 'duration-300');
     const imageUrl = brand.image && isValidUrl(brand.image) ? brand.image : 'https://via.placeholder.com/40';
     rowElement.innerHTML = `
                     <td class="px-4 py-3 font-sans text-sm text-gray-200">${sanitizeInput(brand.id) || 'N/A'}</td>
