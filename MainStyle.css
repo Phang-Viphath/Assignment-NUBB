@@ -134,3 +134,52 @@ main .team-card i {
 main .team-card:hover i {
     transform: scale(1.2);
 }
+
+@media screen and (max-width: 1366px) { /* 15.6" screens, e.g., 1366x768 */
+  main {
+    padding: 0.75rem; /* Reduced padding for smaller screens */
+  }
+  .max-w-7xl {
+    max-width: 90%; /* Slightly narrower container */
+  }
+  h2 {
+    font-size: 1.25rem; /* Smaller heading */
+  }
+  .grid-cols-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2 columns for medium screens */
+  }
+  .h-64 {
+    height: 14rem; /* Slightly smaller charts */
+  }
+  .text-2xl {
+    font-size: 1.5rem; /* Smaller text for stats */
+  }
+}
+
+@media screen and (max-width: 1280px) { /* 13.5" screens, e.g., 1280x720 */
+  main {
+    padding: 0.5rem;
+  }
+  .max-w-7xl {
+    max-width: 95%;
+  }
+  .grid-cols-3, .grid-cols-2 {
+    grid-template-columns: 1fr; /* Stack charts vertically */
+  }
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2 columns for stats */
+  }
+  .h-64, .h-48 {
+    height: 12rem; /* Smaller charts for smaller screens */
+  }
+  h3 {
+    font-size: 0.875rem; /* Smaller headings */
+  }
+  .text-2xl, .text-xl {
+    font-size: 1.125rem; /* Smaller stat text */
+  }
+  select, input {
+    font-size: 0.75rem; /* Smaller input text */
+    padding: 0.5rem;
+  }
+}

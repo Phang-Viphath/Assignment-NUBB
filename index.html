@@ -293,84 +293,83 @@
       </div>
     </div>
 
-    <main class="flex-1 min-h-[calc(100vh-4rem)] p-7 bg-gradient-to-br from-[#1a1a2e] to-[#16213e] text-gray-200">
-      <div class="bg-[#2a2a4a] rounded-2xl shadow-2xl p-6 max-w-7xl mx-auto relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10 pointer-events-none"></div>
-        <div id="content">
-          <h2 class="text-2xl font-bold mb-4 text-[#00ddeb] font-sans uppercase tracking-wider">Dashboard</h2>
+<main class="flex-1 min-h-[calc(100vh-4rem)] p-4 sm:p-6 md:p-7 bg-gradient-to-br from-[#1a1a2e] to-[#16213e] text-gray-200">
+  <div class="bg-[#2a2a4a] rounded-2xl shadow-2xl p-4 sm:p-5 md:p-6 max-w-[95%] lg:max-w-7xl mx-auto relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10 pointer-events-none"></div>
+    <div id="content">
+      <h2 class="text-xl sm:text-2xl font-bold mb-4 text-[#00ddeb] font-sans uppercase tracking-wider">Dashboard</h2>
 
-          <div class="flex items-center gap-4 pb-8 bg-[#2a2a4a] shadow-sm rounded-lg">
-            <div class="relative">
-              <select id="timeRange"
-                class="appearance-none border border-[#00ddeb] rounded-md px-3 py-2 pl-3 pr-10 bg-[#2a2b4f] text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00ddeb] focus:ring-opacity-50 transition-all duration-300 hover:bg-[#252550] cursor-pointer"
-                onchange="updateDashboard()">
-                <option value="daily">Daily</option>
-                <option value="monthly">Monthly</option>
-                <option value="yearly">Yearly</option>
-              </select>
-              <span class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-                <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-              </span>
-            </div>
-            <input type="date" id="datePicker"
-              class="border border-[#00ddeb] rounded-md p-2 w-full sm:w-auto bg-[#2a2b4f] text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00ddeb] focus:ring-opacity-50 transition-all duration-300 hover:bg-[#252550]"
-              onchange="updateDashboard()">
+      <div class="flex items-center gap-3 sm:gap-4 pb-6 sm:pb-8 bg-[#2a2a4a] shadow-sm rounded-lg">
+        <div class="relative">
+          <select id="timeRange"
+            class="appearance-none border border-[#00ddeb] rounded-md px-2 py-1 sm:px-3 sm:py-2 pl-3 pr-8 sm:pr-10 bg-[#2a2b4f] text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00ddeb] focus:ring-opacity-50 transition-all duration-300 hover:bg-[#252550] cursor-pointer text-sm sm:text-base"
+            onchange="updateDashboard()">
+            <option value="daily">Daily</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+          <span class="absolute inset-y-0 right-2 sm:right-3 flex items-center pointer-events-none">
+            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </span>
+        </div>
+        <input type="date" id="datePicker"
+          class="border border-[#00ddeb] rounded-md p-1 sm:p-2 w-full sm:w-auto bg-[#2a2b4f] text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00ddeb] focus:ring-opacity-50 transition-all duration-300 hover:bg-[#252550] text-sm sm:text-base">
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
+        <div
+          class="bg-[#1f1f3a] p-3 sm:p-4 rounded-xl border border-[#00ddeb] hover:shadow-[0_0_10px_rgba(0,221,235,0.5)] transition-all duration-300">
+          <h3 class="text-base sm:text-lg font-semibold mb-2 text-gray-200 font-sans">Sales by Category</h3>
+          <div class="w-full h-48 sm:h-64 min-w-0">
+            <canvas id="categoryChart" class="w-full h-full"></canvas>
           </div>
+        </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            <div
-              class="bg-[#1f1f3a] p-4 rounded-xl border border-[#00ddeb] hover:shadow-[0_0_10px_rgba(0,221,235,0.5)] transition-all duration-300">
-              <h3 class="text-lg font-semibold mb-2 text-gray-200 font-sans">Sales by Category</h3>
-              <div class="w-full h-64 min-w-0">
-                <canvas id="categoryChart" class="w-full h-full"></canvas>
-              </div>
-            </div>
-
-            <div
-              class="bg-[#1f1f3a] p-4 rounded-xl border border-[#00ddeb] hover:shadow-[0_0_10px_rgba(0,221,235,0.5)] transition-all duration-300">
-              <h3 class="text-lg font-semibold mb-2 text-gray-200 font-sans">Sales Trend</h3>
-              <div class="w-full h-64 min-w-0">
-                <canvas id="trendChart" class="w-full h-full"></canvas>
-              </div>
-            </div>
-
-            <div
-              class="bg-[#1f1f3a] p-4 rounded-xl border border-[#00ddeb] hover:shadow-[0_0_10px_rgba(0,221,235,0.5)] transition-all duration-300">
-              <h3 class="text-lg font-semibold mb-2 text-gray-200 font-sans">Profit by Category</h3>
-              <div class="w-full h-64 min-w-0">
-                <canvas id="profitChart" class="w-full h-full"></canvas>
-              </div>
-            </div>
+        <div
+          class="bg-[#1f1f3a] p-3 sm:p-4 rounded-xl border border-[#00ddeb] hover:shadow-[0_0_10px_rgba(0,221,235,0.5)] transition-all duration-300">
+          <h3 class="text-base sm:text-lg font-semibold mb-2 text-gray-200 font-sans">Sales Trend</h3>
+          <div class="w-full h-48 sm:h-64 min-w-0">
+            <canvas id="trendChart" class="w-full h-full"></canvas>
           </div>
+        </div>
 
-          <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            <div
-              class="bg-[#1f1f3a] p-4 rounded-xl text-center border border-[#00ddeb] hover:shadow-[0_0_10px_rgba(0,221,235,0.5)] transition-all duration-300">
-              <h3 class="text-lg font-semibold text-gray-200 font-sans">Total Sales</h3>
-              <p id="totalSales" class="text-2xl font-bold text-[#00ddeb]">$0.00</p>
-            </div>
-            <div
-              class="bg-[#1f1f3a] p-4 rounded-xl text-center border border-[#00ddeb] hover:shadow-[0_0_10px_rgba(0,221,235,0.5)] transition-all duration-300">
-              <h3 class="text-lg font-semibold text-gray-200 font-sans">Top Category</h3>
-              <p id="topCategory" class="text-2xl font-bold text-[#00ddeb]">None</p>
-            </div>
-            <div
-              class="bg-[#1f1f3a] p-4 rounded-xl text-center border border-[#00ddeb] hover:shadow-[0_0_10px_rgba(0,221,235,0.5)] transition-all duration-300">
-              <h3 class="text-lg font-semibold text-gray-200 font-sans">Growth</h3>
-              <p id="growthRate" class="text-2xl font-bold text-[#00ddeb]">0.0%</p>
-            </div>
-            <div
-              class="bg-[#1f1f3a] p-4 rounded-xl text-center border border-[#00ddeb] hover:shadow-[0_0_10px_rgba(0,221,235,0.5)] transition-all duration-300">
-              <h3 class="text-lg font-semibold text-gray-200 font-sans">Total Profit</h3>
-              <p id="totalProfit" class="text-2xl font-bold text-[#00ddeb]">$0.00</p>
-            </div>
+        <div
+          class="bg-[#1f1f3a] p-3 sm:p-4 rounded-xl border border-[#00ddeb] hover:shadow-[0_0_10px_rgba(0,221,235,0.5)] transition-all duration-300">
+          <h3 class="text-base sm:text-lg font-semibold mb-2 text-gray-200 font-sans">Profit by Category</h3>
+          <div class="w-full h-48 sm:h-64 min-w-0">
+            <canvas id="profitChart" class="w-full h-full"></canvas>
           </div>
         </div>
       </div>
-    </main>
+
+      <div class="mt-4 sm:mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+        <div
+          class="bg-[#1f1f3a] p-3 sm:p-4 rounded-xl text-center border border-[#00ddeb] hover:shadow-[0_0_10px_rgba(0,221,235,0.5)] transition-all duration-300">
+          <h3 class="text-base sm:text-lg font-semibold text-gray-200 font-sans">Total Sales</h3>
+          <p id="totalSales" class="text-xl sm:text-2xl font-bold text-[#00ddeb]">$0.00</p>
+        </div>
+        <div
+          class="bg-[#1f1f3a] p-3 sm:p-4 rounded-xl text-center border border-[#00ddeb] hover:shadow-[0_0_10px_rgba(0,221,235,0.5)] transition-all duration-300">
+          <h3 class="text-base sm:text-lg font-semibold text-gray-200 font-sans">Top Category</h3>
+          <p id="topCategory" class="text-xl sm:text-2xl font-bold text-[#00ddeb]">None</p>
+        </div>
+        <div
+          class="bg-[#1f1f3a] p-3 sm:p-4 rounded-xl text-center border border-[#00ddeb] hover:shadow-[0_0_10px_rgba(0,221,235,0.5)] transition-all duration-300">
+          <h3 class="text-base sm:text-lg font-semibold text-gray-200 font-sans">Growth</h3>
+          <p id="growthRate" class="text-xl sm:text-2xl font-bold text-[#00ddeb]">0.0%</p>
+        </div>
+        <div
+          class="bg-[#1f1f3a] p-3 sm:p-4 rounded-xl text-center border border-[#00ddeb] hover:shadow-[0_0_10px_rgba(0,221,235,0.5)] transition-all duration-300">
+          <h3 class="text-base sm:text-lg font-semibold text-gray-200 font-sans">Total Profit</h3>
+          <p id="totalProfit" class="text-xl sm:text-2xl font-bold text-[#00ddeb]">$0.00</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
   </div>
 </body>
 
