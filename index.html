@@ -10,21 +10,21 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="MainLayout.js" defer></script>
+  <script src="datachart.js" defer></script>
   <link rel="stylesheet" href="MainStyle.css">
 </head>
-
-<body class="min-h-screen flex">
-  <script>
-    try {
-      const user = localStorage.getItem('name');
-      if (!user) {
-        window.location.href = "LoginPage.html";
-      }
-    } catch (error) {
-      console.error('Error checking user:', error);
+<script>
+  try {
+    const user = localStorage.getItem('name');
+    if (!user) {
       window.location.href = "LoginPage.html";
     }
-  </script>
+  } catch (error) {
+    console.error('Error checking user:', error);
+    window.location.href = "LoginPage.html";
+  }
+</script>
+<body class="min-h-screen flex">
   <aside id="sidebar"
     class="bg-[#2a2a4a] text-white w-64 min-h-screen transition-all duration-300 flex flex-col relative">
     <div class="absolute inset-0 opacity-10 pointer-events-none"></div>
@@ -273,11 +273,9 @@
             <input id="edit-image" type="text"
               class="w-full p-2 border border-[#00ddeb] rounded-md bg-[#252550] text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00ddeb] transition-all duration-300 hover:bg-[#2a2a4a]">
           </div>
-          <div id="loading-overlay1" class="text-center my-4 hidden">
-            <div
-              class="border-4 border-[#00ddeb] border-t-4 border-t-green-400 rounded-full w-6 h-6 animate-spin mx-auto">
-            </div>
-            <p id="loading-text" class="text-gray-300 font-sans text-sm">Update Profile...</p>
+          <div id="loading-overlay-edit-profile" class="text-center my-4 hidden">
+            <div class="loading-spinner"></div>
+            <p class="text-gray-300 font-sans text-sm mt-2">Loading...</p>
           </div>
           <div class="flex justify-end mt-4 space-x-2">
             <button id="save-profile"
@@ -303,7 +301,7 @@
 
           <div class="flex items-center gap-4 pb-8 bg-[#2a2a4a] shadow-sm rounded-lg">
             <div class="relative">
-              <select id="timeRange"  
+              <select id="timeRange"
                 class="appearance-none border border-[#00ddeb] rounded-md px-3 py-2 pl-3 pr-10 bg-[#2a2b4f] text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00ddeb] focus:ring-opacity-50 transition-all duration-300 hover:bg-[#252550] cursor-pointer"
                 onchange="updateDashboard()">
                 <option value="daily">Daily</option>
@@ -320,7 +318,7 @@
             <input type="date" id="datePicker"
               class="border border-[#00ddeb] rounded-md p-2 w-full sm:w-auto bg-[#2a2b4f] text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00ddeb] focus:ring-opacity-50 transition-all duration-300 hover:bg-[#252550]"
               onchange="updateDashboard()">
-          </div>  
+          </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             <div

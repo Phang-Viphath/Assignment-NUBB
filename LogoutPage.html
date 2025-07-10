@@ -10,26 +10,24 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
-
+<script>
+    try {
+        localStorage.removeItem('id');
+        localStorage.removeItem('name');
+        localStorage.removeItem('email');
+        localStorage.removeItem('image');
+        localStorage.removeItem('phone');
+        document.getElementById('error').classList.add('hidden');
+    } catch (error) {
+        console.error('Error clearing local storage:', error);
+        const errorDiv = document.getElementById('error');
+        errorDiv.querySelector('span').textContent = 'Error clearing session. Please try again.';
+        errorDiv.classList.remove('hidden');
+    }
+</script>
 <body class="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#0b0f19] to-[#1e2133] overflow-auto">
-    <script>
-        try {
-            localStorage.removeItem('id');
-            localStorage.removeItem('name');
-            localStorage.removeItem('email');
-            localStorage.removeItem('image');
-            localStorage.removeItem('phone');
-            document.getElementById('error').classList.add('hidden');
-        } catch (error) {
-            console.error('Error clearing local storage:', error);
-            const errorDiv = document.getElementById('error');
-            errorDiv.querySelector('span').textContent = 'Error clearing session. Please try again.';
-            errorDiv.classList.remove('hidden');
-        }
-    </script>
-
     <div
-        class="bg-[#1e2133] rounded-lg p-7 max-w-[32rem] w-[90%] shadow-[0_6px_20px_rgba(0,0,0,0.5),0_0_10px_rgba(139,92,246,0.3)] border border-[rgba(139,92,246,0.2)] text-center transition-all duration-300 hover:shadow-[0_6px_20px_rgba(139,92,246,0.6)] hover:scale-[1.02] sm:p-5">
+        class="bg-[#1e2133] rounded-lg p-7 max-w-[32rem] w-[90%] shadow-[0_6px_20px_rgba(0,0,0,0.5),0_0_10px_rgba(139,92,246,0.3)] border border-[rgba(139,92,246,0.2)] text-center transition-all duration-300 hover:shadow-[0_6px_20px_rgba(139,92,246,0.6)] hover:scale-[1.01] sm:p-5">
         <img src="https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true" alt="Café Code Logo"
             class="w-36 h-36 rounded-full mx-auto mb-4 border-2 border-purple-500 shadow-[0_0_12px_rgba(139,92,246,0.6)] hover:scale-125 hover:shadow-[0_0_16px_rgba(139,92,246,0.8)] transition-[transform,box-shadow] duration-300 sm:w-20 sm:h-20"
             onerror="this.src='https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true'">
@@ -45,20 +43,20 @@
         </div>
         <div class="flex flex-col gap-3">
             <a href="LoginPage.html"
-                class="flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-cyan-500 text-white text-base font-semibold font-['Space_Mono'] py-3.5 px-8 rounded-md border border-[rgba(139,92,246,0.5)] shadow-[0_0_8px_rgba(139,92,246,0.4)] hover:from-purple-600 hover:to-cyan-600 hover:scale-[1.08] hover:shadow-[0_6px_20px_rgba(139,92,246,0.6),0_0_12px_rgba(6,182,212,0.6)] hover:border-cyan-500 transition-all duration-200 sm:text-sm sm:py-3 sm:px-6">
+                class="flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-cyan-500 text-white text-base font-semibold font-['Space_Mono'] py-3.5 px-8 rounded-md border border-[rgba(139,92,246,0.5)] shadow-[0_0_8px_rgba(139,92,246,0.4)] hover:from-purple-600 hover:to-cyan-600 hover:scale-[1] hover:shadow-[0_6px_20px_rgba(139,92,246,0.6),0_0_12px_rgba(6,182,212,0.6)] hover:border-cyan-500 transition-all duration-200 sm:text-sm sm:py-3 sm:px-6">
                 <i class="fa-solid fa-sign-in-alt text-lg hover:scale-110 transition-transform duration-200"></i>Login
             </a>
             <a href="RegisterPage.html"
-                class="flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-cyan-500 text-white text-base font-semibold font-['Space_Mono'] py-3.5 px-8 rounded-md border border-[rgba(139,92,246,0.5)] shadow-[0_0_8px_rgba(139,92,246,0.4)] hover:from-purple-600 hover:to-cyan-600 hover:scale-[1.08] hover:shadow-[0_6px_20px_rgba(139,92,246,0.6),0_0_12px_rgba(6,182,212,0.6)] hover:border-cyan-500 transition-all duration-200 sm:text-sm sm:py-3 sm:px-6">
+                class="flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-cyan-500 text-white text-base font-semibold font-['Space_Mono'] py-3.5 px-8 rounded-md border border-[rgba(139,92,246,0.5)] shadow-[0_0_8px_rgba(139,92,246,0.4)] hover:from-purple-600 hover:to-cyan-600 hover:scale-[1] hover:shadow-[0_6px_20px_rgba(139,92,246,0.6),0_0_12px_rgba(6,182,212,0.6)] hover:border-cyan-500 transition-all duration-200 sm:text-sm sm:py-3 sm:px-6">
                 <i class="fa-solid fa-user-plus text-lg hover:scale-110 transition-transform duration-200"></i>Register
             </a>
             <a href="ChangepassPage.html"
-                class="flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-cyan-500 text-white text-base font-semibold font-['Space_Mono'] py-3.5 px-8 rounded-md border border-[rgba(139,92,246,0.5)] shadow-[0_0_8px_rgba(139,92,246,0.4)] hover:from-purple-600 hover:to-cyan-600 hover:scale-[1.08] hover:shadow-[0_6px_20px_rgba(139,92,246,0.6),0_0_12px_rgba(6,182,212,0.6)] hover:border-cyan-500 transition-all duration-200 sm:text-sm sm:py-3 sm:px-6">
+                class="flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-cyan-500 text-white text-base font-semibold font-['Space_Mono'] py-3.5 px-8 rounded-md border border-[rgba(139,92,246,0.5)] shadow-[0_0_8px_rgba(139,92,246,0.4)] hover:from-purple-600 hover:to-cyan-600 hover:scale-[1] hover:shadow-[0_6px_20px_rgba(139,92,246,0.6),0_0_12px_rgba(6,182,212,0.6)] hover:border-cyan-500 transition-all duration-200 sm:text-sm sm:py-3 sm:px-6">
                 <i class="fa-solid fa-lock text-lg hover:scale-110 transition-transform duration-200"></i>Change
                 Password
             </a>
             <a href="ResetPage.html"
-                class="flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-cyan-500 text-white text-base font-semibold font-['Space_Mono'] py-3.5 px-8 rounded-md border border-[rgba(139,92,246,0.5)] shadow-[0_0_8px_rgba(139,92,246,0.4)] hover:from-purple-600 hover:to-cyan-600 hover:scale-[1.08] hover:shadow-[0_6px_20px_rgba(139,92,246,0.6),0_0_12px_rgba(6,182,212,0.6)] hover:border-cyan-500 transition-all duration-200 sm:text-sm sm:py-3 sm:px-6">
+                class="flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-cyan-500 text-white text-base font-semibold font-['Space_Mono'] py-3.5 px-8 rounded-md border border-[rgba(139,92,246,0.5)] shadow-[0_0_8px_rgba(139,92,246,0.4)] hover:from-purple-600 hover:to-cyan-600 hover:scale-[1] hover:shadow-[0_6px_20px_rgba(139,92,246,0.6),0_0_12px_rgba(6,182,212,0.6)] hover:border-cyan-500 transition-all duration-200 sm:text-sm sm:py-3 sm:px-6">
                 <i class="fa-solid fa-key text-lg hover:scale-110 transition-transform duration-200"></i>Reset Password
             </a>
         </div>

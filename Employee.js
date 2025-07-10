@@ -1,14 +1,6 @@
 const API_URL = 'https://script.google.com/macros/s/AKfycbwMwJurcnpBSqaLWDgFLmpeaxjnM0i9IbRno5ovH0zvZ5sUHnxf1w6pQ-WnuV724-njPw/exec';
 let allEmployees = [];
 
-function toggleLoading(show) {
-  document.getElementById('loading-overlay').classList.toggle('hidden', !show);
-}
-
-function showError(message) {
-  showNotification('Error', message);
-}
-
 function sanitizeInput(input) {
   if (typeof input !== 'string') return input || '';
   const div = document.createElement('div');
@@ -128,41 +120,40 @@ document.getElementById('cancel-add-employee')?.addEventListener('click', () => 
 
 document.getElementById('add-employee-form')?.addEventListener('submit', async (e) => {
   e.preventDefault();
-  toggleLoading(true);
+  toggleLoadingadd(true);
   const id = document.getElementById('add-employee-id').value.trim();
   const name = document.getElementById('add-employee-name').value.trim();
   const email = document.getElementById('add-employee-email').value.trim();
   const phone = document.getElementById('add-employee-phone').value.trim();
   const position = document.getElementById('add-employee-position').value.trim();
 
-  // Validation
   let error = validateId(id);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingadd(false);
     showError(error);
     return;
   }
   error = validateName(name);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingadd(false);
     showError(error);
     return;
   }
   error = validateEmail(email);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingadd(false);
     showError(error);
     return;
   }
   error = validatePhone(phone);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingadd(false);
     showError(error);
     return;
   }
   error = validatePosition(position);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingadd(false);
     showError(error);
     return;
   }
@@ -182,7 +173,7 @@ document.getElementById('add-employee-form')?.addEventListener('submit', async (
       body: formData.toString()
     });
     const data = await response.json();
-    toggleLoading(false);
+    toggleLoadingadd(false);
     if (data.status === 'success') {
       document.getElementById('add-employee-form').reset();
       document.getElementById('add-employee-modal').classList.add('hidden');
@@ -192,7 +183,7 @@ document.getElementById('add-employee-form')?.addEventListener('submit', async (
       showError(data.data || data.message || 'Failed to add employee');
     }
   } catch (error) {
-    toggleLoading(false);
+    toggleLoadingadd(false);
     showError('Failed to add employee. Please check your connection.');
     console.error('Error adding employee:', error);
   }
@@ -219,7 +210,7 @@ document.getElementById('cancel-edit-employee')?.addEventListener('click', () =>
 
 document.getElementById('edit-employee-form')?.addEventListener('submit', async (e) => {
   e.preventDefault();
-  toggleLoading(true);
+  toggleLoadingedit(true);
   const id = document.getElementById('edit-employee-id').value;
   const name = document.getElementById('edit-employee-name').value.trim();
   const email = document.getElementById('edit-employee-email').value.trim();
@@ -228,25 +219,25 @@ document.getElementById('edit-employee-form')?.addEventListener('submit', async 
 
   let error = validateName(name);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingedit(false);
     showError(error);
     return;
   }
   error = validateEmail(email);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingedit(false);
     showError(error);
     return;
   }
   error = validatePhone(phone);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingedit(false);
     showError(error);
     return;
   }
   error = validatePosition(position);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingedit(false);
     showError(error);
     return;
   }
@@ -269,7 +260,7 @@ document.getElementById('edit-employee-form')?.addEventListener('submit', async 
     });
     const data = await response.json();
     console.log('Edit employee response:', data);
-    toggleLoading(false);
+    toggleLoadingedit(false);
     if (data.status === 'success') {
       document.getElementById('edit-employee-form').reset();
       document.getElementById('edit-employee-modal').classList.add('hidden');
@@ -279,7 +270,7 @@ document.getElementById('edit-employee-form')?.addEventListener('submit', async 
       showError(data.data || data.message || 'Failed to update employee');
     }
   } catch (error) {
-    toggleLoading(false);
+    toggleLoadingedit(false);
     showError('Failed to update employee. Please check your connection.');
     console.error('Error updating employee:', error);
   }
@@ -314,40 +305,4 @@ async function deleteEmployee(id) {
   });
 }
 
-function toggleSubmenu(element) {
-  const submenu = element.nextElementSibling;
-  submenu.classList.toggle('hidden');
-}
-
-function toggleDropdown() {
-  document.getElementById('dropdown').classList.toggle('hidden');
-}
-
-function handleLogout() {
-  localStorage.removeItem('name');
-  window.location.href = "LogoutPage.html";
-}
-
-document.getElementById('profile-item')?.addEventListener('click', () => {
-  document.getElementById('modal-user-name').textContent = localStorage.getItem('name') || 'Guest';
-  document.getElementById('profile-modal').classList.remove('hidden');
-});
-
-document.getElementById('close-modal')?.addEventListener('click', () => {
-  document.getElementById('profile-modal').classList.add('hidden');
-});
-
-document.querySelectorAll('#menu li[data-key]')?.forEach(item => {
-  item.addEventListener('click', (e) => {
-    if (e.target.closest('.submenu') || !item.hasAttribute('data-key')) return;
-    const page = item.getAttribute('data-key');
-    if (page) {
-      window.location.href = page;
-    }
-  });
-});
-
-window.onload = () => {
-  document.getElementById('user-name').textContent = localStorage.getItem('name') || 'Guest';
-  loadEmployees();
-};
+loadEmployees();

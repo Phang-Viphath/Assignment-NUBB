@@ -1,14 +1,6 @@
 const API_URL = 'https://script.google.com/macros/s/AKfycby7OJMHg1GOMe0_5D-qOVmZ-6N_0uRicnzWFdNo1L2ju74TVN5wauI8rkPf7lHj3kwWyA/exec';
 let allUsers = [];
 
-function toggleLoading(show) {
-  document.getElementById('loading-overlay').classList.toggle('hidden', !show);
-}
-
-function showError(message) {
-  showNotification('Error', message);
-}
-
 function sanitizeInput(input) {
   if (typeof input !== 'string') return input || '';
   const div = document.createElement('div');
@@ -131,7 +123,7 @@ document.getElementById('cancel-add-user')?.addEventListener('click', () => {
 
 document.getElementById('add-user-form')?.addEventListener('submit', async (e) => {
   e.preventDefault();
-  toggleLoading(true);
+  toggleLoadingadd(true);
   const id = document.getElementById('add-user-id').value.trim();
   const name = document.getElementById('add-user-name').value.trim();
   const email = document.getElementById('add-user-email').value.trim();
@@ -140,31 +132,31 @@ document.getElementById('add-user-form')?.addEventListener('submit', async (e) =
 
   let error = validateId(id);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingadd(false);
     showError(error);
     return;
   }
   error = validateName(name);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingadd(false);
     showError(error);
     return;
   }
   error = validateEmail(email);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingadd(false);
     showError(error);
     return;
   }
   error = validatePhone(phone);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingadd(false);
     showError(error);
     return;
   }
   error = validateLocation(location);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingadd(false);
     showError(error);
     return;
   }
@@ -184,7 +176,7 @@ document.getElementById('add-user-form')?.addEventListener('submit', async (e) =
       body: formData.toString()
     });
     const data = await response.json();
-    toggleLoading(false);
+    toggleLoadingadd(false);
     if (data.status === 'success') {
       document.getElementById('add-user-form').reset();
       document.getElementById('add-user-modal').classList.add('hidden');
@@ -194,7 +186,7 @@ document.getElementById('add-user-form')?.addEventListener('submit', async (e) =
       showError(data.message || 'Failed to add user');
     }
   } catch (error) {
-    toggleLoading(false);
+    toggleLoadingadd(false);
     showError('Failed to add user. Please check your connection.');
     console.error('Error adding user:', error);
   }
@@ -221,7 +213,7 @@ document.getElementById('cancel-edit-user')?.addEventListener('click', () => {
 
 document.getElementById('edit-user-form')?.addEventListener('submit', async (e) => {
   e.preventDefault();
-  toggleLoading(true);
+  toggleLoadingedit(true);
   const id = document.getElementById('edit-user-id').value;
   const name = document.getElementById('edit-user-name').value.trim();
   const email = document.getElementById('edit-user-email').value.trim();
@@ -230,25 +222,25 @@ document.getElementById('edit-user-form')?.addEventListener('submit', async (e) 
 
   let error = validateName(name);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingedit(false);
     showError(error);
     return;
   }
   error = validateEmail(email);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingedit(false);
     showError(error);
     return;
   }
   error = validatePhone(phone);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingedit(false);
     showError(error);
     return;
   }
   error = validateLocation(location);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingedit(false);
     showError(error);
     return;
   }
@@ -269,7 +261,7 @@ document.getElementById('edit-user-form')?.addEventListener('submit', async (e) 
       body: formData.toString()
     });
     const data = await response.json();
-    toggleLoading(false);
+    toggleLoadingedit(false);
     if (data.status === 'success') {
       document.getElementById('edit-user-form').reset();
       document.getElementById('edit-user-modal').classList.add('hidden');
@@ -279,7 +271,7 @@ document.getElementById('edit-user-form')?.addEventListener('submit', async (e) 
       showError(data.message || 'Failed to update user');
     }
   } catch (error) {
-    toggleLoading(false);
+    toggleLoadingedit(false);
     showError('Failed to update user. Please check your connection.');
     console.error('Error updating user:', error);
   }
@@ -314,40 +306,4 @@ async function deleteUser(id) {
   });
 }
 
-function toggleSubmenu(element) {
-  const submenu = element.nextElementSibling;
-  submenu.classList.toggle('hidden');
-}
-
-function toggleDropdown() {
-  document.getElementById('dropdown').classList.toggle('hidden');
-}
-
-function handleLogout() {
-  localStorage.removeItem('name');
-  window.location.href = "LogoutPage.html";
-}
-
-document.getElementById('profile-item')?.addEventListener('click', () => {
-  document.getElementById('modal-user-name').textContent = localStorage.getItem('name') || 'Guest';
-  document.getElementById('profile-modal').classList.remove('hidden');
-});
-
-document.getElementById('close-modal')?.addEventListener('click', () => {
-  document.getElementById('profile-modal').classList.add('hidden');
-});
-
-document.querySelectorAll('#menu li[data-key]')?.forEach(item => {
-  item.addEventListener('click', (e) => {
-    if (e.target.closest('.submenu') || !item.hasAttribute('data-key')) return;
-    const page = item.getAttribute('data-key');
-    if (page) {
-      window.location.href = page;
-    }
-  });
-});
-
-window.onload = () => {
-  document.getElementById('user-name').textContent = localStorage.getItem('name') || 'Guest';
-  loadUsers();
-};
+loadUsers();

@@ -1,14 +1,6 @@
 const API_URL = 'https://script.google.com/macros/s/AKfycbwrAjXxeijR31g4_RHzBe3gvvlB8wGGRrHQ7QsE2v0U_svPCrK1h8Vr-SUHIoN2rETA/exec';
 let allCustomers = [];
 
-function toggleLoading(show) {
-  document.getElementById('loading-overlay').classList.toggle('hidden', !show);
-}
-
-function showError(message) {
-  showNotification('Error', message);
-}
-
 function sanitizeInput(input) {
   if (typeof input !== 'string') return input || '';
   const div = document.createElement('div');
@@ -119,7 +111,7 @@ document.getElementById('cancel-add-customer')?.addEventListener('click', () => 
 
 document.getElementById('add-customer-form')?.addEventListener('submit', async (e) => {
   e.preventDefault();
-  toggleLoading(true);
+  toggleLoadingadd(true);
   const id = document.getElementById('add-customer-id').value.trim();
   const name = document.getElementById('add-customer-name').value.trim();
   const email = document.getElementById('add-customer-email').value.trim();
@@ -127,25 +119,25 @@ document.getElementById('add-customer-form')?.addEventListener('submit', async (
 
   let error = validateId(id);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingadd(false);
     showError(error);
     return;
   }
   error = validateName(name);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingadd(false);
     showError(error);
     return;
   }
   error = validateEmail(email);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingadd(false);
     showError(error);
     return;
   }
   error = validatePhone(phone);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingadd(false);
     showError(error);
     return;
   }
@@ -164,7 +156,7 @@ document.getElementById('add-customer-form')?.addEventListener('submit', async (
       body: formData.toString()
     });
     const data = await response.json();
-    toggleLoading(false);
+    toggleLoadingadd(false);
     if (data.status === 'success') {
       document.getElementById('add-customer-form').reset();
       document.getElementById('add-customer-modal').classList.add('hidden');
@@ -174,7 +166,7 @@ document.getElementById('add-customer-form')?.addEventListener('submit', async (
       showError(data.data || data.message || 'Failed to add customer');
     }
   } catch (error) {
-    toggleLoading(false);
+    toggleLoadingadd(false);
     showError('Failed to add customer. Please check your connection.');
     console.error('Error adding customer:', error);
   }
@@ -200,7 +192,7 @@ document.getElementById('cancel-edit-customer')?.addEventListener('click', () =>
 
 document.getElementById('edit-customer-form')?.addEventListener('submit', async (e) => {
   e.preventDefault();
-  toggleLoading(true);
+  toggleLoadingedit(true);
   const id = document.getElementById('edit-customer-id').value;
   const name = document.getElementById('edit-customer-name').value.trim();
   const email = document.getElementById('edit-customer-email').value.trim();
@@ -208,19 +200,19 @@ document.getElementById('edit-customer-form')?.addEventListener('submit', async 
 
   let error = validateName(name);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingedit(false);
     showError(error);
     return;
   }
   error = validateEmail(email);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingedit(false);
     showError(error);
     return;
   }
   error = validatePhone(phone);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingedit(false);
     showError(error);
     return;
   }
@@ -242,7 +234,7 @@ document.getElementById('edit-customer-form')?.addEventListener('submit', async 
     });
     const data = await response.json();
     console.log('Edit customer response:', data);
-    toggleLoading(false);
+    toggleLoadingedit(false);
     if (data.status === 'success') {
       document.getElementById('edit-customer-form').reset();
       document.getElementById('edit-customer-modal').classList.add('hidden');
@@ -252,7 +244,7 @@ document.getElementById('edit-customer-form')?.addEventListener('submit', async 
       showError(data.data || data.message || 'Failed to update customer');
     }
   } catch (error) {
-    toggleLoading(false);
+    toggleLoadingedit(false);
     showError('Failed to update customer. Please check your connection.');
     console.error('Error updating customer:', error);
   }
@@ -287,40 +279,4 @@ async function deleteCustomer(id) {
   });
 }
 
-function toggleSubmenu(element) {
-  const submenu = element.nextElementSibling;
-  submenu.classList.toggle('hidden');
-}
-
-function toggleDropdown() {
-  document.getElementById('dropdown').classList.toggle('hidden');
-}
-
-function handleLogout() {
-  localStorage.removeItem('name');
-  window.location.href = "LogoutPage.html";
-}
-
-document.getElementById('profile-item')?.addEventListener('click', () => {
-  document.getElementById('modal-user-name').textContent = localStorage.getItem('name') || 'Guest';
-  document.getElementById('profile-modal').classList.remove('hidden');
-});
-
-document.getElementById('close-modal')?.addEventListener('click', () => {
-  document.getElementById('profile-modal').classList.add('hidden');
-});
-
-document.querySelectorAll('#menu li[data-key]')?.forEach(item => {
-  item.addEventListener('click', (e) => {
-    if (e.target.closest('.submenu') || !item.hasAttribute('data-key')) return;
-    const page = item.getAttribute('data-key');
-    if (page) {
-      window.location.href = page;
-    }
-  });
-});
-
-window.onload = () => {
-  document.getElementById('user-name').textContent = localStorage.getItem('name') || 'Guest';
-  loadCustomers();
-};
+loadCustomers();

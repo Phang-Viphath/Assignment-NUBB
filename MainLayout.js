@@ -1,70 +1,15 @@
-const CATEGORY = {
-  espresso: 'https://script.google.com/macros/s/AKfycbzbEeBBV0tO3QC003lx--Jt-iJa84usx4zAHuzmMUIJ0xFwXyBtAUVNXgtrjofDGVzA/exec',
-  iced: 'https://script.google.com/macros/s/AKfycbzjxO5Ge2NMGzYcR2Zzjmpfdw2WJacrMTCEkRXszkdWa7vHEXFQgk8SoGUpluZt2e5qXA/exec',
-  non_coffee: 'https://script.google.com/macros/s/AKfycbybZAegH2UA44idH9HKwfrwBZmZiAye04WRFZqJhJ8QILeOs7VxXYvx84yJqllydiNrLA/exec',
-  pastries: 'https://script.google.com/macros/s/AKfycbyYMixTHz2VXSpRdw-rV6l0UUvieMWC7GH_fK_dkDFuYYHoglp-J6CRkj_i0Oz7gth6/exec'
-};
-
-const EXAMPLE_SALES_DATA = {
-  espresso: {
-    daily: Array.from({ length: 24 }, (_, i) => ({
-      hour: i,
-      total: Math.random() * 100 + 50
-    })),
-    monthly: Array.from({ length: 30 }, (_, i) => ({
-      day: i + 1,
-      total: Math.random() * 1000 + 500
-    })),
-    yearly: Array.from({ length: 12 }, (_, i) => ({
-      month: i + 1,
-      total: Math.random() * 12000 + 6000
-    }))
-  },
-  iced: {
-    daily: Array.from({ length: 24 }, (_, i) => ({
-      hour: i,
-      total: Math.random() * 80 + 40
-    })),
-    monthly: Array.from({ length: 30 }, (_, i) => ({
-      day: i + 1,
-      total: Math.random() * 800 + 400
-    })),
-    yearly: Array.from({ length: 12 }, (_, i) => ({
-      month: i + 1,
-      total: Math.random() * 10000 + 5000
-    }))
-  },
-  non_coffee: {
-    daily: Array.from({ length: 24 }, (_, i) => ({
-      hour: i,
-      total: Math.random() * 60 + 30
-    })),
-    monthly: Array.from({ length: 30 }, (_, i) => ({
-      day: i + 1,
-      total: Math.random() * 600 + 300
-    })),
-    yearly: Array.from({ length: 12 }, (_, i) => ({
-      month: i + 1,
-      total: Math.random() * 8000 + 4000
-    }))
-  },
-  pastries: {
-    daily: Array.from({ length: 24 }, (_, i) => ({
-      hour: i,
-      total: Math.random() * 70 + 35
-    })),
-    monthly: Array.from({ length: 30 }, (_, i) => ({
-      day: i + 1,
-      total: Math.random() * 700 + 350
-    })),
-    yearly: Array.from({ length: 12 }, (_, i) => ({
-      month: i + 1,
-      total: Math.random() * 9000 + 4500
-    }))
-  }
-};
-
-let categoryChart, trendChart, profitChart;
+function toggleLoading(show) {
+  document.getElementById('loading-overlay').classList.toggle('hidden', !show);
+}
+function toggleLoadingadd(show) {
+  document.getElementById('loading-overlay-add').classList.toggle('hidden', !show);
+}
+function toggleLoadingedit(show) {
+  document.getElementById('loading-overlay-edit').classList.toggle('hidden', !show);
+}
+function toggleLoadingeditprofile(show) {
+  document.getElementById('loading-overlay-edit-profile').classList.toggle('hidden', !show);
+}
 
 function showError(message) {
   const loadingElement = document.getElementById('product-loading');
@@ -83,31 +28,31 @@ function showNotification(title, message) {
   if (!notificationBox) {
     notificationBox = document.createElement('div');
     notificationBox.id = 'custom-notification-box';
-    notificationBox.className = 'fixed bottom-4 right-4 z-50 w-80 space-y-2';
+    notificationBox.className = 'fixed bottom-4 right-4 z-50 max-w-[90vw] w-80 space-y-2';
     document.body.appendChild(notificationBox);
   }
 
   const icons = {
-    Success: 'fas fa-check-circle text-green-400',
-    Error: 'fas fa-times-circle text-red-400',
+    Success: 'fas fa-check-circle text-[#00ff00]',
+    Error: 'fas fa-times-circle text-[#f87171]',
     Info: 'fas fa-info-circle text-[#00ddeb]',
-    Warning: 'fas fa-exclamation-circle text-yellow-400'
+    Warning: 'fas fa-exclamation-circle text-[#facc15]'
   };
 
   const notification = document.createElement('div');
   notification.className = `
-    bg-[#2a2a4a] rounded-xl shadow-2xl p-4 border-l-4
-    ${title === 'Error' ? 'border-red-400' : title === 'Success' ? 'border-green-400' : title === 'Warning' ? 'border-yellow-400' : 'border-[#00ddeb]'}
-    transform transition-all duration-300 animate-fade-in-up
+    bg-[#1f1f3a] rounded-xl shadow-[0_0_10px_rgba(0,221,235,0.5)] p-4 border-l-4
+    ${title === 'Error' ? 'border-[#f87171]' : title === 'Success' ? 'border-[#00ff00]' : title === 'Warning' ? 'border-[#facc15]' : 'border-[#00ddeb]'}
+    transform transition-all duration-500 animate-fade-in-up
   `;
   notification.innerHTML = `
     <div class="flex gap-3 items-start">
-      <i class="${icons[title] || 'fas fa-bell text-gray-300'} text-2xl mt-1"></i>
+      <i class="${icons[title] || 'fas fa-bell text-gray-200'} text-xl mt-1"></i>
       <div class="flex-1">
-        <h3 class="text-md font-semibold text-[#00ddeb] font-sans uppercase">${title}</h3>
-        <p class="text-sm text-gray-300 font-sans">${message}</p>
+        <h3 class="text-sm font-semibold text-[#00ddeb] font-sans uppercase">${title}</h3>
+        <p class="text-sm text-gray-200 font-sans">${message}</p>
       </div>
-      <button class="text-gray-300 hover:text-white text-sm mt-1 transition-all duration-300" onclick="this.closest('div[role=alert]').remove()">
+      <button class="text-gray-200 hover:text-[#00ddeb] text-sm mt-1 transition-all duration-300" aria-label="Close notification" onclick="this.closest('div[role=alert]').remove()">
         <i class="fas fa-times"></i>
       </button>
     </div>
@@ -121,71 +66,170 @@ function showNotification(title, message) {
   }, 3000);
 }
 
-const style = document.createElement('style');
-style.innerHTML = `
-  @keyframes fade-in-up {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  @keyframes fade-out-down {
-    from {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    to {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-  }
-  .animate-fade-in-up {
-    animation: fade-in-up 0.3s ease-out forwards;
-  }
-  .animate-fade-out-down {
-    animation: fade-out-down 0.3s ease-out forwards;
-  }
-`;
-document.head.appendChild(style);
-
 function showConfirmBox(message, onConfirm) {
   let confirmBox = document.getElementById('custom-confirm-box');
   if (!confirmBox) {
     confirmBox = document.createElement('div');
     confirmBox.id = 'custom-confirm-box';
-    confirmBox.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 hidden';
-    confirmBox.innerHTML = `
-      <div class="bg-[#2a2a4a] rounded-2xl p-6 shadow-2xl w-full max-w-sm relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10 pointer-events-none"></div>
-        <h3 class="text-xl font-bold mb-4 text-[#00ddeb] font-sans uppercase">Confirm Action</h3>
-        <p id="confirm-box-message" class="text-gray-300 mb-6 font-sans text-sm"></p>
-        <div class="flex justify-end gap-3">
-          <button id="confirm-box-cancel-btn" class="px-4 py-2 bg-[#1f1f3a] text-gray-300 rounded-md hover:bg-[#252550] focus:outline-none focus:ring-2 focus:ring-[#00ddeb] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)]">Cancel</button>
-          <button id="confirm-box-ok-btn" class="px-4 py-2 bg-[#00ddeb] text-[#1a1a2e] rounded-md hover:bg-[#00b8c4] focus:outline-none focus:ring-2 focus:ring-[#00ddeb] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)]">Confirm</button>
-        </div>
+    confirmBox.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+    confirmBox.setAttribute('role', 'dialog');
+    confirmBox.setAttribute('aria-modal', 'true');
+    confirmBox.setAttribute('aria-labelledby', 'confirm-title');
+    const shadow = confirmBox.attachShadow({ mode: 'open' });
+    const style = document.createElement('style');
+    style.textContent = `
+      :host {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .confirm-container {
+        background-color: #1f1f3a;
+        border-radius: 0.75rem;
+        padding: 1rem;
+        box-shadow: 0 0 15px rgba(0, 221, 235, 0.7);
+        border: 1px solid rgba(0, 221, 235, 0.3);
+        width: 100%;
+        max-width: 22rem;
+        font-family: sans-serif;
+      }
+      .confirm-title {
+        font-size: 1.125rem;
+        font-weight: bold;
+        color: #00ddeb;
+        text-transform: uppercase;
+      }
+      .confirm-message {
+        color: #e5e7eb;
+        margin-bottom: 1.5rem;
+        font-size: 0.875rem;
+      }
+      .button-container {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.75rem;
+      }
+      .cancel-btn, .ok-btn {
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+      .cancel-btn {
+        background-color: #2a2a4a;
+        color: #e5e7eb;
+      }
+      .cancel-btn:hover {
+        background-color: #252550;
+      }
+      .ok-btn {
+        background-color: #00ddeb;
+        color: #1a1a2e;
+      }
+      .ok-btn:hover {
+        background-color: #00b8c4;
+      }
+    `;
+
+    const container = document.createElement('div');
+    container.className = 'confirm-container';
+    container.innerHTML = `
+      <h3 class="confirm-title" id="confirm-title">Confirm Action</h3>
+      <p class="confirm-message">${message}</p>
+      <div class="button-container">
+        <button class="cancel-btn" aria-label="Cancel">Cancel</button>
+        <button class="ok-btn" aria-label="Confirm">Confirm</button>
       </div>
     `;
-    document.body.appendChild(confirmBox);
-  }
-  document.getElementById('confirm-box-message').textContent = message;
-  confirmBox.classList.remove('hidden');
 
-  const cancelBtn = document.getElementById('confirm-box-cancel-btn');
-  const okBtn = document.getElementById('confirm-box-ok-btn');
+    shadow.appendChild(style);
+    shadow.appendChild(container);
+    document.body.appendChild(confirmBox);
+  } else {
+    const shadow = confirmBox.shadowRoot;
+    const messageElement = shadow.querySelector('.confirm-message');
+    if (messageElement) {
+      messageElement.textContent = message;
+    } else {
+      console.error('Confirm message element not found in shadow DOM');
+      showNotification('Error', 'Failed to update confirmation dialog');
+      return;
+    }
+  }
+
+  confirmBox.classList.remove('hidden');
+  confirmBox.style.zIndex = '50';
+  const modals = [
+    document.getElementById('cartModal'),
+    document.getElementById('product-modal'),
+    document.getElementById('profile-modal'),
+    document.getElementById('view-product-modal'),
+    document.getElementById('payment-modal-Show'),
+    document.getElementById('check-detail-modal')
+  ];
+
+  modals.forEach(modal => {
+    if (modal) {
+      if (modal.id === 'cartModal') {
+        modal.classList.add('opacity-0', 'invisible');
+        const cartDiv = modal.querySelector('div');
+        if (cartDiv) cartDiv.classList.add('translate-x-full');
+      } else {
+        modal.classList.add('hidden');
+      }
+    }
+  });
+  const shadow = confirmBox.shadowRoot;
+  const cancelBtn = shadow.querySelector('.cancel-btn');
+  const okBtn = shadow.querySelector('.ok-btn');
   const newCancelBtn = cancelBtn.cloneNode(true);
   const newOkBtn = okBtn.cloneNode(true);
   cancelBtn.replaceWith(newCancelBtn);
   okBtn.replaceWith(newOkBtn);
 
-  newCancelBtn.onclick = () => confirmBox.classList.add('hidden');
-  newOkBtn.onclick = () => {
+  const closeConfirmBox = () => {
     confirmBox.classList.add('hidden');
-    onConfirm();
+    document.removeEventListener('keydown', handleKeydown);
   };
+
+  newCancelBtn.addEventListener('click', closeConfirmBox, { once: true });
+
+  newOkBtn.addEventListener('click', () => {
+    closeConfirmBox();
+    onConfirm();
+  }, { once: true });
+
+  const handleKeydown = (e) => {
+    if (e.key === 'Escape') {
+      closeConfirmBox();
+    } else if (e.key === 'Enter') {
+      closeConfirmBox();
+      onConfirm();
+    }
+  };
+  document.removeEventListener('keydown', handleKeydown);
+  document.addEventListener('keydown', handleKeydown);
+  const focusableElements = shadow.querySelectorAll('button');
+  const firstFocusable = focusableElements[0];
+  const lastFocusable = focusableElements[focusableElements.length - 1];
+  newOkBtn.focus();
+  const handleFocusTrap = (e) => {
+    if (e.key === 'Tab') {
+      if (e.shiftKey && document.activeElement === firstFocusable) {
+        e.preventDefault();
+        lastFocusable.focus();
+      } else if (!e.shiftKey && document.activeElement === lastFocusable) {
+        e.preventDefault();
+        firstFocusable.focus();
+      }
+    }
+  };
+  document.addEventListener('keydown', handleFocusTrap);
+  confirmBox.addEventListener('transitionend', () => {
+    if (confirmBox.classList.contains('hidden')) {
+      document.removeEventListener('keydown', handleFocusTrap);
+    }
+  }, { once: true });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -210,7 +254,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const editPhoneInput = document.getElementById('edit-phone');
   const editImageInput = document.getElementById('edit-image');
   const closeEditModalButton = document.querySelector('#profile-modal-edit #close-modal');
-  const loadingOverlay = document.getElementById('loading-overlay1');
 
   try {
     const userData = getUserProfileData();
@@ -237,9 +280,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.error('Error highlighting active menu item:', error);
   }
 
-  initializeDashboard();
   setupEventListeners();
-  updateDashboard();
 
   if (profileCofeElement) profileCofeElement.addEventListener('click', showProfilCafeeModal);
   if (profileItemElement) profileItemElement.addEventListener('click', showProfileModal);
@@ -335,10 +376,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (saveProfileButton) {
+    console.log('saveProfileButton found:', saveProfileButton);
     saveProfileButton.addEventListener('click', () => {
       showConfirmBox('Are you sure you want to save changes to your profile?', async () => {
         try {
-          if (loadingOverlay) loadingOverlay.classList.remove('hidden');
+          toggleLoadingeditprofile(true);
 
           const userData = getUserProfileData();
           const userId = userData.id;
@@ -399,10 +441,12 @@ document.addEventListener('DOMContentLoaded', () => {
           console.error('Error saving profile:', error);
           showError(error.message);
         } finally {
-          if (loadingOverlay) loadingOverlay.classList.add('hidden');
+          toggleLoadingeditprofile(false);
         }
       });
     });
+  } else {
+    console.error('saveProfileButton not found');
   }
 
   if (cancelEditButton) {
@@ -426,243 +470,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
-
-function initializeDashboard() {
-  try {
-    const categoryCanvas = document.getElementById('categoryChart');
-    if (!categoryCanvas) throw new Error('Category chart canvas not found');
-    categoryChart = new Chart(categoryCanvas.getContext('2d'), {
-      type: 'pie',
-      data: {
-        labels: [],
-        datasets: [{
-          data: [],
-          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false
-      }
-    });
-
-    const trendCanvas = document.getElementById('trendChart');
-    if (!trendCanvas) throw new Error('Trend chart canvas not found');
-    trendChart = new Chart(trendCanvas.getContext('2d'), {
-      type: 'line',
-      data: {
-        labels: [],
-        datasets: [
-          {
-            label: 'espresso',
-            data: [],
-            borderColor: '#FF6384',
-            fill: false
-          },
-          {
-            label: 'iced',
-            data: [],
-            borderColor: '#36A2EB',
-            fill: false
-          },
-          {
-            label: 'non_coffee',
-            data: [],
-            borderColor: '#FFCE56',
-            fill: false
-          },
-          {
-            label: 'pastries',
-            data: [],
-            borderColor: '#4BC0C0',
-            fill: false
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: { beginAtZero: true }
-        }
-      }
-    });
-
-    const profitCanvas = document.getElementById('profitChart');
-    if (!profitCanvas) throw new Error('Profit chart canvas not found');
-    profitChart = new Chart(profitCanvas.getContext('2d'), {
-      type: 'bar',
-      data: {
-        labels: [],
-        datasets: [{
-          label: 'Profit',
-          data: [],
-          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: { beginAtZero: true }
-        }
-      }
-    });
-
-    const datePicker = document.getElementById('datePicker');
-    if (datePicker) {
-      datePicker.value = new Date().toISOString().split('T')[0];
-    }
-  } catch (error) {
-    console.error('Error initializing dashboard charts:', error);
-  }
-}
-
-async function fetchSalesData(category, date, timeRange) {
-  try {
-    const data = EXAMPLE_SALES_DATA[category][timeRange] || [];
-    if (!Array.isArray(data)) {
-      throw new Error(`Invalid data format for ${category} ${timeRange}`);
-    }
-    return data;
-  } catch (error) {
-    console.error(`Error fetching ${category} data:`, error);
-    return [];
-  }
-}
-
-async function updateDashboard() {
-  try {
-    const timeRange = document.getElementById('timeRange')?.value || 'daily';
-    const date = document.getElementById('datePicker')?.value || new Date().toISOString().split('T')[0];
-
-    const categories = Object.keys(CATEGORY);
-    const salesData = await Promise.all(
-      categories.map(category => fetchSalesData(category, date, timeRange))
-    );
-
-    const categoryTotals = salesData.map((data, index) => ({
-      category: categories[index],
-      total: data.reduce((sum, item) => sum + (item.total || 0), 0)
-    }));
-
-    const profitTotals = categoryTotals.map(item => ({
-      category: item.category,
-      total: item.total * 0.3 
-    }));
-
-    if (categoryChart) {
-      categoryChart.data.labels = categoryTotals.map(item => item.category);
-      categoryChart.data.datasets[0].data = categoryTotals.map(item => item.total);
-      categoryChart.update();
-    }
-
-    const trendData = processTrendData(salesData, timeRange);
-    if (trendChart) {
-      trendChart.data.labels = trendData.labels;
-      trendChart.data.datasets[0].data = trendData.datasets.espresso;
-      trendChart.data.datasets[1].data = trendData.datasets.iced;
-      trendChart.data.datasets[2].data = trendData.datasets.non_coffee;
-      trendChart.data.datasets[3].data = trendData.datasets.pastries;
-      trendChart.update();
-    }
-
-    if (profitChart) {
-      profitChart.data.labels = profitTotals.map(item => item.category);
-      profitChart.data.datasets[0].data = profitTotals.map(item => item.total);
-      profitChart.update();
-    }
-
-    updateSummaryStats(categoryTotals, profitTotals, salesData, timeRange);
-  } catch (error) {
-    console.error('Error updating dashboard:', error);
-  }
-}
-
-function processTrendData(salesData, timeRange) {
-  const labels = [];
-  const datasets = {
-    espresso: [],
-    iced: [],
-    non_coffee: [],
-    pastries: []
-  };
-
-  try {
-    if (timeRange === 'daily') {
-      for (let i = 0; i < 24; i++) {
-        labels.push(`${i}:00`);
-        datasets.espresso.push(salesData[0].find(item => item.hour === i)?.total || 0);
-        datasets.iced.push(salesData[1].find(item => item.hour === i)?.total || 0);
-        datasets.non_coffee.push(salesData[2].find(item => item.hour === i)?.total || 0);
-        datasets.pastries.push(salesData[3].find(item => item.hour === i)?.total || 0);
-      }
-    } else if (timeRange === 'monthly') {
-      for (let i = 1; i <= 30; i++) {
-        labels.push(`Day ${i}`);
-        datasets.espresso.push(salesData[0].find(item => item.day === i)?.total || 0);
-        datasets.iced.push(salesData[1].find(item => item.day === i)?.total || 0);
-        datasets.non_coffee.push(salesData[2].find(item => item.day === i)?.total || 0);
-        datasets.pastries.push(salesData[3].find(item => item.day === i)?.total || 0);
-      }
-    } else {
-      for (let i = 1; i <= 12; i++) {
-        labels.push(`Month ${i}`);
-        datasets.espresso.push(salesData[0].find(item => item.month === i)?.total || 0);
-        datasets.iced.push(salesData[1].find(item => item.month === i)?.total || 0);
-        datasets.non_coffee.push(salesData[2].find(item => item.month === i)?.total || 0);
-        datasets.pastries.push(salesData[3].find(item => item.month === i)?.total || 0);
-      }
-    }
-  } catch (error) {
-    console.error('Error processing trend data:', error);
-  }
-
-  return { labels, datasets };
-}
-
-function updateSummaryStats(categoryTotals, profitTotals, salesData, timeRange) {
-  try {
-    const totalSales = categoryTotals.reduce((sum, item) => sum + item.total, 0);
-    const totalSalesElement = document.getElementById('totalSales');
-    if (totalSalesElement) {
-      totalSalesElement.textContent = `$${totalSales.toFixed(2)}`;
-    }
-
-    const topCategory = categoryTotals.reduce((max, item) => 
-      item.total > max.total ? item : max, { total: 0, category: 'None' });
-    const topCategoryElement = document.getElementById('topCategory');
-    if (topCategoryElement) {
-      topCategoryElement.textContent = topCategory.category;
-    }
-
-    const growthRate = calculateGrowthRate(salesData, timeRange);
-    const growthRateElement = document.getElementById('growthRate');
-    if (growthRateElement) {
-      growthRateElement.textContent = `${growthRate.toFixed(1)}%`;
-    }
-
-    const totalProfit = profitTotals.reduce((sum, item) => sum + item.total, 0);
-    const totalProfitElement = document.getElementById('totalProfit');
-    if (totalProfitElement) {
-      totalProfitElement.textContent = `$${totalProfit.toFixed(2)}`;
-    }
-  } catch (error) {
-    console.error('Error updating summary stats:', error);
-  }
-}
-
-function calculateGrowthRate(salesData, timeRange) {
-  try {
-    const currentTotal = salesData.reduce((sum, data) => 
-      sum + data.reduce((s, item) => s + (item.total || 0), 0), 0);
-    const previousTotal = currentTotal * 0.9;
-    return ((currentTotal - previousTotal) / previousTotal * 100) || 0;
-  } catch (error) {
-    console.error('Error calculating growth rate:', error);
-    return 0;
-  }
-}
 
 function setupEventListeners() {
   document.querySelectorAll('#menu li[data-key]').forEach(item => {

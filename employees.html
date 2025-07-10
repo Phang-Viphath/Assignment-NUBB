@@ -8,25 +8,24 @@
   <link rel="icon" type="Phath" href="https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="Employee.js" defer></script>
   <script src="MainLayout.js" defer></script>
+  <script src="Employee.js" defer></script>
   <link rel="stylesheet" href="MainStyle.css">
 </head>
-
-<body class="min-h-screen flex">
-  <script>
-    try {
-      const user = localStorage.getItem('name');
-      if (!user) {
-        window.location.href = "LoginPage.html";
-      }
-    } catch (error) {
-      console.error('Error checking user:', error);
+<script>
+  try {
+    const user = localStorage.getItem('name');
+    if (!user) {
       window.location.href = "LoginPage.html";
     }
-  </script>
-
-  <aside id="sidebar" class="bg-[#2a2a4a] text-white w-64 min-h-screen transition-all duration-300 flex flex-col relative">
+  } catch (error) {
+    console.error('Error checking user:', error);
+    window.location.href = "LoginPage.html";
+  }
+</script>
+<body class="min-h-screen flex">
+  <aside id="sidebar"
+    class="bg-[#2a2a4a] text-white w-64 min-h-screen transition-all duration-300 flex flex-col relative">
     <div class="absolute inset-0 opacity-10 pointer-events-none"></div>
     <div class="h-[130px] flex items-center justify-center">
       <div id="Profile-Cofe" class="demo-logo-vertical cursor-pointer text-center px-2 pt-5">
@@ -81,19 +80,29 @@
     </div>
     <nav id="menu" class="mt-4 flex-1">
       <ul>
-        <li class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300" data-key="index.html">
+        <li
+          class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300"
+          data-key="index.html">
           <i class="fa-solid fa-desktop text-[#00ddeb]"></i><span class="text-gray-200 font-sans">Dashboard</span>
         </li>
-        <li class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300" data-key="brands.html">
+        <li
+          class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300"
+          data-key="brands.html">
           <i class="fa-solid fa-tags text-[#00ddeb]"></i><span class="text-gray-200 font-sans">Brand</span>
         </li>
-        <li class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300" data-key="products.html">
+        <li
+          class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300"
+          data-key="products.html">
           <i class="fa-solid fa-box text-[#00ddeb]"></i><span class="text-gray-200 font-sans">Product</span>
         </li>
-        <li class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300" data-key="customer.html">
+        <li
+          class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300"
+          data-key="customer.html">
           <i class="fa-solid fa-user text-[#00ddeb]"></i><span class="text-gray-200 font-sans">Customer</span>
         </li>
-        <li class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300" data-key="employees.html">
+        <li
+          class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300"
+          data-key="employees.html">
           <i class="fa-solid fa-user text-[#00ddeb]"></i><span class="text-gray-200 font-sans">Employees</span>
         </li>
         <li class="px-4 py-2 cursor-pointer">
@@ -104,10 +113,14 @@
             <i class="fa-solid fa-chevron-down text-gray-300"></i>
           </div>
           <ul class="submenu hidden pl-6">
-            <li class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300" data-key="roles.html">
+            <li
+              class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300"
+              data-key="roles.html">
               <i class="fa-solid fa-user text-[#00ddeb]"></i><span class="text-gray-200 font-sans">Role</span>
             </li>
-            <li class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300" data-key="users.html">
+            <li
+              class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300"
+              data-key="users.html">
               <i class="fa-solid fa-users text-[#00ddeb]"></i><span class="text-gray-200 font-sans">User</span>
             </li>
           </ul>
@@ -120,10 +133,14 @@
             <i class="fa-solid fa-chevron-down text-gray-300"></i>
           </div>
           <ul class="submenu hidden pl-6">
-            <li class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300" data-key="about.html">
+            <li
+              class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300"
+              data-key="about.html">
               <i class="fa-solid fa-user text-[#00ddeb]"></i><span class="text-gray-200 font-sans">About</span>
             </li>
-            <li class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300" data-key="Setting.html">
+            <li
+              class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300"
+              data-key="Setting.html">
               <i class="fa-solid fa-gear text-[#00ddeb]"></i><span class="text-gray-200 font-sans">Setting</span>
             </li>
           </ul>
@@ -155,23 +172,28 @@
           <div class="text-right">
             <div class="font-bold text-base text-gray-200 font-sans" id="user-name">Guest</div>
           </div>
-          <img id="profile-image" src="Not Null"
-            alt="Profile" class="w-10 h-10 rounded-full"
+          <img id="profile-image" src="Not Null" alt="Profile" class="w-10 h-10 rounded-full"
             onerror="this.src='Not Null'" />
         </div>
-        <ul id="dropdown" class="hidden absolute right-0 mt-4 w-48 bg-[#2a2a4a] shadow-2xl rounded-xl border border-[#00ddeb] z-50">
-          <li id="profile-item" class="px-4 py-2 hover:bg-[#252550] cursor-pointer rounded-xl flex items-center gap-2 transition-all duration-300">
+        <ul id="dropdown"
+          class="hidden absolute right-0 mt-4 w-48 bg-[#2a2a4a] shadow-2xl rounded-xl border border-[#00ddeb] z-50">
+          <li id="profile-item"
+            class="px-4 py-2 hover:bg-[#252550] cursor-pointer rounded-xl flex items-center gap-2 transition-all duration-300">
             <i class="fa-solid fa-user text-[#00ddeb]"></i><span class="text-gray-200 font-sans">Profile</span>
           </li>
           <li class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 transition-all duration-300">
-            <i class="fa-solid fa-lock text-[#00ddeb]"></i><span class="text-gray-200 font-sans"><a href="ChangepassPage.html" class="hover:text-[#00b8c4]">Change password</a></span>
+            <i class="fa-solid fa-lock text-[#00ddeb]"></i><span class="text-gray-200 font-sans"><a
+                href="ChangepassPage.html" class="hover:text-[#00b8c4]">Change password</a></span>
           </li>
-          <li class="px-4 py-2 hover:bg-red-900/50 text-red-400 cursor-pointer flex items-center gap-2 transition-all duration-300"
+          <li
+            class="px-4 py-2 hover:bg-red-900/50 text-red-400 cursor-pointer flex items-center gap-2 transition-all duration-300"
             onclick="handleLogout()">
             <i class="fa-solid fa-sign-out-alt text-red-400"></i><span class="text-gray-200 font-sans">Logout</span>
           </li>
-          <li class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300">
-            <i class="fa-solid fa-gear text-[#00ddeb]"></i><span class="text-gray-200 font-sans"><a href="Setting.html" class="hover:text-[#00b8c4]">Settings</a></span>
+          <li
+            class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300">
+            <i class="fa-solid fa-gear text-[#00ddeb]"></i><span class="text-gray-200 font-sans"><a href="Setting.html"
+                class="hover:text-[#00b8c4]">Settings</a></span>
           </li>
         </ul>
       </div>
@@ -251,11 +273,9 @@
             <input id="edit-image" type="text"
               class="w-full p-2 border border-[#00ddeb] rounded-md bg-[#252550] text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00ddeb] transition-all duration-300 hover:bg-[#2a2a4a]">
           </div>
-          <div id="loading-overlay1" class="text-center my-4 hidden">
-            <div
-              class="border-4 border-[#00ddeb] border-t-4 border-t-green-400 rounded-full w-6 h-6 animate-spin mx-auto">
-            </div>
-            <p id="loading-text" class="text-gray-300 font-sans text-sm">Update Profile...</p>
+          <div id="loading-overlay-edit-profile" class="text-center my-4 hidden">
+            <div class="loading-spinner"></div>
+            <p class="text-gray-300 font-sans text-sm mt-2">Loading...</p>
           </div>
           <div class="flex justify-end mt-4 space-x-2">
             <button id="save-profile"
@@ -274,139 +294,153 @@
     </div>
 
     <main class="flex-1 min-h-[calc(100vh-4rem)] p-8 bg-gradient-to-br from-[#1a1a2e] to-[#16213e] text-gray-200">
-        <div class="bg-[#2a2a4a] rounded-2xl shadow-2xl p-10 mx-auto max-w-7xl relative overflow-hidden">
-            <div class="absolute inset-0 opacity-10 pointer-events-none"></div>
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="font-sans text-2xl font-bold text-[#00ddeb] uppercase tracking-wider">Employee Management</h2>
-                <button id="add-employee-btn"
-                    class="bg-[#00ddeb] text-[#1a1a2e] px-4 py-2 rounded-md hover:bg-[#00b8c4] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)] flex items-center gap-2">
-                    <i class="fa-solid fa-cart-plus"></i> Add
-                </button>
-            </div>
-
-            <div class="overflow-x-auto">
-                <table class="w-full table-auto border-collapse">
-                    <thead>
-                        <tr class="bg-[#1f1f3a] border border-[#00ddeb]">
-                            <th class="px-4 py-2 text-left text-gray-300 font-sans text-sm font-medium">ID</th>
-                            <th class="px-4 py-2 text-left text-gray-300 font-sans text-sm font-medium">Name</th>
-                            <th class="px-4 py-2 text-left text-gray-300 font-sans text-sm font-medium">Email</th>
-                            <th class="px-4 py-2 text-left text-gray-300 font-sans text-sm font-medium">Phone</th>
-                            <th class="px-4 py-2 text-left text-gray-300 font-sans text-sm font-medium">Position</th>
-                            <th class="px-4 py-2 text-center text-gray-300 font-sans text-sm font-medium">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="employee-table-body" class="text-gray-200"></tbody>
-                </table>
-                <div id="loading-overlay" class="text-center my-4 hidden">
-                    <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-[#00ddeb] border-r-transparent"></div>
-                    <p class="text-gray-400 mt-2 font-sans text-sm">Loading employees...</p>
-                </div>
-            </div>
-            <div id="add-employee-modal"
-                class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                <div class="bg-[#2a2a4a] rounded-2xl p-6 w-full max-w-md shadow-2xl relative overflow-hidden">
-                    <div class="absolute inset-0 opacity-10 pointer-events-none"></div>
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 id="add-modal-title" class="font-sans text-xl font-bold text-[#00ddeb] uppercase tracking-wider ">Add</h2>
-                        <button id="close-add-employee-modal" class="text-gray-300 hover:text-white transition-all duration-300">
-                            <i class="fa-solid fa-times"></i>
-                        </button>
-                    </div>
-                    <form id="add-employee-form">
-                        <div class="mb-4">
-                            <label for="add-employee-id" class="block text-sm font-medium text-gray-300 font-sans">Employee ID</label>
-                            <input type="text" id="add-employee-id"
-                                class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
-                                placeholder="Enter unique ID" required />
-                        </div>
-                        <div class="mb-4">
-                            <label for="add-employee-name" class="block text-sm font-medium text-gray-300 font-sans">Name</label>
-                            <input type="text" id="add-employee-name"
-                                class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
-                                required />
-                        </div>
-                        <div class="mb-4">
-                            <label for="add-employee-email" class="block text-sm font-medium text-gray-300 font-sans">Email</label>
-                            <input type="email" id="add-employee-email"
-                                class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
-                                required />
-                        </div>
-                        <div class="mb-4">
-                            <label for="add-employee-phone"class="block text-sm font-medium text-gray-300 font-sans">Phone</label>
-                            <input type="text" id="add-employee-phone"
-                                class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]" 
-                                required />
-                        </div>
-                        <div class="mb-4">
-                            <label for="add-employee-position" class="block text-sm font-medium text-gray-300 font-sans">Position</label>
-                            <input type="text" id="add-employee-position"
-                                class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
-                                required />
-                        </div>
-                        <div class="flex justify-end gap-2">
-                            <button type="button" id="cancel-add-employee"
-                                class="px-4 py-2 bg-[#1f1f3a] text-gray-300 rounded-md hover:bg-[#252550] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)]">Cancel</button>
-                            <button type="submit"
-                                class="bg-[#00ddeb] text-[#1a1a2e] px-4 py-2 rounded-md hover:bg-[#00b8c4] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)] flex items-center justify-center gap-2">
-                                <i class="fa-solid fa-save"></i> Save
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div id="edit-employee-modal"
-                class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                <div class="bg-[#2a2a4a] rounded-2xl p-6 w-full max-w-md shadow-2xl relative overflow-hidden">
-                    <div class="absolute inset-0 opacity-10 pointer-events-none"></div>
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 id="edit-modal-title" class="font-sans text-xl font-bold text-[#00ddeb] uppercase tracking-wider ">Edit</h2>
-                        <button id="close-edit-employee-modal" class="text-gray-300 hover:text-white transition-all duration-300">
-                            <i class="fa-solid fa-times"></i>
-                        </button>
-                    </div>
-                    <form id="edit-employee-form">
-                        <div class="mb-4">
-                            <label for="edit-employee-id" class="block text-sm font-medium text-gray-300 font-sans">Employee ID</label>
-                            <input type="text" id="edit-employee-id"
-                                class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm p-2 opacity-50 cursor-not-allowed"
-                                readonly />
-                        </div>
-                        <div class="mb-4">
-                            <label for="edit-employee-name" class="block text-sm font-medium text-gray-300 font-sans">Name</label>
-                            <input type="text" id="edit-employee-name"
-                                class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
-                                required />
-                        </div>
-                        <div class="mb-4">
-                            <label for="edit-employee-email" class="block text-sm font-medium text-gray-300 font-sans">Email</label>
-                            <input type="email" id="edit-employee-email"
-                                class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
-                                required />
-                        </div>
-                        <div class="mb-4">
-                            <label for="edit-employee-phone" class="block text-sm font-medium text-gray-300 font-sans">Phone</label>
-                            <input type="text" id="edit-employee-phone"
-                                class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]" />
-                        </div>
-                        <div class="mb-4">
-                            <label for="edit-employee-position" class="block text-sm font-medium text-gray-300 font-sans">Position</label>
-                            <input type="text" id="edit-employee-position"
-                                class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
-                                required />
-                        </div>
-                        <div class="flex justify-end gap-2">
-                            <button type="button" id="cancel-edit-employee"
-                                class="px-4 py-2 bg-[#1f1f3a] text-gray-300 rounded-md hover:bg-[#252550] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)]">Cancel</button>
-                            <button type="submit"
-                                class="bg-[#00ddeb] text-[#1a1a2e] px-4 py-2 rounded-md hover:bg-[#00b8c4] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)] flex items-center justify-center gap-2">
-                                <i class="fa-solid fa-save"></i> Update
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+      <div class="bg-[#2a2a4a] rounded-2xl shadow-2xl p-10 mx-auto max-w-7xl relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 pointer-events-none"></div>
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="font-sans text-2xl font-bold text-[#00ddeb] uppercase tracking-wider">Employee Management</h2>
+          <button id="add-employee-btn"
+            class="bg-[#00ddeb] text-[#1a1a2e] px-4 py-2 rounded-md hover:bg-[#00b8c4] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)] flex items-center gap-2">
+            <i class="fa-solid fa-cart-plus"></i> Add
+          </button>
         </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full table-auto border-collapse">
+            <thead>
+              <tr class="bg-[#1f1f3a] border border-[#00ddeb]">
+                <th class="px-4 py-2 text-left text-gray-300 font-sans text-sm font-medium">ID</th>
+                <th class="px-4 py-2 text-left text-gray-300 font-sans text-sm font-medium">Name</th>
+                <th class="px-4 py-2 text-left text-gray-300 font-sans text-sm font-medium">Email</th>
+                <th class="px-4 py-2 text-left text-gray-300 font-sans text-sm font-medium">Phone</th>
+                <th class="px-4 py-2 text-left text-gray-300 font-sans text-sm font-medium">Position</th>
+                <th class="px-4 py-2 text-center text-gray-300 font-sans text-sm font-medium">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="employee-table-body" class="text-gray-200"></tbody>
+          </table>
+          <div id="loading-overlay" class="text-center my-4 hidden">
+            <div class="loading-spinner"></div>
+            <p class="text-gray-300 font-sans text-sm mt-2">Loading...</p>
+          </div>
+        </div>
+        <div id="add-employee-modal"
+          class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div class="bg-[#2a2a4a] rounded-2xl p-6 w-full max-w-md shadow-2xl relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10 pointer-events-none"></div>
+            <div class="flex justify-between items-center mb-4">
+              <h2 id="add-modal-title" class="font-sans text-xl font-bold text-[#00ddeb] uppercase tracking-wider ">Add
+              </h2>
+              <button id="close-add-employee-modal" class="text-gray-300 hover:text-white transition-all duration-300">
+                <i class="fa-solid fa-times"></i>
+              </button>
+            </div>
+            <form id="add-employee-form">
+              <div class="mb-4">
+                <label for="add-employee-id" class="block text-sm font-medium text-gray-300 font-sans">Employee
+                  ID</label>
+                <input type="text" id="add-employee-id"
+                  class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
+                  placeholder="Enter unique ID" required />
+              </div>
+              <div class="mb-4">
+                <label for="add-employee-name" class="block text-sm font-medium text-gray-300 font-sans">Name</label>
+                <input type="text" id="add-employee-name"
+                  class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
+                  required />
+              </div>
+              <div class="mb-4">
+                <label for="add-employee-email" class="block text-sm font-medium text-gray-300 font-sans">Email</label>
+                <input type="email" id="add-employee-email"
+                  class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
+                  required />
+              </div>
+              <div class="mb-4">
+                <label for="add-employee-phone" class="block text-sm font-medium text-gray-300 font-sans">Phone</label>
+                <input type="text" id="add-employee-phone"
+                  class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
+                  required />
+              </div>
+              <div class="mb-4">
+                <label for="add-employee-position"
+                  class="block text-sm font-medium text-gray-300 font-sans">Position</label>
+                <input type="text" id="add-employee-position"
+                  class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
+                  required />
+              </div>
+              <div id="loading-overlay-add" class="text-center my-4 hidden">
+                <div class="loading-spinner"></div>
+                <p class="text-gray-300 font-sans text-sm mt-2">Loading...</p>
+              </div>
+              <div class="flex justify-end gap-2">
+                <button type="button" id="cancel-add-employee"
+                  class="px-4 py-2 bg-[#1f1f3a] text-gray-300 rounded-md hover:bg-[#252550] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)]">Cancel</button>
+                <button type="submit"
+                  class="bg-[#00ddeb] text-[#1a1a2e] px-4 py-2 rounded-md hover:bg-[#00b8c4] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)] flex items-center justify-center gap-2">
+                  <i class="fa-solid fa-save"></i> Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div id="edit-employee-modal"
+          class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div class="bg-[#2a2a4a] rounded-2xl p-6 w-full max-w-md shadow-2xl relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10 pointer-events-none"></div>
+            <div class="flex justify-between items-center mb-4">
+              <h2 id="edit-modal-title" class="font-sans text-xl font-bold text-[#00ddeb] uppercase tracking-wider ">
+                Edit</h2>
+              <button id="close-edit-employee-modal" class="text-gray-300 hover:text-white transition-all duration-300">
+                <i class="fa-solid fa-times"></i>
+              </button>
+            </div>
+            <form id="edit-employee-form">
+              <div class="mb-4">
+                <label for="edit-employee-id" class="block text-sm font-medium text-gray-300 font-sans">Employee
+                  ID</label>
+                <input type="text" id="edit-employee-id"
+                  class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm p-2 opacity-50 cursor-not-allowed"
+                  readonly />
+              </div>
+              <div class="mb-4">
+                <label for="edit-employee-name" class="block text-sm font-medium text-gray-300 font-sans">Name</label>
+                <input type="text" id="edit-employee-name"
+                  class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
+                  required />
+              </div>
+              <div class="mb-4">
+                <label for="edit-employee-email" class="block text-sm font-medium text-gray-300 font-sans">Email</label>
+                <input type="email" id="edit-employee-email"
+                  class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
+                  required />
+              </div>
+              <div class="mb-4">
+                <label for="edit-employee-phone" class="block text-sm font-medium text-gray-300 font-sans">Phone</label>
+                <input type="text" id="edit-employee-phone"
+                  class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]" />
+              </div>
+              <div class="mb-4">
+                <label for="edit-employee-position"
+                  class="block text-sm font-medium text-gray-300 font-sans">Position</label>
+                <input type="text" id="edit-employee-position"
+                  class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
+                  required />
+              </div>
+              <div id="loading-overlay-edit" class="text-center my-4 hidden">
+                <div class="loading-spinner"></div>
+                <p class="text-gray-300 font-sans text-sm mt-2">Loading...</p>
+              </div>
+              <div class="flex justify-end gap-2">
+                <button type="button" id="cancel-edit-employee"
+                  class="px-4 py-2 bg-[#1f1f3a] text-gray-300 rounded-md hover:bg-[#252550] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)]">Cancel</button>
+                <button type="submit"
+                  class="bg-[#00ddeb] text-[#1a1a2e] px-4 py-2 rounded-md hover:bg-[#00b8c4] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)] flex items-center justify-center gap-2">
+                  <i class="fa-solid fa-save"></i> Update
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </main>
   </div>
 </body>

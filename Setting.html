@@ -11,21 +11,20 @@
   <script src="MainLayout.js" defer></script>
   <link rel="stylesheet" href="MainStyle.css">
 </head>
-
-<body class="min-h-screen flex">
-  <script>
-    try {
-      const user = localStorage.getItem('name');
-      if (!user) {
-        window.location.href = "LoginPage.html";
-      }
-    } catch (error) {
-      console.error('Error checking user:', error);
+<script>
+  try {
+    const user = localStorage.getItem('name');
+    if (!user) {
       window.location.href = "LoginPage.html";
-    };
-  </script>
-
-  <aside id="sidebar" class="bg-[#2a2a4a] text-white w-64 min-h-screen transition-all duration-300 flex flex-col relative">
+    }
+  } catch (error) {
+    console.error('Error checking user:', error);
+    window.location.href = "LoginPage.html";
+  }
+</script>
+<body class="min-h-screen flex">
+  <aside id="sidebar"
+    class="bg-[#2a2a4a] text-white w-64 min-h-screen transition-all duration-300 flex flex-col relative">
     <div class="absolute inset-0 opacity-10 pointer-events-none"></div>
     <div class="h-[130px] flex items-center justify-center">
       <div id="Profile-Cofe" class="demo-logo-vertical cursor-pointer text-center px-2 pt-5">
@@ -80,19 +79,29 @@
     </div>
     <nav id="menu" class="mt-4 flex-1">
       <ul>
-        <li class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300" data-key="index.html">
+        <li
+          class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300"
+          data-key="index.html">
           <i class="fa-solid fa-desktop text-[#00ddeb]"></i><span class="text-gray-200 font-sans">Dashboard</span>
         </li>
-        <li class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300" data-key="brands.html">
+        <li
+          class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300"
+          data-key="brands.html">
           <i class="fa-solid fa-tags text-[#00ddeb]"></i><span class="text-gray-200 font-sans">Brand</span>
         </li>
-        <li class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300" data-key="products.html">
+        <li
+          class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300"
+          data-key="products.html">
           <i class="fa-solid fa-box text-[#00ddeb]"></i><span class="text-gray-200 font-sans">Product</span>
         </li>
-        <li class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300" data-key="customer.html">
+        <li
+          class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300"
+          data-key="customer.html">
           <i class="fa-solid fa-user text-[#00ddeb]"></i><span class="text-gray-200 font-sans">Customer</span>
         </li>
-        <li class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300" data-key="employees.html">
+        <li
+          class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300"
+          data-key="employees.html">
           <i class="fa-solid fa-user text-[#00ddeb]"></i><span class="text-gray-200 font-sans">Employees</span>
         </li>
         <li class="px-4 py-2 cursor-pointer">
@@ -103,10 +112,14 @@
             <i class="fa-solid fa-chevron-down text-gray-300"></i>
           </div>
           <ul class="submenu hidden pl-6">
-            <li class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300" data-key="roles.html">
+            <li
+              class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300"
+              data-key="roles.html">
               <i class="fa-solid fa-user text-[#00ddeb]"></i><span class="text-gray-200 font-sans">Role</span>
             </li>
-            <li class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300" data-key="users.html">
+            <li
+              class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300"
+              data-key="users.html">
               <i class="fa-solid fa-users text-[#00ddeb]"></i><span class="text-gray-200 font-sans">User</span>
             </li>
           </ul>
@@ -119,10 +132,14 @@
             <i class="fa-solid fa-chevron-down text-gray-300"></i>
           </div>
           <ul class="submenu hidden pl-6">
-            <li class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300" data-key="about.html">
+            <li
+              class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300"
+              data-key="about.html">
               <i class="fa-solid fa-user text-[#00ddeb]"></i><span class="text-gray-200 font-sans">About</span>
             </li>
-            <li class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300" data-key="Setting.html">
+            <li
+              class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300"
+              data-key="Setting.html">
               <i class="fa-solid fa-gear text-[#00ddeb]"></i><span class="text-gray-200 font-sans">Setting</span>
             </li>
           </ul>
@@ -154,23 +171,28 @@
           <div class="text-right">
             <div class="font-bold text-base text-gray-200 font-sans" id="user-name">Guest</div>
           </div>
-          <img id="profile-image" src="Not Null"
-            alt="Profile" class="w-10 h-10 rounded-full"
+          <img id="profile-image" src="Not Null" alt="Profile" class="w-10 h-10 rounded-full"
             onerror="this.src='Not Null'" />
         </div>
-        <ul id="dropdown" class="hidden absolute right-0 mt-4 w-48 bg-[#2a2a4a] shadow-2xl rounded-xl border border-[#00ddeb] z-50">
-          <li id="profile-item" class="px-4 py-2 hover:bg-[#252550] cursor-pointer rounded-xl flex items-center gap-2 transition-all duration-300">
+        <ul id="dropdown"
+          class="hidden absolute right-0 mt-4 w-48 bg-[#2a2a4a] shadow-2xl rounded-xl border border-[#00ddeb] z-50">
+          <li id="profile-item"
+            class="px-4 py-2 hover:bg-[#252550] cursor-pointer rounded-xl flex items-center gap-2 transition-all duration-300">
             <i class="fa-solid fa-user text-[#00ddeb]"></i><span class="text-gray-200 font-sans">Profile</span>
           </li>
           <li class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 transition-all duration-300">
-            <i class="fa-solid fa-lock text-[#00ddeb]"></i><span class="text-gray-200 font-sans"><a href="ChangepassPage.html" class="hover:text-[#00b8c4]">Change password</a></span>
+            <i class="fa-solid fa-lock text-[#00ddeb]"></i><span class="text-gray-200 font-sans"><a
+                href="ChangepassPage.html" class="hover:text-[#00b8c4]">Change password</a></span>
           </li>
-          <li class="px-4 py-2 hover:bg-red-900/50 text-red-400 cursor-pointer flex items-center gap-2 transition-all duration-300"
+          <li
+            class="px-4 py-2 hover:bg-red-900/50 text-red-400 cursor-pointer flex items-center gap-2 transition-all duration-300"
             onclick="handleLogout()">
             <i class="fa-solid fa-sign-out-alt text-red-400"></i><span class="text-gray-200 font-sans">Logout</span>
           </li>
-          <li class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300">
-            <i class="fa-solid fa-gear text-[#00ddeb]"></i><span class="text-gray-200 font-sans"><a href="Setting.html" class="hover:text-[#00b8c4]">Settings</a></span>
+          <li
+            class="px-4 py-2 hover:bg-[#252550] cursor-pointer flex items-center gap-2 rounded-xl transition-all duration-300">
+            <i class="fa-solid fa-gear text-[#00ddeb]"></i><span class="text-gray-200 font-sans"><a href="Setting.html"
+                class="hover:text-[#00b8c4]">Settings</a></span>
           </li>
         </ul>
       </div>
@@ -249,11 +271,9 @@
             <input id="edit-image" type="text"
               class="w-full p-2 border border-[#00ddeb] rounded-md bg-[#252550] text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00ddeb] transition-all duration-300 hover:bg-[#2a2a4a]">
           </div>
-          <div id="loading-overlay1" class="text-center my-4 hidden">
-            <div
-              class="border-4 border-[#00ddeb] border-t-4 border-t-green-400 rounded-full w-6 h-6 animate-spin mx-auto">
-            </div>
-            <p id="loading-text" class="text-gray-300 font-sans text-sm">Update Profile...</p>
+          <div id="loading-overlay-edit-profile" class="text-center my-4 hidden">
+            <div class="loading-spinner"></div>
+            <p class="text-gray-300 font-sans text-sm mt-2">Loading...</p>
           </div>
           <div class="flex justify-end mt-4 space-x-2">
             <button id="save-profile"
@@ -271,88 +291,91 @@
       </div>
     </div>
 
-    <main class="flex-1 min-h-[calc(100vh-4rem)] pt-7 pl-8 pr-8 pb-8 bg-gradient-to-br from-[#1a1a2e] to-[#16213e] text-gray-200">
-        <div class="bg-[#2a2a4a] rounded-2xl shadow-2xl pt-4 pb-4 pl-10 pr-10 mx-auto max-w-7xl relative overflow-hidden">
-            <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/circuit-board.png')] opacity-10 pointer-events-none"></div>
-            <h2 class="font-sans text-2xl font-bold text-[#00ddeb] text-center uppercase tracking-wider">
-                General Settings
-            </h2>
-            <div class="space-y-5">
-                <div>
-                    <label for="theme" class="block text-sm font-medium text-gray-300">Theme</label>
-                    <select id="theme"
-                        class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
-                        aria-label="Select theme">
-                        <option value="light">Light</option>
-                        <option value="dark">Dark</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="notifications" class="flex items-center">
-                        <input type="checkbox" id="notifications"
-                            class="h-4 w-4 text-[#00ddeb] focus:ring-[#00ddeb] border-[#00ddeb] rounded bg-[#1f1f3a] transition-all duration-300"
-                            aria-label="Enable notifications" />
-                        <span class="ml-2 text-sm text-gray-300">Enable Notifications</span>
-                    </label>
-                </div>
-                <div>
-                    <label for="language" class="block text-sm font-medium text-gray-300">Language</label>
-                    <select id="language"
-                        class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
-                        aria-label="Select language">
-                        <option value="en">English</option>
-                        <option value="km">Khmer</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="timezone" class="block text-sm font-medium text-gray-300">Timezone</label>
-                    <select id="timezone"
-                        class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
-                        aria-label="Select timezone">
-                        <option value="Asia/Phnom_Penh">Phnom Penh (GMT+7)</option>
-                        <option value="Asia/Bangkok">Bangkok (GMT+7)</option>
-                        <option value="Asia/Singapore">Singapore (GMT+8)</option>
-                        <option value="Asia/Tokyo">Tokyo (GMT+9)</option>
-                        <option value="UTC">UTC</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="autosave" class="flex items-center">
-                        <input type="checkbox" id="autosave"
-                            class="h-4 w-4 text-[#00ddeb] focus:ring-[#00ddeb] border-[#00ddeb] rounded bg-[#1f1f3a] transition-all duration-300"
-                            aria-label="Enable auto save" />
-                        <span class="ml-2 text-sm text-gray-300">Enable Auto Save</span>
-                    </label>
-                </div>
-                <div>
-                    <label for="date-format" class="block text-sm font-medium text-gray-300">Date Format</label>
-                    <select id="date-format"
-                        class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
-                        aria-label="Select date format">
-                        <option value="MM/DD/YYYY">07/14/2025</option>
-                        <option value="DD/MM/YYYY">14/07/2025</option>
-                        <option value="YYYY-MM-DD">2025-07-14</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="font-size" class="block text-sm font-medium text-gray-300">Font Size</label>
-                    <select id="font-size"
-                        class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
-                        aria-label="Select font size">
-                        <option value="small">Small</option>
-                        <option value="medium" selected>Medium</option>
-                        <option value="large">Large</option>
-                    </select>
-                </div>
-                <div>
-                    <button type="button"
-                        class="w-full sm:w-auto bg-[#00ddeb] text-[#1a1a2e] px-4 py-2 rounded-md hover:bg-[#00b8c4] focus:outline-none focus:ring-2 focus:ring-[#00ddeb] focus:ring-opacity-50 transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)]"
-                        aria-label="Save settings">
-                        Save Settings
-                    </button>
-                </div>
-            </div>
+    <main
+      class="flex-1 min-h-[calc(100vh-4rem)] pt-7 pl-8 pr-8 pb-8 bg-gradient-to-br from-[#1a1a2e] to-[#16213e] text-gray-200">
+      <div class="bg-[#2a2a4a] rounded-2xl shadow-2xl pt-4 pb-4 pl-10 pr-10 mx-auto max-w-7xl relative overflow-hidden">
+        <div
+          class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/circuit-board.png')] opacity-10 pointer-events-none">
         </div>
+        <h2 class="font-sans text-2xl font-bold text-[#00ddeb] text-center uppercase tracking-wider">
+          General Settings
+        </h2>
+        <div class="space-y-5">
+          <div>
+            <label for="theme" class="block text-sm font-medium text-gray-300">Theme</label>
+            <select id="theme"
+              class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
+              aria-label="Select theme">
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select>
+          </div>
+          <div>
+            <label for="notifications" class="flex items-center">
+              <input type="checkbox" id="notifications"
+                class="h-4 w-4 text-[#00ddeb] focus:ring-[#00ddeb] border-[#00ddeb] rounded bg-[#1f1f3a] transition-all duration-300"
+                aria-label="Enable notifications" />
+              <span class="ml-2 text-sm text-gray-300">Enable Notifications</span>
+            </label>
+          </div>
+          <div>
+            <label for="language" class="block text-sm font-medium text-gray-300">Language</label>
+            <select id="language"
+              class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
+              aria-label="Select language">
+              <option value="en">English</option>
+              <option value="km">Khmer</option>
+            </select>
+          </div>
+          <div>
+            <label for="timezone" class="block text-sm font-medium text-gray-300">Timezone</label>
+            <select id="timezone"
+              class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
+              aria-label="Select timezone">
+              <option value="Asia/Phnom_Penh">Phnom Penh (GMT+7)</option>
+              <option value="Asia/Bangkok">Bangkok (GMT+7)</option>
+              <option value="Asia/Singapore">Singapore (GMT+8)</option>
+              <option value="Asia/Tokyo">Tokyo (GMT+9)</option>
+              <option value="UTC">UTC</option>
+            </select>
+          </div>
+          <div>
+            <label for="autosave" class="flex items-center">
+              <input type="checkbox" id="autosave"
+                class="h-4 w-4 text-[#00ddeb] focus:ring-[#00ddeb] border-[#00ddeb] rounded bg-[#1f1f3a] transition-all duration-300"
+                aria-label="Enable auto save" />
+              <span class="ml-2 text-sm text-gray-300">Enable Auto Save</span>
+            </label>
+          </div>
+          <div>
+            <label for="date-format" class="block text-sm font-medium text-gray-300">Date Format</label>
+            <select id="date-format"
+              class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
+              aria-label="Select date format">
+              <option value="MM/DD/YYYY">07/14/2025</option>
+              <option value="DD/MM/YYYY">14/07/2025</option>
+              <option value="YYYY-MM-DD">2025-07-14</option>
+            </select>
+          </div>
+          <div>
+            <label for="font-size" class="block text-sm font-medium text-gray-300">Font Size</label>
+            <select id="font-size"
+              class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
+              aria-label="Select font size">
+              <option value="small">Small</option>
+              <option value="medium" selected>Medium</option>
+              <option value="large">Large</option>
+            </select>
+          </div>
+          <div>
+            <button type="button"
+              class="w-full sm:w-auto bg-[#00ddeb] text-[#1a1a2e] px-4 py-2 rounded-md hover:bg-[#00b8c4] focus:outline-none focus:ring-2 focus:ring-[#00ddeb] focus:ring-opacity-50 transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)]"
+              aria-label="Save settings">
+              Save Settings
+            </button>
+          </div>
+        </div>
+      </div>
     </main>
   </div>
 </body>

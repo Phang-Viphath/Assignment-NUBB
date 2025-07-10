@@ -8,14 +8,6 @@ function formatDate(dateStr) {
   return date.toISOString().split('T')[0];
 }
 
-function toggleLoading(show) {
-  document.getElementById('loading-overlay').classList.toggle('hidden', !show);
-}
-
-function showError(message) {
-  showNotification('Error', message);
-}
-
 function sanitizeInput(input) {
   if (typeof input !== 'string') return input || '';
   const div = document.createElement('div');
@@ -138,7 +130,7 @@ document.getElementById('cancel-add-role')?.addEventListener('click', () => {
 
 document.getElementById('add-role-form')?.addEventListener('submit', async (e) => {
   e.preventDefault();
-  toggleLoading(true);
+  toggleLoadingadd(true);
   const id = document.getElementById('add-role-id').value.trim();
   const name = document.getElementById('add-role-name').value.trim();
   const description = document.getElementById('add-role-description').value.trim();
@@ -147,31 +139,31 @@ document.getElementById('add-role-form')?.addEventListener('submit', async (e) =
 
   let error = validateId(id);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingadd(false);
     showError(error);
     return;
   }
   error = validateName(name);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingadd(false);
     showError(error);
     return;
   }
   error = validateDescription(description);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingadd(false);
     showError(error);
     return;
   }
   error = validateDate(date);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingadd(false);
     showError(error);
     return;
   }
   error = validateStatus(status);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingadd(false);
     showError(error);
     return;
   }
@@ -191,7 +183,7 @@ document.getElementById('add-role-form')?.addEventListener('submit', async (e) =
       body: formData.toString()
     });
     const data = await response.json();
-    toggleLoading(false);
+    toggleLoadingadd(false);
     if (data.status === 'success') {
       document.getElementById('add-role-form').reset();
       document.getElementById('add-role-modal').classList.add('hidden');
@@ -201,7 +193,7 @@ document.getElementById('add-role-form')?.addEventListener('submit', async (e) =
       showError(data.message || 'Failed to add role');
     }
   } catch (error) {
-    toggleLoading(false);
+    toggleLoadingadd(false);
     showError('Failed to add role. Please check your connection.');
     console.error('Error adding role:', error);
   }
@@ -228,7 +220,7 @@ document.getElementById('cancel-edit-role')?.addEventListener('click', () => {
 
 document.getElementById('edit-role-form')?.addEventListener('submit', async (e) => {
   e.preventDefault();
-  toggleLoading(true);
+  toggleLoadingedit(true);
   const id = document.getElementById('edit-role-id').value;
   const name = document.getElementById('edit-role-name').value.trim();
   const description = document.getElementById('edit-role-description').value.trim();
@@ -237,25 +229,25 @@ document.getElementById('edit-role-form')?.addEventListener('submit', async (e) 
 
   let error = validateName(name);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingedit(false);
     showError(error);
     return;
   }
   error = validateDescription(description);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingedit(false);
     showError(error);
     return;
   }
   error = validateDate(date);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingedit(false);
     showError(error);
     return;
   }
   error = validateStatus(status);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingedit(false);
     showError(error);
     return;
   }
@@ -276,7 +268,7 @@ document.getElementById('edit-role-form')?.addEventListener('submit', async (e) 
       body: formData.toString()
     });
     const data = await response.json();
-    toggleLoading(false);
+    toggleLoadingedit(false);
     if (data.status === 'success') {
       document.getElementById('edit-role-form').reset();
       document.getElementById('edit-role-modal').classList.add('hidden');
@@ -286,7 +278,7 @@ document.getElementById('edit-role-form')?.addEventListener('submit', async (e) 
       showError(data.message || 'Failed to update role');
     }
   } catch (error) {
-    toggleLoading(false);
+    toggleLoadingedit(false);
     showError('Failed to update role. Please check your connection.');
     console.error('Error updating role:', error);
   }
@@ -321,40 +313,4 @@ async function deleteRole(id) {
   });
 }
 
-function toggleSubmenu(element) {
-  const submenu = element.nextElementSibling;
-  submenu.classList.toggle('hidden');
-}
-
-function toggleDropdown() {
-  document.getElementById('dropdown').classList.toggle('hidden');
-}
-
-function handleLogout() {
-  localStorage.removeItem('name');
-  window.location.href = 'LoginPage.html';
-}
-
-document.getElementById('profile-item')?.addEventListener('click', () => {
-  document.getElementById('modal-user-name').textContent = localStorage.getItem('name') || 'Guest';
-  document.getElementById('profile-modal').classList.remove('hidden');
-});
-
-document.getElementById('close-modal')?.addEventListener('click', () => {
-  document.getElementById('profile-modal').classList.add('hidden');
-});
-
-document.querySelectorAll('#menu li[data-key]')?.forEach(item => {
-  item.addEventListener('click', (e) => {
-    if (e.target.closest('.submenu') || !item.hasAttribute('data-key')) return;
-    const page = item.getAttribute('data-key');
-    if (page) {
-      window.location.href = page;
-    }
-  });
-});
-
-window.onload = () => {
-  document.getElementById('user-name').textContent = localStorage.getItem('name') || 'Guest';
-  loadRoles();
-};
+loadRoles();

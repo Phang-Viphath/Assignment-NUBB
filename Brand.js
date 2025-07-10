@@ -1,14 +1,6 @@
 const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzV7fgCx6mi8rO5V4g_gie4gJtuDAWQ-d0R-vUlBssZMFwtPrEVrOsvGjY60eVSH-3o/exec';
 let allBrands = [];
 
-function toggleLoading(show) {
-  document.getElementById('loading-overlay').classList.toggle('hidden', !show);
-}
-
-function showError(message) {
-  showNotification('Error', message);
-}
-
 function sanitizeInput(input) {
   if (typeof input !== 'string') return input || '';
   const div = document.createElement('div');
@@ -116,7 +108,7 @@ document.getElementById('cancel-brand').addEventListener('click', () => {
 
 document.getElementById('add-brand-form').addEventListener('submit', async (e) => {
   e.preventDefault();
-  toggleLoading(true);
+  toggleLoadingadd(true);
   const id = document.getElementById('brand-id').value.trim();
   const brand = document.getElementById('brand-name').value.trim();
   const image = document.getElementById('brand-logo').value.trim();
@@ -124,18 +116,18 @@ document.getElementById('add-brand-form').addEventListener('submit', async (e) =
 
   let error = validateId(id);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingadd(false);
     showError(error);
     return;
   }
   error = validateBrandName(brand);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingadd(false);
     showError(error);
     return;
   }
   if (image && !isValidUrl(image)) {
-    toggleLoading(false);
+    toggleLoadingadd(false);
     showError('Invalid logo URL');
     return;
   }
@@ -154,7 +146,7 @@ document.getElementById('add-brand-form').addEventListener('submit', async (e) =
       body: formData.toString()
     });
     const data = await response.json();
-    toggleLoading(false);
+    toggleLoadingadd(false);
     if (data.status === 'success') {
       document.getElementById('add-brand-form').reset();
       document.getElementById('add-brand-modal').classList.add('hidden');
@@ -164,7 +156,7 @@ document.getElementById('add-brand-form').addEventListener('submit', async (e) =
       showError(data.data || data.message || 'Failed to add brand');
     }
   } catch (error) {
-    toggleLoading(false);
+    toggleLoadingadd(false);
     showError('Failed to add brand. Please check your connection.');
     console.error('Error adding brand:', error);
   }
@@ -190,7 +182,7 @@ document.getElementById('cancel-edit-brand').addEventListener('click', () => {
 
 document.getElementById('edit-brand-form').addEventListener('submit', async (e) => {
   e.preventDefault();
-  toggleLoading(true);
+  toggleLoadingedit(true);
   const id = document.getElementById('edit-brand-id').value;
   const brand = document.getElementById('edit-brand-name').value.trim();
   const image = document.getElementById('edit-brand-logo').value.trim();
@@ -198,12 +190,12 @@ document.getElementById('edit-brand-form').addEventListener('submit', async (e) 
 
   let error = validateBrandName(brand);
   if (error) {
-    toggleLoading(false);
+    toggleLoadingedit(false);
     showError(error);
     return;
   }
   if (image && !isValidUrl(image)) {
-    toggleLoading(false);
+    toggleLoadingedit(false);
     showError('Invalid logo URL');
     return;
   }
@@ -222,7 +214,7 @@ document.getElementById('edit-brand-form').addEventListener('submit', async (e) 
       body: formData.toString()
     });
     const data = await response.json();
-    toggleLoading(false);
+    toggleLoadingedit(false);
     if (data.status === 'success') {
       document.getElementById('edit-brand-form').reset();
       document.getElementById('edit-brand-modal').classList.add('hidden');
@@ -232,7 +224,7 @@ document.getElementById('edit-brand-form').addEventListener('submit', async (e) 
       showError(data.data || data.message || 'Failed to update brand');
     }
   } catch (error) {
-    toggleLoading(false);
+    toggleLoadingedit(false);
     showError('Failed to update brand. Please check your connection.');
     console.error('Error updating brand:', error);
   }
@@ -267,31 +259,4 @@ async function deleteBrand(id) {
   });
 }
 
-function toggleSubmenu(element) {
-  const submenu = element.nextElementSibling;
-  submenu.classList.toggle('hidden');
-}
-
-function toggleDropdown() {
-  document.getElementById('dropdown').classList.toggle('hidden');
-}
-
-function handleLogout() {
-  localStorage.removeItem('name');
-  window.location.href = "LogoutPage.html";
-}
-
-document.querySelectorAll('#menu li[data-key]').forEach(item => {
-  item.addEventListener('click', (e) => {
-    if (e.target.closest('.submenu') || !item.hasAttribute('data-key')) return;
-    const page = item.getAttribute('data-key');
-    if (page) {
-      window.location.href = page;
-    }
-  });
-});
-
-window.onload = () => {
-  document.getElementById('user-name').textContent = localStorage.getItem('name') || 'Guest';
-  loadBrands();
-};
+loadBrands();

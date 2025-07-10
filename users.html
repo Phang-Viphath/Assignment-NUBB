@@ -8,24 +8,22 @@
   <link rel="icon" type="image/png" href="https://github.com/Phang-Viphath/Image/blob/main/Brand/15.jpg?raw=true">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="User.js" defer></script>
   <script src="MainLayout.js" defer></script>
+  <script src="User.js" defer></script>
   <link rel="stylesheet" href="MainStyle.css">
 </head>
-
-<body class="min-h-screen flex">
-  <script>
-    try {
-      const user = localStorage.getItem('name');
-      if (!user) {
-        window.location.href = "LoginPage.html";
-      }
-    } catch (error) {
-      console.error('Error checking user:', error);
+<script>
+  try {
+    const user = localStorage.getItem('name');
+    if (!user) {
       window.location.href = "LoginPage.html";
     }
-  </script>
-
+  } catch (error) {
+    console.error('Error checking user:', error);
+    window.location.href = "LoginPage.html";
+  }
+</script>
+<body class="min-h-screen flex">
   <aside id="sidebar"
     class="bg-[#2a2a4a] text-white w-64 min-h-screen transition-all duration-300 flex flex-col relative">
     <div class="absolute inset-0 opacity-10 pointer-events-none"></div>
@@ -274,11 +272,9 @@
             <input id="edit-image" type="text"
               class="w-full p-2 border border-[#00ddeb] rounded-md bg-[#252550] text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00ddeb] transition-all duration-300 hover:bg-[#2a2a4a]">
           </div>
-          <div id="loading-overlay1" class="text-center my-4 hidden">
-            <div
-              class="border-4 border-[#00ddeb] border-t-4 border-t-green-400 rounded-full w-6 h-6 animate-spin mx-auto">
-            </div>
-            <p id="loading-text" class="text-gray-300 font-sans text-sm">Update Profile...</p>
+          <div id="loading-overlay-edit-profile" class="text-center my-4 hidden">
+            <div class="loading-spinner"></div>
+            <p class="text-gray-300 font-sans text-sm mt-2">Loading...</p>
           </div>
           <div class="flex justify-end mt-4 space-x-2">
             <button id="save-profile"
@@ -293,109 +289,6 @@
             </button>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- Add User Modal -->
-    <div id="add-user-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-[#2a2a4a] rounded-2xl p-6 w-full max-w-md shadow-2xl relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10 pointer-events-none"></div>
-        <div class="flex justify-between items-center truncatem mb-4">
-          <h2 id="add-modal-title" class="font-sans text-xl font-bold text-[#00ddeb] uppercase tracking-wider">Add</h2>
-          <button id="close-add-user-modal" class="text-gray-300 hover:text-white transition-all duration-300">
-            <i class="fa-solid fa-times"></i>
-          </button>
-        </div>
-        <form id="add-user-form">
-          <div class="mb-4">
-            <label for="add-user-id" class="block text-sm font-medium text-gray-300 font-sans">User ID</label>
-            <input type="text" id="add-user-id"
-              class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
-              placeholder="Enter unique ID" required />
-          </div>
-          <div class="mb-4">
-            <label for="add-user-name" class="block text-sm font-medium text-gray-300 font-sans">Name</label>
-            <input type="text" id="add-user-name"
-              class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
-              required />
-          </div>
-          <div class="mb-4">
-            <label for="add-user-email" class="block text-sm font-medium text-gray-300 font-sans">Email</label>
-            <input type="email" id="add-user-email"
-              class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
-              required />
-          </div>
-          <div class="mb-4">
-            <label for="add-user-phone" class="block text-sm font-medium text-gray-300 font-sans">Phone</label>
-            <input type="tel" id="add-user-phone"
-              class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]" />
-          </div>
-          <div class="mb-4">
-            <label for="add-user-location" class="block text-sm font-medium text-gray-300 font-sans">Location</label>
-            <input type="text" id="add-user-location"
-              class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]" />
-          </div>
-          <div class="flex justify-end gap-2">
-            <button type="submit" id="cancel-add-user"
-              class="px-4 py-2 bg-[#1f1f3a] text-gray-300 rounded-md hover:bg-[#252550] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)]">Cancel</button>
-            <button type="submit"
-              class="bg-[#00ddeb] text-[#1a1a2e] px-4 py-2 rounded-md hover:bg-[#00b8c4] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)] flex items-center justify-center gap-2">
-              <i class="fa-solid fa-save"></i> Save
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- Edit User Modal -->
-    <div id="edit-user-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-[#2a2a4a] rounded-2xl p-6 w-full max-w-md shadow-2xl relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10 pointer-events-none"></div>
-        <div class="flex justify-between items-center mb-4">
-          <h2 id="edit-modal-title" class="font-sans text-xl font-bold text-[#00ddeb] uppercase tracking-wider">Edit
-          </h2>
-          <button id="close-edit-user-modal" class="text-gray-300 hover:text-white transition-all duration-300">
-            <i class="fa-solid fa-times"></i>
-          </button>
-        </div>
-        <form id="edit-user-form">
-          <div class="mb-4">
-            <label for="edit-user-id" class="block text-sm font-medium text-gray-300 font-sans">User ID</label>
-            <input type="text" id="edit-user-id"
-              class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm p-2 opacity-50 cursor-not-allowed"
-              readonly />
-          </div>
-          <div class="mb-4">
-            <label for="edit-user-name" class="block text-sm font-medium text-gray-300 font-sans">Name</label>
-            <input type="text" id="edit-user-name"
-              class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
-              required />
-          </div>
-          <div class="mb-4">
-            <label for="edit-user-email" class="block text-sm font-medium text-gray-300 font-sans">Email</label>
-            <input type="email" id="edit-user-email"
-              class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
-              required />
-          </div>
-          <div class="mb-4">
-            <label for="edit-user-phone" class="block text-sm font-medium text-gray-300 font-sans">Phone</label>
-            <input type="tel" id="edit-user-phone"
-              class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]" />
-          </div>
-          <div class="mb-4">
-            <label for="edit-user-location" class="block text-sm font-medium text-gray-300 font-sans">Location</label>
-            <input type="text" id="edit-user-location"
-              class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]" />
-          </div>
-          <div class="flex justify-end gap-2">
-            <button type="submit" id="cancel-edit-user"
-              class="px-4 py-2 bg-[#1f1f3a] text-gray-300 rounded-md hover:bg-[#252550] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)]">Cancel</button>
-            <button type="submit"
-              class="bg-[#00ddeb] text-[#1a1a2e] px-4 py-2 rounded-md hover:bg-[#00b8c4] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)] flex items-center justify-center gap-2">
-              <i class="fa-solid fa-save"></i> Update
-            </button>
-          </div>
-        </form>
       </div>
     </div>
 
@@ -425,9 +318,123 @@
             <tbody id="user-table-body" class="text-gray-200"></tbody>
           </table>
           <div id="loading-overlay" class="text-center my-4 hidden">
-            <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-[#00ddeb] border-r-transparent">
+            <div class="loading-spinner"></div>
+            <p class="text-gray-300 font-sans text-sm mt-2">Loading...</p>
+          </div>
+        </div>
+        <!-- Add User Modal -->
+        <div id="add-user-modal"
+          class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div class="bg-[#2a2a4a] rounded-2xl p-6 w-full max-w-md shadow-2xl relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10 pointer-events-none"></div>
+            <div class="flex justify-between items-center truncatem mb-4">
+              <h2 id="add-modal-title" class="font-sans text-xl font-bold text-[#00ddeb] uppercase tracking-wider">Add
+              </h2>
+              <button id="close-add-user-modal" class="text-gray-300 hover:text-white transition-all duration-300">
+                <i class="fa-solid fa-times"></i>
+              </button>
             </div>
-            <p class="text-gray-400 mt-2 font-sans text-sm">Loading users...</p>
+            <form id="add-user-form">
+              <div class="mb-4">
+                <label for="add-user-id" class="block text-sm font-medium text-gray-300 font-sans">User ID</label>
+                <input type="text" id="add-user-id"
+                  class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
+                  placeholder="Enter unique ID" required />
+              </div>
+              <div class="mb-4">
+                <label for="add-user-name" class="block text-sm font-medium text-gray-300 font-sans">Name</label>
+                <input type="text" id="add-user-name"
+                  class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
+                  required />
+              </div>
+              <div class="mb-4">
+                <label for="add-user-email" class="block text-sm font-medium text-gray-300 font-sans">Email</label>
+                <input type="email" id="add-user-email"
+                  class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
+                  required />
+              </div>
+              <div class="mb-4">
+                <label for="add-user-phone" class="block text-sm font-medium text-gray-300 font-sans">Phone</label>
+                <input type="tel" id="add-user-phone"
+                  class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]" />
+              </div>
+              <div class="mb-4">
+                <label for="add-user-location"
+                  class="block text-sm font-medium text-gray-300 font-sans">Location</label>
+                <input type="text" id="add-user-location"
+                  class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]" />
+              </div>
+              <div id="loading-overlay-add" class="text-center my-4 hidden">
+                <div class="loading-spinner"></div>
+                <p class="text-gray-300 font-sans text-sm mt-2">Loading...</p>
+              </div>
+              <div class="flex justify-end gap-2">
+                <button type="submit" id="cancel-add-user"
+                  class="px-4 py-2 bg-[#1f1f3a] text-gray-300 rounded-md hover:bg-[#252550] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)]">Cancel</button>
+                <button type="submit"
+                  class="bg-[#00ddeb] text-[#1a1a2e] px-4 py-2 rounded-md hover:bg-[#00b8c4] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)] flex items-center justify-center gap-2">
+                  <i class="fa-solid fa-save"></i> Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Edit User Modal -->
+        <div id="edit-user-modal"
+          class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div class="bg-[#2a2a4a] rounded-2xl p-6 w-full max-w-md shadow-2xl relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10 pointer-events-none"></div>
+            <div class="flex justify-between items-center mb-4">
+              <h2 id="edit-modal-title" class="font-sans text-xl font-bold text-[#00ddeb] uppercase tracking-wider">Edit
+              </h2>
+              <button id="close-edit-user-modal" class="text-gray-300 hover:text-white transition-all duration-300">
+                <i class="fa-solid fa-times"></i>
+              </button>
+            </div>
+            <form id="edit-user-form">
+              <div class="mb-4">
+                <label for="edit-user-id" class="block text-sm font-medium text-gray-300 font-sans">User ID</label>
+                <input type="text" id="edit-user-id"
+                  class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm p-2 opacity-50 cursor-not-allowed"
+                  readonly />
+              </div>
+              <div class="mb-4">
+                <label for="edit-user-name" class="block text-sm font-medium text-gray-300 font-sans">Name</label>
+                <input type="text" id="edit-user-name"
+                  class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
+                  required />
+              </div>
+              <div class="mb-4">
+                <label for="edit-user-email" class="block text-sm font-medium text-gray-300 font-sans">Email</label>
+                <input type="email" id="edit-user-email"
+                  class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]"
+                  required />
+              </div>
+              <div class="mb-4">
+                <label for="edit-user-phone" class="block text-sm font-medium text-gray-300 font-sans">Phone</label>
+                <input type="tel" id="edit-user-phone"
+                  class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]" />
+              </div>
+              <div class="mb-4">
+                <label for="edit-user-location"
+                  class="block text-sm font-medium text-gray-300 font-sans">Location</label>
+                <input type="text" id="edit-user-location"
+                  class="mt-1 block w-full rounded-md bg-[#1f1f3a] border border-[#00ddeb] text-gray-200 shadow-sm focus:ring focus:ring-[#00ddeb] focus:ring-opacity-50 focus:border-[#00ddeb] p-2 transition-all duration-300 hover:bg-[#252550]" />
+              </div>
+              <div id="loading-overlay-edit" class="text-center my-4 hidden">
+                <div class="loading-spinner"></div>
+                <p class="text-gray-300 font-sans text-sm mt-2">Loading...</p>
+              </div>
+              <div class="flex justify-end gap-2">
+                <button type="submit" id="cancel-edit-user"
+                  class="px-4 py-2 bg-[#1f1f3a] text-gray-300 rounded-md hover:bg-[#252550] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)]">Cancel</button>
+                <button type="submit"
+                  class="bg-[#00ddeb] text-[#1a1a2e] px-4 py-2 rounded-md hover:bg-[#00b8c4] transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.5)] flex items-center justify-center gap-2">
+                  <i class="fa-solid fa-save"></i> Update
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
